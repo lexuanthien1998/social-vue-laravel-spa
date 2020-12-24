@@ -2814,17 +2814,24 @@ __webpack_require__.r(__webpack_exports__);
           reader.readAsDataURL(e.target.files[0]);
         }
       }
-    }
-  },
-  filters: {
-    check: function check(value) {
-      return value; // if(value) {
-      //     if(value.length >= 250) {
-      //         return value.substr(0,value.indexOf(' ')+limit) + '...';
-      //     } else {
-      //         return value;
-      //     }
-      // }
+    },
+    updateProfile: function updateProfile(e) {
+      e.preventDefault();
+
+      if (!this.$store.getters.loggedIn) {
+        this.$router.push({
+          name: 'login'
+        });
+      }
+
+      axios.post('/api/post/store', {
+        user_id: this.user.id,
+        content: this.content,
+        image: this.image
+      }).then(function (response) {})["catch"](function (error) {
+        $('.modal').modal('toggle');
+        return;
+      });
     }
   }
 });
@@ -39733,13 +39740,27 @@ var render = function() {
                     [
                       _c("i", { staticClass: "fas fa-signature" }),
                       _vm._v(" "),
-                      _vm.info.user.name
-                        ? _c("input", {
-                            staticClass: "rounded-pill px-3 py-1 ml-3 w-100",
-                            attrs: { type: "text", placeholder: "your name." },
-                            domProps: { value: _vm.info.user.name }
-                          })
-                        : _vm._e()
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.info.user.name,
+                            expression: "info.user.name"
+                          }
+                        ],
+                        staticClass: "rounded-pill px-3 py-1 ml-3 w-100",
+                        attrs: { type: "text", placeholder: "your name." },
+                        domProps: { value: _vm.info.user.name },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(_vm.info.user, "name", $event.target.value)
+                          }
+                        }
+                      })
                     ]
                   ),
                   _vm._v(" "),
@@ -40067,17 +40088,17 @@ var render = function() {
                         attrs: { id: "file-input-modal", type: "file" },
                         on: { change: _vm.onImageChange }
                       })
-                    ]),
-                    _vm._v(" "),
-                    _c(
-                      "button",
-                      {
-                        staticClass: "btn rounded-pill py-2 px-4",
-                        attrs: { type: "submit" }
-                      },
-                      [_vm._v("Save")]
-                    )
+                    ])
                   ]
+                ),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn rounded-pill py-2 px-4",
+                    attrs: { type: "submit" }
+                  },
+                  [_vm._v("Save")]
                 )
               ]
             )

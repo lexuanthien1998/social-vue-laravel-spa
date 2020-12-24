@@ -37,7 +37,7 @@
                         <div class="modal-body">
                             <div class="d-flex align-items-center div-input">
                                 <i class="fas fa-signature"></i>
-                                <input type="text" v-if="info.user.name" :value="info.user.name"  placeholder="your name." class="rounded-pill px-3 py-1 ml-3 w-100">
+                                <input type="text" v-model="info.user.name"  placeholder="your name." class="rounded-pill px-3 py-1 ml-3 w-100">
                             </div>
                             <div class="d-flex align-items-center div-input">
                                 <i class="fas fa-signature"></i>
@@ -88,8 +88,8 @@
                                 <label for="file-input-modal"><i class="far fa-images"></i></label>
                                 <input id="file-input-modal" v-on:change="onImageChange" type="file"/>
                             </div>
-                            <button type="submit" class="btn rounded-pill py-2 px-4">Save</button>
                         </div>
+                        <button type="submit" class="btn rounded-pill py-2 px-4">Save</button>
                     </form>
                 </div>
             </div>
@@ -131,18 +131,24 @@
                     }
                 }
             },
-        },
-        filters: {
-            check(value) {
-                return value;
-                // if(value) {
-                //     if(value.length >= 250) {
-                //         return value.substr(0,value.indexOf(' ')+limit) + '...';
-                //     } else {
-                //         return value;
-                //     }
-                // }
-            }
+            updateProfile(e) {
+                e.preventDefault();
+                if(!this.$store.getters.loggedIn) {
+                    this.$router.push({ name: 'login' })
+                }
+                axios.post('/api/post/store', {
+                    user_id: this.user.id,
+                    content: this.content,
+                    image: this.image,
+                })
+                .then((response) => {
+        
+                })
+                .catch((error) => {
+                    $('.modal').modal('toggle');
+                    return
+                });
+            },
         }
     }
 
