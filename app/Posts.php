@@ -10,7 +10,7 @@ class Posts extends Model
     use SoftDeletes;
     protected $table = 'posts';
     protected $fillable = [
-        'user_id', 'content', 'likes'
+        'user_id', 'content', 'status'
     ];
     public $timestamps = true;
     protected $dates = ['deleted_at'];

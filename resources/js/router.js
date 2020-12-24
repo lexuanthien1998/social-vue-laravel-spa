@@ -6,24 +6,30 @@ Vue.use(VueRouter);
 import store from "./store";
 
 // File Views
-import HomePage from './views/page/Home.vue';
 import LoginUser from './views/user/LoginUser.vue';
 import RegisterUser from './views/user/RegisterUser.vue';
 import LogoutUser from './views/user/LogoutUser.vue';
-// Details Post
+import Profile from './views/user/Profile.vue';
+
+import HomePage from './views/page/Home.vue';
 import PostDetails from './views/page/Details.vue';
 
 
 const routes = [
-    { path: '/', name: 'home', component: HomePage, meta: { requiresAuth: true }},
+    { path: '/', name: 'home', component: HomePage, meta: { requiresAuth: true },
+        // children: [
+        //     { path: 'post/:id/details', name: 'post-details', component: PostDetails, meta: { title: 'Details', requiresAuth: true } }
+        // ]
+    },
+    { path: '/:id/details', name: 'post-details', component: PostDetails, meta: { title: 'Details', requiresAuth: true } },
+
+    { path: '/user/:username', name: 'profile', component: Profile, meta: { title: 'Profile page', requiresAuth: true } },
     { path: '/login', name: 'login', component: LoginUser, meta: { title: 'Login page', requiresVisitor: true } },
     { path: '/register', name: 'register', component: RegisterUser, meta: { title: 'Register page', requiresVisitor: true } },
     { path: '/logout', name: 'logout', component: LogoutUser},
-
-    { path: '/post/:id/details', name: 'post-details', component: PostDetails, meta: { title: 'Details', requiresAuth: true } },
-
-    // { path: '/', name: 'home', component: HomePage, meta: { requiresAuth: true, }}, những trang nếu chưa login thì ko đc vào thì cần requiresAuth
-
+    { path: '/:pathMatch(.*)*', redirect: { name: 'home' } }
+    //requiresAuth : Nếu chưa Login thì không được truy cập
+    //requiresVisitor : Nếu đã Login thì không được truy cập
 ];
 
 const router = new VueRouter({

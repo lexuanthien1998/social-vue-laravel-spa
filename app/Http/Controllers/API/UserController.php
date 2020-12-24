@@ -14,7 +14,7 @@ class UserController extends Controller
     public function login(Request $request) { 
         $validator = Validator::make($request->all(), 
             [
-                'name' => 'alpha_dash|max:255',
+                'username' => 'alpha_dash|max:255',
                 'email' => 'required|max:255',
                 'password' => 'required',
             ],
@@ -23,7 +23,7 @@ class UserController extends Controller
                 'alpha_dash' => ':attribute cannot contain spaces.',
             ], 
             [
-                'name' => 'Username',
+                'username' => 'Username',
                 'email' => 'Email address',
                 'password' => 'Password',
             ]
@@ -56,7 +56,7 @@ class UserController extends Controller
     public function register(Request $request) {
         $validator = Validator::make($request->all(), 
             [
-                'name' => 'required|alpha_dash|unique:users|max:255',
+                'username' => 'required|alpha_dash|unique:users|max:255',
                 'email' => 'required|unique:users|max:255',
                 'password' => 'required',
             ],
@@ -66,7 +66,7 @@ class UserController extends Controller
                 'unique' => ':attribute has exists.',
             ], 
             [
-                'name' => 'Username',
+                'username' => 'Username',
                 'email' => 'Email address',
                 'password' => 'Password',
             ]
@@ -77,7 +77,7 @@ class UserController extends Controller
         }
 
         $user = new User;
-        $user->name = $request->name;
+        $user->username = trim($request->username);
         $user->email = $request->email;
         $user->password = bcrypt($request->password);
         $user->save();
@@ -92,6 +92,17 @@ class UserController extends Controller
         } else {
             return response()->json(['message' => 'Not logged in.'], 200);
         }
+    }
+
+    public function profile(Request $request, $username) {
+        $user = User::whereNull('deleted_at')->where('username', $username)->first();
+        if($user != null) {
+            return response()->json([
+                'user' => $user,
+                'posts' => $user->posts
+            ], 200);
+        }
+        return response()->json(['message' => 'Not Found.'], 404);
     }
 }
         

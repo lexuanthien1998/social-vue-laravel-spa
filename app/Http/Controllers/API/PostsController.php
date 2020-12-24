@@ -41,7 +41,7 @@ class PostsController extends Controller
             } else {
                 $path = "";
             }
-            $arr[] = collect($post)->merge(['name' => $user->name, 'path' => $path, 'likes' => $likes, 'comments' => $comments]);
+            $arr[] = collect($post)->merge(['username' => $user->username, 'path' => $path, 'likes' => $likes, 'comments' => $comments]);
         }
         return response()->json([
             'success' => true,
@@ -99,8 +99,33 @@ class PostsController extends Controller
         ], 200);
     }
 
-    public function show(Posts $posts) {
-        //
+    public function show($id) {
+        $post = Posts::find($id);
+        if($post != null) {
+            $user = User::where('id', $post->user_id)->first();
+            $likes = Likes::whereNull('deleted_at')->where('post_id', $post->id)->pluck('user_id');
+            $comments = Comments::whereNull('deleted_at')->where('post_id', $post->id)->select('user_id', 'comment', 'created_at')->get();
+            $image = ImagesPost::where('post_id', $post->id)->first();
+            if($image) {
+                $image = $image->path;
+                $imagePath = 'images/posts/'.$post->id.'/';
+                if(Storage::disk('local')->exists($imagePath.$image)) {
+                    $img = base64_encode(Storage::disk('local')->get($imagePath.$image));
+                    if(pathinfo($image)['extension'] == "pdf") {
+                        $path = 'data:application/pdf;base64,'.$img;
+                    } else {
+                        $path = 'data:image/'.pathinfo($image)['extension'].';base64,'.$img;
+                    }
+                } else {
+                    $path = "";
+                }
+            } else {
+                $path = "";
+            }
+            $post = collect($post)->merge(['username' => $user->username, 'path' => $path, 'likes' => $likes, 'comments' => $comments]);
+            return response()->json($post, 200);
+        }
+        return response()->json(['error' => 'not Found'],404);
     }
 
     public function update(Request $request, Posts $posts) {

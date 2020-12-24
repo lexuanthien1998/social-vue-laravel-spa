@@ -20,53 +20,45 @@
     </div>
 
     <div class="box-content shadow-sm" v-for="(post, index) in items" :key="index">
-        <div class="row p-2">
+        <div class="row p-2 box-post">
             <!-- avatar + name -->
             <div class="col d-flex">
                 <img src="/images/avatar.jpg" style="max-height:30px;" class="rounded-circle img-fluid">
-                <div class="mt-1 name-user-post">{{post.name}}</div>
+                <div class="mt-1 name-user-post">#{{post.username}}</div>
             </div>
             <!-- action delete + edit -->
             <div class="col d-flex justify-content-end">
                 <div class="dropdown">
                     <h5 data-toggle="dropdown"><i class="far fa-ellipsis-h"></i></h5>
-                    <div class="dropdown-menu dropdown-menu-right mt-2">
-                        <a href="" class="dropdown-item">
-                            <i class="fas fa-edit"></i> Edit
-                        </a>
-                        <a @click="deletePost(index)" class="dropdown-item">
-                            <i class="fas fa-trash-alt"></i> Delete
-                        </a>
-                        <a href="" class="dropdown-item">
-                            <i class="fas fa-link"></i> Copy URL Post
-                        </a>
+                    <div class="dropdown-menu dropdown-menu-right mt-1 px-2 shadow">
+                        <i class="fas fa-edit dropdown-item"></i>
+                        <i @click="deletePost(index)" class="fas fa-trash-alt dropdown-item"></i>
+                        <i class="fas fa-link dropdown-item"></i>
                     </div>
                 </div>
             </div>
             <!-- content + image -->
-            <router-link :to="{name: 'post-details', params: { id: post.id, title: post.content }}">
-                <div class="p-3 post-image">
-                    <p>{{post.content}}</p>
-                    <figure>
-                        <img v-bind:src="post.path" class="img-fluid" style="border-radius:10px;" alt="">
-                    </figure>
-                </div>     
-            </router-link>
+            <div class="px-3 post-image">
+                <span v-if="post.content != null" v-on:click="detailsPost(index)">{{ post.content | shortText(250) }}</span>
+                <span class="d-none" v-if="post.content != null" v-on:click="detailsPost(index)">{{ post.content }}</span>
+                <div v-if="post.content != null && post.content.length > 250" v-on:click="toggler($event)" class="see-more">See more</div>
+
+                <figure class="mt-2" v-on:click="detailsPost(index)">
+                    <img v-bind:src="post.path" class="img-fluid" style="border-radius:10px;" alt="">
+                </figure>
+            </div>
             <!-- icon like... -->
             <div class="px-3">
-                <div class="d-flex justify-content-around p-1 box-action-post">
+                <div class="d-flex justify-content-between p-2 box-action-post">
                     <div>
-                        <i :class="[post.likes.includes(user.id) ? isLiked : '']" ref='ref_likes' v-on:click="likesPost(index)" class="far fa-heart"></i>Like
+                        <i v-bind:class="[post.likes.includes(user.id) ? isLiked : '']" ref='ref_likes' v-on:click="likesPost(index)" class="far fa-heart"></i>
+                        <label v-bind:for="'comment' + index" class="px-2"><i class="far fa-comment"></i></label>
+                        <i class="far fa-share"></i>
                     </div>
-
-                    <label v-bind:for="'comment' + index">
-                        <div><i class="far fa-comment"></i>Comment</div>
-                    </label>
-                    <div><i class="far fa-share"></i>Share</div>
-                </div>
-                <div class="d-flex py-2">
-                    <p class="pr-3">{{ post.likes.length }} lượt thích</p>
-                    <p>{{ post.comments.length }} bình luận</p>
+                    <div class="d-flex mt-2">
+                        <p v-if="post.likes.length > 0">{{ post.likes.length }} likes</p>
+                        <p v-if="post.comments.length> 0" class="pl-3">{{ post.comments.length }} comments</p>
+                    </div>
                 </div>
                 <!-- input comment -->
                 <div class="d-flex">
@@ -95,13 +87,13 @@
         },
         mounted() {
             this.axios
-                .get('api/post/index')
+                .get('/api/post/index')
                 .then(response => {
                     this.posts = response.data.posts
-                    console.log(this.posts)
+                    // console.log(this.posts)
                 })
                 .catch(response => {
-                    console.log(response)
+                    // console.log(response)
                 });
         },
         computed: {
@@ -159,7 +151,11 @@
                         }
                     });
                 }
-            }, 
+            },
+            detailsPost(index) {
+                var id = this.posts[index].id;
+                this.$router.push({ name: 'post-details', params: { id } }).catch(()=>{});
+            },
             deletePost(index) {
                 axios
                 .post('/api/post/destroy', {
@@ -223,6 +219,32 @@
                     .catch((error) => {
                         return
                     });
+                }
+            },
+            toggler(e) {
+                if(e.target.innerHTML == 'See more') {
+                    e.target.innerHTML = 'Less more';
+                    e.target.parentElement.children[0].className = '';
+                    e.target.parentElement.children[0].className = 'd-none';
+                    e.target.parentElement.children[1].className = '';
+                    e.target.parentElement.children[1].className = 'd-block';
+                } else {
+                    e.target.innerHTML = 'See more';
+                    e.target.parentElement.children[0].className = '';
+                    e.target.parentElement.children[0].className = 'd-block';
+                    e.target.parentElement.children[1].className = '';
+                    e.target.parentElement.children[1].className = 'd-none';
+                }
+            }
+        },
+        filters: {
+            shortText(value, limit) {
+                if(value) {
+                    if(value.length >= 250) {
+                        return value.substr(0,value.indexOf(' ')+limit) + '...';
+                    } else {
+                        return value;
+                    }
                 }
             }
         }

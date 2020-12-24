@@ -5,7 +5,7 @@
 
             <div class="d-flex">
                 <i class="fas fa-user-circle"></i>
-                <input type="text" placeholder="Username..." v-model="name" class="rounded-pill px-3 py-1 w-100">
+                <input type="text" placeholder="Username..." v-model="username" class="rounded-pill px-3 py-1 w-100">
             </div>
 
             <div class="d-flex">
@@ -37,7 +37,7 @@
     export default {
         data() {
             return {
-                name:'',
+                username:'',
                 email:'',
                 password:'',
                 message: '',
@@ -46,7 +46,7 @@
         methods: {
             register() {
                 this.$store.dispatch('register', {
-                    name: this.name,
+                    username: this.username,
                     email: this.email,
                     password: this.password,
                 })

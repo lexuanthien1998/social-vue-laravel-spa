@@ -35,7 +35,7 @@ const store = new Vuex.Store({
             return new Promise((resolve, reject) => {
                 axios
                 .post('/api/register', {
-                    name: data.name,
+                    username: data.username,
                     email: data.email,
                     password: data.password,
                 })

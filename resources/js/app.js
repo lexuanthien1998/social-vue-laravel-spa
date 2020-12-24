@@ -9,17 +9,17 @@ Vue.use(VueAxios, axios);
 // vuex
 import store from "./store";
 
-//router.js
-import router from './router';
-
 //Component App là file Master FE
 import App from './components/App';
 
 //Khai báo các Components
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 
-axios.defaults.withCredentials = true
+// axios.defaults.withCredentials = true;
 // axios.defaults.baseURL = 'https://gabbyblog.herokuapp.com/';
+
+//router.js
+import router from './router';
 
 const app = new Vue({
     el: '#app',

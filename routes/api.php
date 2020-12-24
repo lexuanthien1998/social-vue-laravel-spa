@@ -22,6 +22,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::prefix('/post')->group(function() {
     Route::get('index', 'Api\PostsController@index');
+    Route::get('{id}/details', 'Api\PostsController@show');
     Route::post('store', 'Api\PostsController@store');
     Route::post('destroy', 'Api\PostsController@destroy');
 
@@ -31,10 +32,8 @@ Route::prefix('/post')->group(function() {
     Route::post('del-comment', 'Api\PostsController@deleteComment');
 
 });
-
-
-
 // user
+Route::get('profile/{username}', 'API\UserController@profile');
 Route::post('login', 'API\UserController@login');
 Route::post('register', 'API\UserController@register');
 Route::middleware('auth:api')->group(function () {
