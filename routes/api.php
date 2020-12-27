@@ -33,7 +33,8 @@ Route::prefix('/post')->group(function() {
 
 });
 // user
-Route::get('profile/{username}', 'API\UserController@profile');
+Route::get('user/{username}', 'API\UserController@profile');
+Route::post('user/{id}/profile/update', 'API\UserController@profileUpdate');
 Route::post('login', 'API\UserController@login');
 Route::post('register', 'API\UserController@register');
 Route::middleware('auth:api')->group(function () {

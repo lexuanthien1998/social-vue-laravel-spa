@@ -81,18 +81,40 @@
     position: absolute;
     bottom: 80px;
   }
+  .active {
+    background: #ecf4f3 !important;
+  }
+  .page-main-sm i{
+    padding: 10px;
+    background: #fff;
+    margin-bottom: 20px;
+    color: #68b0ab;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  .page-main-sm i:hover{
+    background: #ecf4f3;
+  }
 
+  .page-main-sp {
+    padding: 10px 35px;
+    right:0.4px !important; 
+    background: #fff !important;
+  }
   .page-main-sp i {
     padding: 15px;
     background: #fff;
     color: #68b0ab;
-    margin-bottom: 20px;
     font-weight: 700;
     cursor: pointer;
   }
   .page-main-sp i:hover{
     background: #ecf4f3;
-    cursor: pointer;
+  }
+  @media only screen and (max-width: 576px) {
+    .page-main-PC {
+      padding-top: 60px;
+    }
   }
 
   /*main right */
@@ -172,7 +194,7 @@
     border-radius: 15px;
   }
   .box-content .post-image span{
-    font-weight: 100 !important;
+    font-weight: 450 !important;
   }
   .box-content .post-image .see-more {
     color: #68b0ab;
@@ -200,12 +222,8 @@
     background: none;
   }
   .name-user-post {
-    text-transform: uppercase;
-    font-family: 'Inconsolata', monospace !important;
-    font-weight: 900;
     cursor: pointer;
     margin-left: 10px;
-    letter-spacing: 0.1px;
     color: #68b0ab;
   }
   .dropdown i {
@@ -349,37 +367,55 @@
   }
   .img-main .box-btn {
     position: absolute;
-    bottom: 10px;
-    right: 16px;
+    bottom: 15px;
+    right: 20px;
     color: #fff;
     cursor: pointer;
   }
-  .img-main .box-btn div {
+  .img-main .box-btn i {
     background: #68b0ab;
-    padding: 3px 10px;
+    padding: 5px 10px;
     margin: 0 5px;
+    font-weight: 600 !important;
+    border-radius: 5px;
   }
   .img-main .box-btn i span {
     margin-left: 5px;
   }
-  .img-profile {
-    width: 130px;
-    height: 130px;
-    text-align: center;
-    margin: -70px auto 25px;
-    border-radius: 50%;
-    overflow: hidden;
-    padding: 5px;
-    background: #ff7e67;
-    position:relative;
+  .img-main .box-btn i.icon-camera {
+    background:none;
+    font-weight: 600 !important;
   }
-  .img-profile img {
-    max-width: 100%;
-    height: auto;
-    vertical-align: middle; 
+  .img-main .box-camera {
+    bottom: 10px !important;
+    right: 5px !important;
+  }
+  .img-main i {
+    font-weight: 600;
+  }
+  .img-profile {
+    justify-content: center;
+    display: flex;
+    background-size: cover;
+    background-position: center;  
+    background-origin: content-box;
+    position: relative;
+  }
+  .img-profile div {
+    height:150px;
+    width:150px;
+    background-size: cover;
+    background-position: center;  
+    background-origin: content-box;
+    position: relative;
+    margin: -80px auto 15px;
+  }
+  
+  .box-name p {
+    color: #68b0ab;
   }
   .box-list-profile {
-    border-top: 2px solid #68b0ab;
+    border-top: 3px solid #68b0ab;
   }
   .box-list-profile ul li {
     color: #68b0ab;
@@ -394,20 +430,40 @@
     padding-bottom: 20px;
   }
   .div-input i {
-    color: #ff7e67;
+    color: #68b0ab;
+    padding-right: 20px;
+    font-weight: 700;
   }
-  .div-input input, .div-input select {
-    border: 2px solid #ecf4f3 !important;
+  .div-input input {
+    border: 3px solid #ecf4f3 !important;
   }
-  .div-input .form-check {
-    margin-right: 20px;
+  .modal-body .image-profile {
+    justify-content: center;
+    display: flex;
+    background-size: cover;
+    background-position: center;  
+    background-origin: content-box;
+    position: relative;
   }
-  /* select {
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    text-indent: 1px;
-    text-overflow: '';
-  } */
+  .modal-body .image-profile div {
+    height:100px;
+    width:100px;
+    background-size: cover;
+    background-position: center;  
+    background-origin: content-box;
+    position: relative;
+    margin: -50px auto 15px;
+  }
+   .v-input__control {
+    padding-left: 20px;
+  }
+  .v-input__control .v-input__slot {
+    padding-left: 10px;
+  }
+  .v-input__icon i {
+    color: #68b0ab !important;
+    font-weight: 700 !important;
+  }
 
 
 

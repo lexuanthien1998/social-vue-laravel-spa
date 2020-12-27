@@ -24,7 +24,7 @@
             <!-- avatar + name -->
             <div class="col d-flex">
                 <img src="/images/avatar.jpg" style="max-height:30px;" class="rounded-circle img-fluid">
-                <div class="mt-1 name-user-post">#{{post.username}}</div>
+                <div class="mt-1 name-user-post">{{post.username}}</div>
             </div>
             <!-- action delete + edit -->
             <div class="col d-flex justify-content-end">
@@ -61,7 +61,7 @@
                     </div>
                 </div>
                 <!-- input comment -->
-                <div class="d-flex">
+                <div class="d-flex pb-2">
                     <img src="/images/avatar.jpg" style="max-height:30px;" class="rounded-circle img-fluid mr-2">
                     <form @submit.prevent="addComment(index)" class="w-100">
                         <input type="text" v-bind:id="'comment' + index" ref='ref_comment' placeholder="Add comment..." class="rounded-pill px-3 py-1 w-100 comment">
@@ -90,10 +90,8 @@
                 .get('/api/post/index')
                 .then(response => {
                     this.posts = response.data.posts
-                    // console.log(this.posts)
                 })
                 .catch(response => {
-                    // console.log(response)
                 });
         },
         computed: {

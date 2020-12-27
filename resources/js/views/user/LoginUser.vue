@@ -43,7 +43,7 @@
                     password: this.password,
                 })
                 .then(response => {
-                    this.$router.push({ name: 'home' })
+                    this.$router.go({ name: 'home' })
                 })
                 .catch((error) => {
                     if (error.response) {

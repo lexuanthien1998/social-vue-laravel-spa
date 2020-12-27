@@ -87,6 +87,9 @@ const store = new Vuex.Store({
                 })
             }
         },
+        reloadUser({commit}, user) {
+            commit('addUser', user)
+        },
     },
     plugins: [createPersistedState()],
 });

@@ -18,6 +18,9 @@ Vue.component('example-component', require('./components/ExampleComponent.vue').
 // axios.defaults.withCredentials = true;
 // axios.defaults.baseURL = 'https://gabbyblog.herokuapp.com/';
 
+//vuetify
+import vuetify from '../plugins/vuetify';
+
 //router.js
 import router from './router';
 
@@ -25,6 +28,7 @@ const app = new Vue({
     el: '#app',
     store: store,
     router: router,
+    vuetify: vuetify,
     render: h => h(App)
 });
 
