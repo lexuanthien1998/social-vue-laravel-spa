@@ -416,6 +416,10 @@
   }
   .box-list-profile {
     border-top: 3px solid #68b0ab;
+    margin: 0 30px;
+  }
+  .box-list-profile ul a {
+    text-decoration: none;
   }
   .box-list-profile ul li {
     color: #68b0ab;

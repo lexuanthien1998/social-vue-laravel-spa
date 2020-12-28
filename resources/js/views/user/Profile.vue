@@ -17,12 +17,15 @@
 
         <div class="d-flex justify-content-center box-list-profile">
             <ul class="list-unstyled d-flex">
-                <li>Posts</li>
-                <li>Photos</li>
-                <li>Intro</li>
-                <li>Followers</li>
-                <li>Following</li>
+                <router-link :to="{name:'posts'}"><li>Posts</li></router-link>
+                <router-link :to="{name:'photos'}"><li>Photos</li></router-link>
+                <router-link :to="{name:'intro'}"><li>Intro</li></router-link>
+                <router-link :to="{name:'followers'}"><li>Followers</li></router-link>
+                <router-link :to="{name:'following'}"><li>Following</li></router-link>
             </ul>
+        </div>
+        <div class="px-8">
+            <router-view></router-view>
         </div>
         <!-- Modal -->
         <div class="modal fade" id="editProfile" ref="hiddenmodal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
