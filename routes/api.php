@@ -33,6 +33,7 @@ Route::prefix('/post')->group(function() {
 
 });
 // user
+Route::get('users', 'API\UserController@index');
 Route::get('user/{username}', 'API\UserController@profile');
 Route::post('user/{id}/profile/update', 'API\UserController@profileUpdate');
 Route::post('login', 'API\UserController@login');

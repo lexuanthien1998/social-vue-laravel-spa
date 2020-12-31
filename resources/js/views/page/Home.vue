@@ -1,7 +1,7 @@
 <template>
 <div>
     <div class="box-content shadow-sm bg-white">
-        <form @submit.prevent="submitPost" class="form-post p-3" enctype="multipart/form-data">
+        <form @submit.prevent="submitPost" class="form-post px-4 py-2" enctype="multipart/form-data">
             <div class="form-group d-flex">
                 <img src="/images/avatar.jpg" style="max-height:30px;" class="rounded-circle img-fluid mr-3">
                 <textarea class="form-control" rows="2" v-model="content"></textarea>
@@ -14,13 +14,13 @@
                     <label for="file-input"><i class="far fa-images"></i></label>
                     <input id="file-input" v-on:change="onImageChange" type="file"/>
                 </div>
-                <button type="submit" class="btn btn-sm rounded-pill">Đăng bài</button>
+                <button type="submit" class="btn rounded-pill">Đăng bài</button>
             </div>
         </form>
     </div>
 
     <div class="box-content shadow-sm" v-for="(post, index) in items" :key="index">
-        <div class="row p-2 box-post">
+        <div class="row px-3 py-2 box-post">
             <!-- avatar + name -->
             <div class="col d-flex">
                 <img src="/images/avatar.jpg" style="max-height:30px;" class="rounded-circle img-fluid">
@@ -43,9 +43,15 @@
                 <span class="d-none" v-if="post.content != null" v-on:click="detailsPost(index)">{{ post.content }}</span>
                 <div v-if="post.content != null && post.content.length > 250" v-on:click="toggler($event)" class="see-more">See more</div>
 
-                <figure class="mt-2" v-on:click="detailsPost(index)">
-                    <img v-bind:src="post.path" class="img-fluid" style="border-radius:10px;" alt="">
-                </figure>
+                <!-- <figure class="mt-2" v-on:click="detailsPost(index)">
+                    <img v-bind:src="post.path" class="img-fluid" alt="">
+                </figure> -->
+                <!-- <div class="text-center">
+                    <h1 class="text-img" v-bind:style="{backgroundImage: bgIMG(post.path)}">lonely</h1>
+                </div> -->
+                <div class="my-3 bg-images" v-bind:style="{backgroundImage: bgIMG(post.path)}">
+                    
+                </div>
             </div>
             <!-- icon like... -->
             <div class="px-3">
@@ -62,7 +68,7 @@
                 </div>
                 <!-- input comment -->
                 <div class="d-flex pb-2">
-                    <img src="/images/avatar.jpg" style="max-height:30px;" class="rounded-circle img-fluid mr-2">
+                    <img :src="user.image_profile != '' ? user.image_profile : `/images/avatar.jpg`" style="width:35px; height:35px; vertical-align: middle;" class="rounded-circle img-fluid border border-1 mr-2">
                     <form @submit.prevent="addComment(index)" class="w-100">
                         <input type="text" v-bind:id="'comment' + index" ref='ref_comment' placeholder="Add comment..." class="rounded-pill px-3 py-1 w-100 comment">
                         <button type="submit" class="btn btn-sm rounded-pill" hidden></button>
@@ -100,6 +106,9 @@
             },
         },
         methods: {
+            bgIMG(base64) {
+                return `url('` + base64 + `')`
+            },
             onImageChange(e){
                 // this.image = e.target.files[0];
                 if (e.target.files[0]) {
@@ -175,7 +184,7 @@
                     })
                     .then((response) => {
                         this.$refs.ref_likes[index].classList.remove('is-liked')
-                        this.posts[index].likes.splice(1)
+                        this.posts[index].likes.pop()
                     })
                     .catch((error) => {
                         return

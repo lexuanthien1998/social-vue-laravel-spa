@@ -83,15 +83,27 @@
             <div class="w-50 mx-auto align-self-center" v-else-if="$route.name == 'register'">
                 <router-view></router-view>
             </div>
-            <div class="w-100 px-5 mx-0 mx-lg-5 page-main-PC" v-else>
+            <div class="w-100 px-0 px-sm-5 px-md-10 page-main-PC" v-else>
                 <router-view></router-view>
             </div>
 
-            <div v-if="loggedIn" class="d-none d-lg-block w-25 sticky-top box-main-right">
+            <div v-if="loggedIn" class="d-none d-lg-block sticky-top box-main-right">
                 <form @submit.prevent="Search" class="w-100 d-flex">
-                    <input type="text" placeholder="Search..." class="rounded-pill shadow-sm px-3 py-2 w-100">
+                    <input type="text" placeholder="Search..." class="rounded-pill shadow-sm px-4 py-2 w-100">
                     <button type="submit" class="btn btn-sm rounded-pill" hidden></button>
                 </form>
+                <div class="shadow-sm my-4 box-content box-followes">
+                    <p class="text-center">maybe you...know</p>
+                    <div v-for="(member, index) in users" :key="index" class="p-2 d-flex justify-content-between align-items-center">
+                        <div class="d-flex">
+                            <img src="/images/avatar.jpg" class="img-fluid">
+                            <a href="">
+                                <p class="username">{{member.username}}</p>
+                            </a>
+                        </div>
+                        <p class="btn-follow">follow</p>
+                    </div>
+                </div>
             </div>
         </div>
         <!-- Modal -->
@@ -99,7 +111,7 @@
             <div class="modal-dialog modal-lg">
                 <div class="modal-content px-3">
                     <div class="modal-header pb-0">
-                        <h5 class="modal-title"><i class="fas fa-feather-alt mr-1" style="color:#ff7e67;"></i>create</h5>
+                        <h5 class="modal-title"><i class="fas fa-feather-alt mr-1" style="color:#ff7e67;"></i>create...</h5>
                         <i class="fas fa-times" data-bs-dismiss="modal"></i>
                     </div>
                     <form @submit.prevent="submitPostModal" class="form-post p-3" enctype="multipart/form-data">
@@ -130,9 +142,22 @@
             return {
                 user:this.$store.getters.getUser,
                 active: 'active',
+                users: [],
                 content: '',
                 image: '',
             }
+        },
+        mounted() {
+            this.axios
+            .get('/api/users')
+            .then(response => {
+                this.users = response.data
+                console.log(response)
+            })
+            .catch(response => {
+            });
+            
+            $(this.$refs.hiddenmodal).on("hidden.bs.modal", this.closeModal)
         },
         computed: {
             loggedIn() {
@@ -186,8 +211,5 @@
                 $('#img-modal').attr('src', '');
             }
         },
-        mounted(){
-            $(this.$refs.hiddenmodal).on("hidden.bs.modal", this.closeModal)
-        }
     }
 </script>

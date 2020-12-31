@@ -39,9 +39,21 @@ class UserController extends Controller
             if($user->exists()){
                 if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
                     $token = Auth::user()->createToken('login')->accessToken;
+                    
+                    if($user->image_profile != null) {
+                        $imagePath = 'images/users/'.$user->id.'/image_profile'.'/';
+                        if(Storage::disk('local')->exists($imagePath.$user->image_profile)) {
+                            $img = base64_encode(Storage::disk('local')->get($imagePath.$user->image_profile));
+                            $image_profile = 'data:image/'.pathinfo($user->image_profile)['extension'].';base64,'.$img;
+                        } else {
+                            $image_profile = '';
+                        }
+                    } else {
+                        $image_profile = '';
+                    }
                     return response()->json([
                         'message' => 'Successful!',
-                        'user' => $user,
+                        'user' => collect($user)->merge(['image_profile' => $image_profile]),
                         'access_token' => $token
                     ], 200);
                 } else {
@@ -94,6 +106,11 @@ class UserController extends Controller
         } else {
             return response()->json(['message' => 'Not logged in.'], 200);
         }
+    }
+
+    public function index(Request $request) {
+        $users = User::inRandomOrder()->limit(25)->get();
+        return response()->json($users, 200);
     }
 
     public function profile(Request $request, $username) {
