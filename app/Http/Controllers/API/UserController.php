@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
 use Validator;
 use Exception;
+use App\Follows;
 
 class UserController extends Controller
 {
@@ -234,6 +235,26 @@ class UserController extends Controller
         
         $user->save();
         return response()->json($user, 200);
+    }
+
+    public function follow(Request $request) {
+        if(isset($request->user_id) && isset($request->id)) {
+            $follow = new Follows;
+            $follow->user_id = $request->user_id;
+            $follow->user_id_follow = $request->id;
+            $follow->save();
+            return response()->json(['success' => true], 200);   
+        } else {
+            return response()->json(['failed' => true], 404);
+        }
+    }
+    public function unfollow(Request $request) {
+        if(isset($request->user_id) && isset($request->id)) {
+            $unfollow = Follows::where('user_id', $request->user_id)->where('user_id_follow', $request->id)->forceDelete();
+            return response()->json(['success' => true], 200);   
+        } else {
+            return response()->json(['failed' => true], 404);
+        }
     }
 }
         

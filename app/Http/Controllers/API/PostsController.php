@@ -41,7 +41,20 @@ class PostsController extends Controller
             } else {
                 $path = "";
             }
-            $arr[] = collect($post)->merge(['username' => $user->username, 'path' => $path, 'likes' => $likes, 'comments' => $comments]);
+
+            if($user->image_profile != null) {
+                $imagePath = 'images/users/'.$user->id.'/image_profile'.'/';
+                if(Storage::disk('local')->exists($imagePath.$user->image_profile)) {
+                    $img = base64_encode(Storage::disk('local')->get($imagePath.$user->image_profile));
+                    $image_profile = 'data:image/'.pathinfo($user->image_profile)['extension'].';base64,'.$img;
+                } else {
+                    $image_profile = '';
+                }
+            } else {
+                $image_profile = '';
+            }
+
+            $arr[] = collect($post)->merge(['username' => $user->username, 'image_profile' => $image_profile, 'path' => $path, 'likes' => $likes, 'comments' => $comments]);
         }
         return response()->json([
             'success' => true,
@@ -99,6 +112,95 @@ class PostsController extends Controller
         ], 200);
     }
 
+    public function update(Request $request, $id) {
+        if($request->content == null && $request->image == null) {
+            Posts::destroy($id);
+            return response()->json([
+                'deleted' => true,
+            ], 200);
+        }
+        $post = Posts::find($id);
+        $post->content = $request->content;
+        $post->save();
+
+        if($request->image != null) {
+            $images_post = ImagesPost::whereNull('deleted_at')->where('post_id', $id)->first();
+            if($images_post != null) {
+                //delete
+                $images = ImagesPost::where('post_id', $id)->get();
+                $imagePath = 'images/posts/'.$id.'/';
+                foreach($images as $image) {
+                    if(Storage::disk('local')->exists($imagePath.$image->path)) {
+                        Storage::disk('local')->delete($imagePath.$image->path);
+                    }
+                }
+                //update
+                if (preg_match('/^data:image\/(\w+);base64,/', $request->image)) {
+                    $extension = explode('/', mime_content_type($request->image))[1];
+                    $imageName = time().'.'. $extension;
+                    $img = Image::make(base64_decode(preg_replace('/^data:image\/(\w+);base64,/', '',$request->image)));
+                    if ($img->width() >= $img->height() && $img->width() > 2048) {
+                        $img->resize(2048, null, function ($constraint) {
+                            $constraint->aspectRatio();
+                        });
+                    } else if($img->height() > $img->width() && $img->height() > 2048){
+                        $img->resize(null, 2048, function ($constraint) {
+                            $constraint->aspectRatio();
+                        });
+                    } //resize 2048
+    
+                    $imagePath = 'images/posts/'.$id.'/';
+                    Storage::disk('local')->put($imagePath.$imageName, $img->stream());
+                    $images_post->path = $imageName;
+                    $images_post->save();
+                } else {
+                    $images_post->forceDelete();
+                }
+            } else {
+                if (preg_match('/^data:image\/(\w+);base64,/', $request->image)) {
+                    $images_post = new ImagesPost;
+                    $images_post->post_id = $id;
+
+                    $extension = explode('/', mime_content_type($request->image))[1];
+                    $imageName = time().'.'. $extension;
+                    $img = Image::make(base64_decode(preg_replace('/^data:image\/(\w+);base64,/', '',$request->image)));
+                    if ($img->width() >= $img->height() && $img->width() > 2048) {
+                        $img->resize(2048, null, function ($constraint) {
+                            $constraint->aspectRatio();
+                        });
+                    } else if($img->height() > $img->width() && $img->height() > 2048){
+                        $img->resize(null, 2048, function ($constraint) {
+                            $constraint->aspectRatio();
+                        });
+                    } //resize 2048
+
+                    $imagePath = 'images/posts/'.$id.'/';
+                    Storage::disk('local')->put($imagePath.$imageName, $img->stream());
+
+                    $images_post->path = $imageName;
+                    $images_post->save();
+                }
+            }
+        } else {
+            $images_post = ImagesPost::whereNull('deleted_at')->where('post_id', $id)->first();
+            if($images_post != null) {
+                //delete
+                $images = ImagesPost::where('post_id', $id)->get();
+                $imagePath = 'images/posts/'.$id.'/';
+                foreach($images as $image) {
+                    if(Storage::disk('local')->exists($imagePath.$image->path)) {
+                        Storage::disk('local')->delete($imagePath.$image->path);
+                    }
+                }
+                $images_post->forceDelete();
+            }
+        }
+        
+        return response()->json([
+            'success' => true,
+        ], 200);
+    }
+
     public function show($id) {
         $post = Posts::find($id);
         if($post != null) {
@@ -126,10 +228,6 @@ class PostsController extends Controller
             return response()->json($post, 200);
         }
         return response()->json(['error' => 'not Found'],404);
-    }
-
-    public function update(Request $request, Posts $posts) {
-        //
     }
 
     public function destroy(Request $request, Posts $posts) {

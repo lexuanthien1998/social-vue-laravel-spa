@@ -88,21 +88,24 @@
             </div>
 
             <div v-if="loggedIn" class="d-none d-lg-block sticky-top box-main-right">
-                <form @submit.prevent="Search" class="w-100 d-flex">
-                    <input type="text" placeholder="Search..." class="rounded-pill shadow-sm px-4 py-2 w-100">
-                    <button type="submit" class="btn btn-sm rounded-pill" hidden></button>
+                <form @submit.prevent="Search" class="rounded-pill shadow-sm px-4 w-100 d-flex align-items-center search-box">
+                    <input type="text" placeholder="Search..." class="w-100">
+                    <button type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
                 </form>
-                <div class="shadow-sm my-4 box-content box-followes">
-                    <p class="text-center">maybe you...know</p>
-                    <div v-for="(member, index) in users" :key="index" class="p-2 d-flex justify-content-between align-items-center">
+                <div v-if="users.length > 0" class="shadow-sm my-4 box-content box-followes">
+                    <p class="text px-2 pt-2">maybe you...know</p>
+                    <div v-for="(member, index) in users" :key="index" v-if="member.id != user.id" class="px-2 pb-2 d-flex justify-content-between align-items-center">
                         <div class="d-flex">
                             <img src="/images/avatar.jpg" class="img-fluid">
                             <a href="">
                                 <p class="username">{{member.username}}</p>
                             </a>
                         </div>
-                        <p class="btn-follow">follow</p>
+                        <p class="btn-follow" v-on:click="follow(index, $event)">follow</p>
                     </div>
+                </div>
+                <div class="box-info-design">
+                    <p>design by <i class="fas fa-heart"></i> lexuanthien</p>
                 </div>
             </div>
         </div>
@@ -117,9 +120,7 @@
                     <form @submit.prevent="submitPostModal" class="form-post p-3" enctype="multipart/form-data">
                         <div class="modal-body">
                             <textarea class="form-control" rows="3" v-model="content"></textarea>
-                            <figure>
-                                <img class="img-fluid mx-auto" id="img-modal" alt="">
-                            </figure>
+                            <div v-if="image != ''" class="bg-images mt-3" v-bind:style="{backgroundImage: `url('` + image + `')`}" style="max-height:250px;"></div>
                         </div>
                         <div class="modal-footer px-0 d-flex justify-content-between">
                             <div class="image-upload">
@@ -170,12 +171,13 @@
         methods: {
             onImageChangeModal(e){
                 if (e.target.files[0]) {
+                    let data = this
                     if (e.target.files[0].type.slice(0, 6) === 'image/') {
                         var reader = new FileReader();
                         reader.onload = function (e) {
                             e.preventDefault();
                             e.stopPropagation();
-                            $('#img-modal').attr('src', e.target.result);
+                            data.image = e.target.result;
                         }
                         reader.readAsDataURL(e.target.files[0]);
                     }
@@ -183,7 +185,6 @@
             },
             submitPostModal(e) {
                 e.preventDefault();
-                this.image = $('#img-modal').attr('src');
                 if(this.image != '' || this.content != '') {
                     if(!this.$store.getters.loggedIn) {
                         this.$router.push({ name: 'login' })
@@ -196,7 +197,6 @@
                     .then((response) => {
                         this.image = '';
                         this.content = '';
-                        $('#img-modal').attr('src', '');
                         $('.modal').modal('toggle');
                     })
                     .catch((error) => {
@@ -209,7 +209,32 @@
                 this.image = '';
                 this.content = '';
                 $('#img-modal').attr('src', '');
+            },
+            follow(index, e) {
+                if(e.target.innerHTML == 'follow') {
+                    axios.post('/api/follow', {
+                        user_id: this.user.id,
+                        id: this.users[index].id,
+                    })
+                    .then((response) => {
+                        e.target.innerHTML = 'unfollow';
+                    })
+                    .catch((error) => {
+                        return
+                    });
+                } else {
+                    axios.post('/api/unfollow', {
+                        user_id: this.user.id,
+                        id: this.users[index].id,
+                    })
+                    .then((response) => {
+                        e.target.innerHTML = 'follow';
+                    })
+                    .catch((error) => {
+                        return
+                    });
+                }
             }
-        },
+        }
     }
 </script>

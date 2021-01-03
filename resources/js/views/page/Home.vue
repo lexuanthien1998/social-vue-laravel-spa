@@ -1,57 +1,52 @@
 <template>
 <div>
     <div class="box-content shadow-sm bg-white">
-        <form @submit.prevent="submitPost" class="form-post px-4 py-2" enctype="multipart/form-data">
+        <form @submit.prevent="submitPost" class="form-post px-4 py-2" enctype="multipart/form-data" ref='create_post'>
             <div class="form-group d-flex">
-                <img src="/images/avatar.jpg" style="max-height:30px;" class="rounded-circle img-fluid mr-3">
-                <textarea class="form-control" rows="2" v-model="content"></textarea>
+                <!-- <img :src="user.image_profile != '' ? user.image_profile : `/images/avatar.jpg`" style="width:35px; height:35px; vertical-align: middle;" class="rounded-circle img-fluid mr-3"> -->
+                <div class="mr-3">
+                    <h1 class="text-img" v-bind:style="{backgroundImage: user.image_profile != '' ? `url('` + user.image_profile + `')` : `url('/images/avatar.jpg')` }">{{ user.username | username() }}</h1>
+                </div>
+                <textarea class="form-control" ref="content" rows="2" v-model="content"></textarea>
             </div>
-            <figure>
-                <img class="img-fluid mx-auto" id="images" src="" alt="">
-            </figure>
-            <div class="d-flex justify-content-between">
+            <div v-if="image != ''" class="bg-images mb-2" v-bind:style="{backgroundImage: `url('` + image + `')`}" style="max-height:250px;"></div>
+            <div class="d-flex justify-content-between align-items-center">
                 <div class="image-upload">
                     <label for="file-input"><i class="far fa-images"></i></label>
                     <input id="file-input" v-on:change="onImageChange" type="file"/>
                 </div>
-                <button type="submit" class="btn rounded-pill">Đăng bài</button>
+                <div>
+                    <button type="submit" class="btn btn-sm rounded-pill">Đăng bài</button>
+                </div>
             </div>
         </form>
     </div>
 
     <div class="box-content shadow-sm" v-for="(post, index) in items" :key="index">
-        <div class="row px-3 py-2 box-post">
+        <div class="row px-3 py-2 box-post ">
             <!-- avatar + name -->
-            <div class="col d-flex">
-                <img src="/images/avatar.jpg" style="max-height:30px;" class="rounded-circle img-fluid">
-                <div class="mt-1 name-user-post">{{post.username}}</div>
-            </div>
-            <!-- action delete + edit -->
-            <div class="col d-flex justify-content-end">
+            <div class="col d-flex justify-content-between align-items-center">
+                <!-- <img :src="post.image_profile != '' ? post.image_profile : `/images/avatar.jpg`" style="width:35px; height:35px; vertical-align: middle;" class="rounded-circle img-fluid"> -->
+                <div class="d-flex align-items-center">
+                    <h1 class="text-img" v-bind:style="{backgroundImage: post.image_profile != '' ? `url('` + post.image_profile + `')` : `url('/images/avatar.jpg')` }">{{ post.username | username() }}</h1>
+                    <div class="name-user-post">{{post.username}}</div>
+                </div>
                 <div class="dropdown">
                     <h5 data-toggle="dropdown"><i class="far fa-ellipsis-h"></i></h5>
                     <div class="dropdown-menu dropdown-menu-right mt-1 px-2 shadow">
-                        <i class="fas fa-edit dropdown-item"></i>
-                        <i @click="deletePost(index)" class="fas fa-trash-alt dropdown-item"></i>
+                        <i v-if="post.user_id == user.id" @click="editPost(index)" class="fas fa-edit dropdown-item"></i>
+                        <i v-if="post.user_id == user.id" @click="deletePost(index)" class="fas fa-trash-alt dropdown-item"></i>
                         <i class="fas fa-link dropdown-item"></i>
                     </div>
                 </div>
             </div>
+            <!-- action delete + edit -->
             <!-- content + image -->
             <div class="px-3 post-image">
                 <span v-if="post.content != null" v-on:click="detailsPost(index)">{{ post.content | shortText(250) }}</span>
                 <span class="d-none" v-if="post.content != null" v-on:click="detailsPost(index)">{{ post.content }}</span>
                 <div v-if="post.content != null && post.content.length > 250" v-on:click="toggler($event)" class="see-more">See more</div>
-
-                <!-- <figure class="mt-2" v-on:click="detailsPost(index)">
-                    <img v-bind:src="post.path" class="img-fluid" alt="">
-                </figure> -->
-                <!-- <div class="text-center">
-                    <h1 class="text-img" v-bind:style="{backgroundImage: bgIMG(post.path)}">lonely</h1>
-                </div> -->
-                <div class="my-3 bg-images" v-bind:style="{backgroundImage: bgIMG(post.path)}">
-                    
-                </div>
+                <div class="my-2 bg-images" v-if="post.path != ''" v-on:click="detailsPost(index)" v-bind:style="{backgroundImage: `url('` + post.path + `')`}"></div>
             </div>
             <!-- icon like... -->
             <div class="px-3">
@@ -67,12 +62,25 @@
                     </div>
                 </div>
                 <!-- input comment -->
-                <div class="d-flex pb-2">
-                    <img :src="user.image_profile != '' ? user.image_profile : `/images/avatar.jpg`" style="width:35px; height:35px; vertical-align: middle;" class="rounded-circle img-fluid border border-1 mr-2">
+                <div class="d-flex align-items-center pb-2">
+                    <!-- <img :src="user.image_profile != '' ? user.image_profile : `/images/avatar.jpg`" style="width:35px; height:35px; vertical-align: middle;" class="rounded-circle img-fluid mr-3"> -->
+                    <h1 class="text-img pr-4" v-bind:style="{backgroundImage: user.image_profile != '' ? `url('` + user.image_profile + `')` : `url('/images/avatar.jpg')`}">{{ user.username | username() }}</h1>
                     <form @submit.prevent="addComment(index)" class="w-100">
                         <input type="text" v-bind:id="'comment' + index" ref='ref_comment' placeholder="Add comment..." class="rounded-pill px-3 py-1 w-100 comment">
                         <button type="submit" class="btn btn-sm rounded-pill" hidden></button>
                     </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" ref="modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-sm modal-custom">
+            <div class="modal-content text-center py-3">
+                <h4 class="modal-title py-4">itempty!</h4>
+                <div class="d-flex justify-content-evenly">
+                    <p v-on:click="cancelEdit()">cancel</p>
+                    <p v-on:click="continueEdit()">continue</p>
                 </div>
             </div>
         </div>
@@ -89,6 +97,7 @@
                 image: '',
                 posts: [],
                 isLiked: 'is-liked',
+                isEdit: null,
             }
         },
         mounted() {
@@ -106,18 +115,15 @@
             },
         },
         methods: {
-            bgIMG(base64) {
-                return `url('` + base64 + `')`
-            },
             onImageChange(e){
-                // this.image = e.target.files[0];
                 if (e.target.files[0]) {
+                    let data = this
                     if (e.target.files[0].type.slice(0, 6) === 'image/') {
                         var reader = new FileReader();
                         reader.onload = function (e) {
                             e.preventDefault();
                             e.stopPropagation();
-                            $('#images').attr('src', e.target.result);
+                            data.image = e.target.result;
                         }
                         reader.readAsDataURL(e.target.files[0]);
                     }
@@ -125,39 +131,75 @@
             },
             submitPost(e) {
                 e.preventDefault();
-                this.image = $('#images').attr('src');
-                if(this.image != '' || this.content != '') {
-                    if(!this.$store.getters.loggedIn) {
-                        this.$router.push({ name: 'login' })
-                    }
-                    axios.post('/api/post/store', {
-                        user_id: this.user.id,
-                        content: this.content,
-                        image: this.image,
-                    })
-                    .then((response) => {
-                        this.posts.push({
-                            'id':response.data.id,
-                            'name':this.user.name,
-                            'content':this.content,
-                            'path':this.image,
-                            'comments': [],
-                            'likes': [],
-                            'created_at': new Date().toISOString(),
-                            'user_id':this.user.id
-                        })
-                        this.image = ''
-                        this.content = ''
-                        $('#images').attr('src', '');
-                    })
-                    .catch((error) => {
-                        if(error.response) {
-                            console.log(error.response.data.message);
-                        } else {
-                            console.log(error)
-                        }
-                    });
+                if(!this.$store.getters.loggedIn) {
+                    this.$router.push({ name: 'login' })
                 }
+                if(this.isEdit != null) {
+                    if(this.content == '' && this.image == '') {
+                        $(this.$refs.modal).modal('show')
+                    } else {
+                        axios.post('/api/post/'+ this.posts[this.isEdit].id +'/update', {
+                            content: this.content,
+                            image: this.image,
+                        })
+                        .then((response) => {
+                            this.posts[this.isEdit].content = this.content
+                            this.posts[this.isEdit].path = this.image
+                            this.image = ''
+                            this.content = ''
+                            this.isEdit = null
+                        })
+                        .catch((error) => {
+                            return
+                        });
+                    }
+                } else {
+                    if(this.image != '' || this.content != '') {
+                        axios.post('/api/post/store', {
+                            user_id: this.user.id,
+                            content: this.content,
+                            image: this.image,
+                        })
+                        .then((response) => {
+                            this.posts.push({
+                                'id':response.data.id,
+                                'username':this.user.username,
+                                'content':this.content,
+                                'path':this.image,
+                                'comments': [],
+                                'likes': [],
+                                'created_at': new Date().toISOString(),
+                                'user_id':this.user.id,
+                                'image_profile': this.user.image_profile
+                            })
+                            this.image = ''
+                            this.content = ''
+                        })
+                        .catch((error) => {
+                            if(error.response) {
+                                console.log(error.response.data.message);
+                            } else {
+                                console.log(error)
+                            }
+                        });
+                    }
+                }
+            },
+            editPost(index) {
+                this.image = this.posts[index].path
+                this.content = this.posts[index].content
+                this.$refs['create_post'].scrollIntoView(0,0)
+                this.isEdit = index
+            },
+            cancelEdit() {
+                this.image = ''
+                this.content = ''
+                this.isEdit = null
+                $(this.$refs.modal).modal('toggle')
+            },
+            continueEdit() {
+                $(this.$refs.modal).modal('toggle')
+                this.$refs['content'].focus()
             },
             detailsPost(index) {
                 var id = this.posts[index].id;
@@ -253,6 +295,9 @@
                         return value;
                     }
                 }
+            },
+            username(value) {
+                return value.substr(value.length - 2, value.length);
             }
         }
     }

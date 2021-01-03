@@ -24,6 +24,7 @@ Route::prefix('/post')->group(function() {
     Route::get('index', 'Api\PostsController@index');
     Route::get('{id}/details', 'Api\PostsController@show');
     Route::post('store', 'Api\PostsController@store');
+    Route::post('{id}/update', 'Api\PostsController@update');
     Route::post('destroy', 'Api\PostsController@destroy');
 
     Route::post('likes', 'Api\PostsController@likes');
@@ -34,6 +35,9 @@ Route::prefix('/post')->group(function() {
 });
 // user
 Route::get('users', 'API\UserController@index');
+Route::post('follow', 'API\UserController@follow');
+Route::post('unfollow', 'API\UserController@unfollow');
+
 Route::get('user/{username}', 'API\UserController@profile');
 Route::post('user/{id}/profile/update', 'API\UserController@profileUpdate');
 Route::post('login', 'API\UserController@login');

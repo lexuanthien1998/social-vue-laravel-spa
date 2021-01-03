@@ -167,14 +167,60 @@
   .box-followes a {
     text-decoration: none;
   }
-  .box-followes .btn-follow {
+  .box-followes .btn-follow, .box-followes .text {
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 0.5px;
     padding-top: 1px;
     font-size: 12px;
     cursor: pointer;
     font-weight: 900;
     color: #707070;
+  }
+  .box-followes .text {
+    color: #68b0ab;
+  }
+  /* search */
+  .search-box {
+    height: 45px;
+    background: #fff;
+    margin-bottom: 10px;
+  }
+
+  .search-box button {
+    display: flex;
+    justify-content: end;
+    color: #68b0ab;
+    font-weight: 900 !important;
+    font-size: 18px;
+    padding-left: 5px;
+  }
+  
+  .search-box button:hover {
+    color: #ff7e67 !important;
+    background: none;
+  }
+  
+  .search-box input {
+    border:none;
+    outline: none;
+    transition: 0.4s;
+  }
+  .search-box ::placeholder {
+    color: #68b0ab;
+    font-size: 16px;
+  }
+  .box-info-design p {
+    color: #7d7d7d;
+    opacity: 0.8;
+    display: none;
+  }
+  .box-info-design i {
+    color: #ff7e67 !important;
+  }
+  @media only screen and (min-width: 1400px) {
+    .box-info-design p {
+      display: block;
+    }
   }
 
   /* content-page */
@@ -207,7 +253,7 @@
     font-weight: 900;
   }
   .box-content .comment {
-    border: 2px solid #ecf4f3 !important;
+    border: 3px solid #ecf4f3 !important;
   }
   .box-content .comment:focus {
     outline: none !important;
@@ -252,10 +298,10 @@
     cursor: pointer;
   }
   h1.text-img {
-    font-size: 150px;
+    font-size: 35px;
     color: #fff;
     line-height: 1;
-    font-weight: 600;
+    font-weight: 900;
     margin-top: 0px !important;
     text-transform: uppercase;
     font-family: "DomaineDisplayNarrow",Georgia,serif;
@@ -274,7 +320,7 @@
     background-repeat: no-repeat;
     background-position: center center;
     cursor: pointer;
-    padding: 10px;
+    /* padding: 10px; */
   }
   .bg-images {
     width: 100%;
@@ -292,11 +338,11 @@
   }
   /* box post */
   .form-post button {
+    color:#fff;
     background: #68b0ab;
-    padding: 1px 20px !important;
-    color: #fff;
+    text-transform: uppercase;
+    padding: 8px 15px !important;
     font-weight: 700;
-    text-transform: uppercase !important;
     letter-spacing: 1px;
   }
   button:hover {
@@ -396,6 +442,23 @@
     font-weight: 900;
     font-size: 20px !important;
     letter-spacing: 30px;
+  }
+  .modal-dialog .modal-content h4.modal-title{
+    letter-spacing: 10px;
+    text-transform: uppercase;
+    font-weight: 900;
+    font-size: 15px !important;
+  }
+  .modal-custom.modal-dialog .modal-content p {
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-weight: 900;
+    font-size: 12px !important;
+    color: #ff7e67;
+    background: #ecf4f3;
+    border-radius: 5px;
+    padding: 2px 8px;
+    cursor: pointer;
   }
   .modal-dialog .modal-content .modal-header {
     border-bottom: none;
