@@ -2,10 +2,10 @@
     <div>
         <div class="img-main shadow" v-bind:style="{backgroundImage: ImageMain()}">
             <div class="d-flex box-btn">
-                <i class="fab fa-facebook-messenger"><span>Messenger</span></i>
-                <i class="fas fa-user-plus"><span>Follow</span></i>
-                <!-- <i class="fas fa-user-minus"></i> -->
-                <i class="fas fa-feather" data-bs-toggle="modal" data-bs-target="#editProfile"><span>Edit profile</span></i>
+                <div class="d-flex align-items-center"><i class="far fa-envelope-open"></i><span class="d-none d-xl-block">messenger</span></div>
+                <div class="d-flex align-items-center"><i class="fal fa-users-medical"></i><span class="d-none d-xl-block">follow</span></div>
+                <div class="d-flex align-items-center"><i class="far fa-user-check"></i><span class="d-none d-xl-block">unfollow</span></div>
+                <div class="d-flex align-items-center" v-on:click="editProfile()"><i class="fal fa-user-cog"></i><span>editprofile</span></div>
             </div>
         </div>
         <div class="img-profile">
@@ -14,9 +14,8 @@
         <div class="text-center box-name">
             <p>{{user.name}}</p>
         </div>
-
-        <div class="d-flex justify-content-center box-list-profile">
-            <ul class="list-unstyled d-flex">
+        <div class="box-list-profile">
+            <ul class="list-unstyled d-flex justify-content-evenly pl-0">
                 <router-link :to="{name:'posts'}"><li>Posts</li></router-link>
                 <router-link :to="{name:'photos'}"><li>Photos</li></router-link>
                 <router-link :to="{name:'intro'}"><li>Intro</li></router-link>
@@ -28,7 +27,7 @@
             <router-view></router-view>
         </div>
         <!-- Modal -->
-        <div class="modal fade" id="editProfile" ref="hiddenmodal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal fade" ref="modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content px-3">
                     <div class="modal-header pb-0 d-flex justify-content-end">
@@ -172,7 +171,6 @@
                 this.users.image_main = response.data.user.image_main != null ? response.data.user.image_main : ''
                 this.users.image_profile = response.data.user.image_profile != null ? response.data.user.image_profile : ''
                 this.date = response.data.user.birth_date != null ? response.data.user.birth_date : this.date
-                console.log(this.users);
             })
             .catch(error => {
                 this.$router.back()
@@ -219,6 +217,9 @@
                     }
                 }
             },
+            editProfile() {
+                $(this.$refs.modal).modal('show')
+            },
             updateProfile(e) {
                 this.users.birth_date = this.date
                 e.preventDefault();
@@ -230,7 +231,8 @@
                 })
                 .then((response) => {
                     this.$store.dispatch('reloadUser', this.users)
-                    this.$router.go({ name: 'home' })
+                    $(this.$refs.modal).modal('toggle')
+                    this.$router.push({ name: 'home' }).catch(()=>{})
                 })
                 .catch((error) => {
                     if (error.response) {

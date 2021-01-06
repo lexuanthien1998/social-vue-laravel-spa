@@ -23,7 +23,7 @@
     </div>
 
     <div class="box-content shadow-sm" v-for="(post, index) in items" :key="index">
-        <div class="row px-3 py-2 box-post ">
+        <div class="row px-3 py-2 box-post">
             <!-- avatar + name -->
             <div class="col d-flex justify-content-between align-items-center">
                 <!-- <img :src="post.image_profile != '' ? post.image_profile : `/images/avatar.jpg`" style="width:35px; height:35px; vertical-align: middle;" class="rounded-circle img-fluid"> -->
@@ -36,7 +36,7 @@
                     <div class="dropdown-menu dropdown-menu-right mt-1 px-2 shadow">
                         <i v-if="post.user_id == user.id" @click="editPost(index)" class="fas fa-edit dropdown-item"></i>
                         <i v-if="post.user_id == user.id" @click="deletePost(index)" class="fas fa-trash-alt dropdown-item"></i>
-                        <i class="fas fa-link dropdown-item"></i>
+                        <i class="fas fa-link dropdown-item" @click="copyURL(index)"></i>
                     </div>
                 </div>
             </div>
@@ -85,6 +85,30 @@
             </div>
         </div>
     </div>
+    <!-- Modal Create Post -->
+    <div class="modal fade" ref="modalCreatePost" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content px-3">
+                <div class="modal-header pb-0">
+                    <h5 class="modal-title"><i class="fas fa-feather-alt mr-1" style="color:#ff7e67;"></i>create...</h5>
+                    <i class="fas fa-times" v-on:click="closeModal()"></i>
+                </div>
+                <form @submit.prevent="submitPostModal" class="form-post p-3" enctype="multipart/form-data">
+                    <div class="modal-body">
+                        <textarea class="form-control" rows="3" v-model="content_modal"></textarea>
+                        <div v-if="image_modal != ''" class="bg-images mt-3" v-bind:style="{backgroundImage: `url('` + image_modal + `')`}" style="max-height:250px;"></div>
+                    </div>
+                    <div class="modal-footer px-0 d-flex justify-content-between">
+                        <div class="image-upload">
+                            <label for="file-input-modal"><i class="far fa-images"></i></label>
+                            <input id="file-input-modal" v-on:change="onImageChangeModal" type="file"/>
+                        </div>
+                        <button type="submit" class="btn rounded-pill py-2 px-4">Đăng bài</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
 </template>
 
@@ -95,6 +119,8 @@
                 user:this.$store.getters.getUser,
                 content: '',
                 image: '',
+                content_modal: '',
+                image_modal: '',
                 posts: [],
                 isLiked: 'is-liked',
                 isEdit: null,
@@ -102,12 +128,25 @@
         },
         mounted() {
             this.axios
-                .get('/api/post/index')
-                .then(response => {
-                    this.posts = response.data.posts
-                })
-                .catch(response => {
-                });
+            .get('/api/post/index')
+            .then(response => {
+                this.posts = response.data.posts
+            })
+            .catch(response => {
+            });
+
+            // Modal Create Post
+            if(this.$route.query.action == 'create') {
+                $(this.$refs.modalCreatePost).modal('show')
+            };
+        },
+        watch: {
+            // Modal Create Post
+            $route(to) {
+                if(to.query.action == 'create') {
+                    $(this.$refs.modalCreatePost).modal('show')
+                }
+            }
         },
         computed: {
             items() {
@@ -115,6 +154,72 @@
             },
         },
         methods: {
+            onImageChangeModal(e){
+                if (e.target.files[0]) {
+                    let data = this
+                    if (e.target.files[0].type.slice(0, 6) === 'image/') {
+                        var reader = new FileReader();
+                        reader.onload = function (e) {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            data.image_modal = e.target.result;
+                        }
+                        reader.readAsDataURL(e.target.files[0]);
+                    }
+                }
+            },
+            submitPostModal(e) {
+                e.preventDefault();
+                if(this.image_modal != '' || this.content_modal != '') {
+                    if(!this.$store.getters.loggedIn) {
+                        this.$router.push({ name: 'login' })
+                    }
+                    axios.post('/api/post/store', {
+                        user_id: this.user.id,
+                        content: this.content_modal,
+                        image: this.image_modal,
+                    })
+                    .then((response) => {
+                        this.posts.push({
+                            'id':response.data.id,
+                            'username':this.user.username,
+                            'content':this.content_modal,
+                            'path':this.image_modal,
+                            'comments': [],
+                            'likes': [],
+                            'created_at': new Date().toISOString(),
+                            'user_id':this.user.id,
+                            'image_profile': this.user.image_profile
+                        })
+                        this.image_modal = '';
+                        this.content_modal = '';
+                        //detele query router
+                        let query = Object.assign({}, this.$route.query);
+                        delete query.action;
+                        this.$router.replace({ query });
+                        $(this.$refs.modalCreatePost).modal('toggle');
+                    })
+                    .catch((error) => {
+                        //detele query router
+                        let query = Object.assign({}, this.$route.query);
+                        delete query.action;
+                        this.$router.replace({ query });
+                        $(this.$refs.modalCreatePost).modal('toggle');
+                        return
+                    });
+                }
+            },
+            closeModal() {
+                //detele query router
+                let query = Object.assign({}, this.$route.query);
+                delete query.action;
+                this.$router.replace({ query });
+
+                this.image_modal = '';
+                this.content_modal = '';
+                $(this.$refs.modalCreatePost).modal('toggle');
+            },
+            // End Modal Create Post
             onImageChange(e){
                 if (e.target.files[0]) {
                     let data = this
@@ -216,6 +321,14 @@
                 .catch((error) => {
                     return
                 });
+            },
+            copyURL(index) {
+                const path = this.$router.resolve({
+                    name: "post-details",
+                    params: { id: this.posts[index].id }
+                }).href;
+                const fullUrl = window.location.origin + path;
+                navigator.clipboard.writeText(fullUrl);
             },
             likesPost(index) {
                 if(this.$refs.ref_likes[index].classList.contains('is-liked')) {

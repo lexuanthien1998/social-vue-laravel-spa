@@ -17,10 +17,8 @@ import profileIntro from './views/user/profile/profileIntro.vue';
 import profileFollowers from './views/user/profile/profileFollowers.vue';
 import profileFollowing from './views/user/profile/profileFollowing.vue';
 
-
 import HomePage from './views/page/Home.vue';
 import PostDetails from './views/page/Details.vue';
-
 
 const routes = [
     { path: '/', name: 'home', component: HomePage, meta: { requiresAuth: true } },

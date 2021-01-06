@@ -11,6 +11,9 @@ use Intervention\Image\Facades\Image;
 use Validator;
 use Exception;
 use App\Follows;
+use App\Likes;
+use App\Comments;
+use App\ImagesPost;
 
 class UserController extends Controller
 {
@@ -141,9 +144,71 @@ class UserController extends Controller
                 $image_profile = null;
             }
 
+            $arrPosts = [];
+            foreach($user->posts as $post) {
+                $likes = Likes::whereNull('deleted_at')->where('post_id', $post->id)->pluck('user_id');
+                $comments = Comments::whereNull('deleted_at')->where('post_id', $post->id)->select('user_id', 'comment', 'created_at')->get();
+                $image = ImagesPost::where('post_id', $post->id)->first();
+                if($image) {
+                    $image = $image->path;
+                    $imagePath = 'images/posts/'.$post->id.'/';
+                    if(Storage::disk('local')->exists($imagePath.$image)) {
+                        $img = base64_encode(Storage::disk('local')->get($imagePath.$image));
+                        if(pathinfo($image)['extension'] == "pdf") {
+                            $path = 'data:application/pdf;base64,'.$img;
+                        } else {
+                            $path = 'data:image/'.pathinfo($image)['extension'].';base64,'.$img;
+                        }
+                    } else {
+                        $path = "";
+                    }
+                } else {
+                    $path = "";
+                }
+                $arrPosts[] = collect($post)->merge(['path' => $path, 'likes' => $likes, 'comments' => $comments]);
+            }
+
+            $followers = Follows::whereNull('deleted_at')->where('user_id_follow', $user->id)->pluck('user_id');
+            $users_followers = User::whereNull('deleted_at')->whereIn('id', $followers)->get();
+            $arrUsersFoffowers = [];
+            foreach($users_followers as $user_follow) {
+                if($user_follow->image_profile != null) {
+                    $imagePath = 'images/users/'.$user_follow->id.'/image_profile'.'/';
+                    if(Storage::disk('local')->exists($imagePath.$user_follow->image_profile)) {
+                        $img = base64_encode(Storage::disk('local')->get($imagePath.$user_follow->image_profile));
+                        $imageProfile = 'data:image/'.pathinfo($user_follow->image_profile)['extension'].';base64,'.$img;
+                    } else {
+                        $imageProfile = '';
+                    }
+                } else {
+                    $imageProfile = '';
+                }
+                $arrUsersFoffowers[] = collect($user_follow)->merge(['image_profile' => $imageProfile]);                
+            }
+            
+            $following = Follows::whereNull('deleted_at')->where('user_id', $user->id)->pluck('user_id_follow');
+            $users_following = User::whereNull('deleted_at')->whereIn('id', $following)->get();
+            $arrUsersFoffowing = [];
+            foreach($users_following as $user_following) {
+                if($user_following->image_profile != null) {
+                    $imagePath = 'images/users/'.$user_following->id.'/image_profile'.'/';
+                    if(Storage::disk('local')->exists($imagePath.$user_following->image_profile)) {
+                        $img = base64_encode(Storage::disk('local')->get($imagePath.$user_following->image_profile));
+                        $imageProfile = 'data:image/'.pathinfo($user_following->image_profile)['extension'].';base64,'.$img;
+                    } else {
+                        $imageProfile = '';
+                    }
+                } else {
+                    $imageProfile = '';
+                }
+                $arrUsersFoffowing[] = collect($user_following)->merge(['image_profile' => $imageProfile]);                
+            }
+
             return response()->json([
                 'user' => collect($user)->merge(['image_main' => $image_main, 'image_profile' => $image_profile]),
-                'posts' => $user->posts
+                'posts' => $arrPosts,
+                'followers' => $arrUsersFoffowers,
+                'following' => $arrUsersFoffowing,
             ], 200);
         }
         return response()->json(['message' => 'Not Found.'], 404);
