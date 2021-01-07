@@ -86,7 +86,7 @@
         </div>
     </div>
     <!-- Modal Create Post -->
-    <div class="modal fade" ref="modalCreatePost" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal fade box-create-post" ref="modalCreatePost" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content px-3">
                 <div class="modal-header pb-0">
@@ -109,6 +109,97 @@
             </div>
         </div>
     </div>
+    <!-- Modal Show Post -->
+    <div class="modal fade px-3 box-show-post" ref="modalShowPost">
+        <i class="fa fa-times sticky-top position-fixed icon-close" v-on:click="close()"></i>
+        <div class="modal-dialog modal-xl modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <div class="row p-2 p-md-0">
+                            <div class="col-12 col-md-8 px-md-0">
+                                <figure class="image">
+                                    <img :src="info.path">
+                                </figure>
+                            </div>
+                            <div class="col px-md-0 content">
+                                <div class="box-post">
+                                    <!-- avatar + name -->
+                                    <div class="col d-flex justify-content-between align-items-center pr-md-6">
+                                        <div class="d-flex align-items-center">
+                                            <img :src="info.image_profile != '' ? info.image_profile : `/images/avatar.jpg`" style="width:35px; height:35px; vertical-align: middle;" class="img-fluid">
+                                            <div class="name-user-post">{{info.username}}</div>
+                                        </div>
+                                        <div>
+                                            <h5 data-toggle="dropdown"><i class="far fa-ellipsis-h"></i></h5>
+                                            <div class="dropdown-menu dropdown-menu-right">
+                                                <i v-if="info.user_id == user.id" @click="editPost(info_index)" class="fas fa-edit dropdown-item"></i>
+                                                <i v-if="info.user_id == user.id" @click="deletePost(info_index)" class="fas fa-trash-alt dropdown-item"></i>
+                                                <i class="fas fa-link dropdown-item" @click="copyURL(info_index)"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- content + image -->
+                                    <div class="col overflow-scroll pr-md-6 box-comment">
+                                        <p>
+                                            The HTML Certificate documents your knowledge of HTML.
+
+                                            The CSS Certificate documents your knowledge of advanced CSS.
+
+                                            The JavaScript Certificate documents your knowledge of JavaScript and HTML DOM.
+
+                                            The Python Certificate documents your knowledge of Python.
+
+                                            The jQuery Certificate documents your knowledge of jQuery.
+
+                                            The SQL Certificate documents your knowledge of SQL.
+
+                                            The PHP Certificate documents your knowledge of PHP and MySQL.
+
+                                            The XML Certificate documents your knowledge of XML, XML DOM and XSLT.
+
+                                            The Bootstrap Certificate documents your knowledge of the Bootstrap framework.
+                                            The HTML Certificate documents your knowledge of HTML.
+
+                                            The CSS Certificate documents your knowledge of advanced CSS.
+
+                                            The JavaScript Certificate documents your knowledge of JavaScript and HTML DOM.
+
+                                            The Python Certificate documents your knowledge of Python.
+
+                                            The jQuery Certificate documents your knowledge of jQuery.
+
+                                            The SQL Certificate documents your knowledge of SQL.
+
+                                            The PHP Certificate documents your knowledge of PHP and MySQL.
+
+                                            The XML Certificate documents your knowledge of XML, XML DOM and XSLT.
+
+                                            The Bootstrap Certificate documents your knowledge of the Bootstrap framework.
+                                            
+                                        </p>
+                                    </div>
+                                    <div class="col p-md-6 d-flex box-action" v-if="info != ''">
+                                        <i :ref="'ref_likes' + info_index" v-bind:class="[info.likes.includes(user.id) ? isLiked : '']" v-bind:style="{color: info.likes.includes(user.id) ? '#ec524b' : ''}" v-on:click="likesPost(info_index)" class="far fa-heart"></i>
+                                        <i class="far fa-comment px-4"></i>
+                                        <i class="far fa-share"></i>
+                                    </div>
+                                    <!-- input comment -->
+                                    <div class="col d-flex align-items-center py-md-6 pr-md-6" style="position: absolute; bottom: 0;">
+                                        <img :src="`/images/avatar.jpg`" style="width:35px; height:35px; vertical-align: middle; border: 2px solid #ecf4f3;" class="img-fluid mr-2">
+                                        <form @submit.prevent="addComment()" class="w-100">
+                                            <input type="text" ref='ref_comment' placeholder="Add comment..." class="w-100 py-1 px-2 comment">
+                                            <button type="submit" class="btn btn-sm rounded-pill" hidden></button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 </template>
 
@@ -124,6 +215,8 @@
                 posts: [],
                 isLiked: 'is-liked',
                 isEdit: null,
+                info: [],
+                info_index: '',
             }
         },
         mounted() {
@@ -139,6 +232,7 @@
             if(this.$route.query.action == 'create') {
                 $(this.$refs.modalCreatePost).modal('show')
             };
+            // console.log(document.getElementsByClassName('content').offsetHeight)
         },
         watch: {
             // Modal Create Post
@@ -151,9 +245,30 @@
         computed: {
             items() {
                 return this.posts.reverse()
-            },
+            }
         },
         methods: {
+            detailsPost(index) {
+                // var id = this.posts[index].id;
+                // this.$router.push({ name: 'post-details', params: { id } }).catch(()=>{});
+                $(this.$refs.modalShowPost).modal('show');
+                this.info = this.posts[index]
+                this.info_index = index
+
+                console.log($(this.$refs.modalShowPost).height())
+                
+                // let data = this
+                // var i = new Image(); 
+                // i.onload = function(){
+                //     // data.height = i.height
+                // };
+                // i.src = this.info.path; 
+            },
+            close() {
+                $(this.$refs.modalShowPost).modal('toggle');
+                this.info = ''
+                this.info_index = ''
+            },
             onImageChangeModal(e){
                 if (e.target.files[0]) {
                     let data = this
@@ -305,10 +420,6 @@
             continueEdit() {
                 $(this.$refs.modal).modal('toggle')
                 this.$refs['content'].focus()
-            },
-            detailsPost(index) {
-                var id = this.posts[index].id;
-                this.$router.push({ name: 'post-details', params: { id } }).catch(()=>{});
             },
             deletePost(index) {
                 axios

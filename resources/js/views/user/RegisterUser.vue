@@ -1,6 +1,6 @@
 <template>
-    <div class="box-content p-5 shadow bg-white">
-        <form @submit.prevent="register" class="form-register">
+    <div class="box-content p-5 shadow bg-white form-register">
+        <form @submit.prevent="register">
             <h3 class="text-center">Register</h3>
 
             <div class="d-flex">

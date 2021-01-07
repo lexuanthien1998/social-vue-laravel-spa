@@ -245,7 +245,7 @@
     color: #68b0ab;
   }
   .box-action-post .is-liked {
-    color:#ec524b;
+    color:#ec524b !important;
   }
   .box-action-post p {
     cursor: pointer;
@@ -276,7 +276,7 @@
   .box-content .box-post a:hover{
     color: #222;
   }
-  .form-post #images .box-content .post-image figure img{
+  /* .form-post #images .box-content .post-image figure img{
     max-width: 100%;
     height: auto;
     vertical-align: middle;
@@ -290,7 +290,7 @@
     text-align: center;
     justify-content: center;
     border-radius: 20px;
-  }
+  } */
   .box-content .post-image span{
     font-weight: 450 !important;
   }
@@ -372,6 +372,9 @@
   }
 
   /* register */
+  .box-content.form-register {
+    border-radius: 0px !important;
+  }
   .form-register div {
     padding: 10px;
   }
@@ -468,23 +471,23 @@
     padding: 2px 8px;
     cursor: pointer;
   }
-  .modal-dialog .modal-content .modal-header {
+  .box-create-post .modal-dialog .modal-content .modal-header {
     border-bottom: none;
   }
-  .modal-dialog .modal-content .modal-body {
+  .box-create-post .modal-dialog .modal-content .modal-body {
     padding: 0 !important;
   }
-  .modal-dialog .modal-content .modal-body textarea {
+  .box-create-post .modal-dialog .modal-content .modal-body textarea {
     border: 3px solid #ecf4f3;
     border-radius: 20px;
     resize: none;
   }
-  .modal-dialog .modal-content .modal-body figure img{
+  .box-create-post .modal-dialog .modal-content .modal-body figure img{
     max-width: 100%;
     height: auto;
     vertical-align: middle;
   }
-  .modal-dialog .modal-content .modal-body figure {
+  .box-create-post .modal-dialog .modal-content .modal-body figure {
     max-width: 100%;
     max-height: 250px;
     display: flex;
@@ -495,17 +498,17 @@
     border-radius: 15px;
     margin-top: 15px;
   }
-  .modal-dialog .modal-content .modal-footer {
+  .box-create-post .modal-dialog .modal-content .modal-footer {
     border-top: none !important;
   }
-  .modal-dialog .modal-content .modal-footer button {
+  .box-create-post .modal-dialog .modal-content .modal-footer button {
     color:#fff;
     background: #68b0ab;
     font-weight: 900;
     text-transform: uppercase;
     font-size: 15px !important;
   }
-  .modal-dialog .modal-content .modal-footer button:hover {
+  .box-create-post .modal-dialog .modal-content .modal-footer button:hover {
     background: #ff7e67;
   }
 
@@ -681,13 +684,11 @@
   }
   .box-show-images i {
     font-size: 20px;
-    color: #222;
+    color: #68b0ab;
     font-weight: 900;
     position: absolute;
     top: 25px;
-    right: 30px;
-    padding: 5px 7px;
-    background: #68b0ab;
+    right: 25px;
     cursor: pointer;
   }
   .box-show-images img {
@@ -735,4 +736,54 @@
   .box-user i:hover {
     border-radius: 50%;
     background: #ecf4f3;
+  }
+
+  /* box-show-post */
+  .box-show-post i.icon-close {
+    font-size: 20px;
+    color: #68b0ab;
+    font-weight: 900;
+    position: absolute;
+    top: 25px;
+    right: 25px;
+    cursor: pointer;
+  }
+  .box-show-post .modal-content .modal-body , .box-show-post .modal-content .modal-body .container-fluid {
+    padding: 0 !important;
+  }
+  .box-show-post .modal-content{
+    border-radius: 0 !important;
+    max-height: 550px;
+  }
+  .box-show-post figure img{
+    width: 100%;
+    height: auto;
+    vertical-align: middle;
+  }
+  .box-show-post figure {
+    width: 100%;
+    height: auto;
+    max-height: 500px;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    margin: 0 !important;
+  }
+  .box-show-post .content .box-post div .comment {
+    border: 2px solid #ecf4f3;
+  }
+  .box-show-post .content .box-post .box-comment{
+    font-weight: 500 !important;
+    color: #262626;
+    max-height:285px;
+  }
+  .box-show-post .content .box-post .box-action i {
+    font-size: 20px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .box-show-post .content .box-post .box-action {
+    position: absolute; 
+    bottom: 0;
+    padding-bottom: 70px !important;
   }

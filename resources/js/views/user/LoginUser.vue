@@ -1,6 +1,6 @@
 <template>
-    <div class="box-content p-5 shadow bg-white">
-        <form @submit.prevent="login" class="form-register">
+    <div class="box-content p-5 shadow bg-white form-register">
+        <form @submit.prevent="login">
             <h3 class="text-center">Login</h3>
 
             <div class="d-flex">
