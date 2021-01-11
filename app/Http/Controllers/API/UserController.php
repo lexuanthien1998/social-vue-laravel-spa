@@ -151,7 +151,7 @@ class UserController extends Controller
                 $image = ImagesPost::where('post_id', $post->id)->first();
                 if($image) {
                     $image = $image->path;
-                    $imagePath = 'public/images/posts/'.$post->id.'/';
+                    $imagePath = 'public/images/posts/'.$user->id.'/';
                     if(Storage::disk('local')->exists($imagePath.$image)) {
                         $img = base64_encode(Storage::disk('local')->get($imagePath.$image));
                         if(pathinfo($image)['extension'] == "pdf") {
