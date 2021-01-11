@@ -3,10 +3,10 @@
     <div class="box-content shadow-sm bg-white">
         <form @submit.prevent="submitPost" class="form-post px-4 py-2" enctype="multipart/form-data" ref='create_post'>
             <div class="form-group d-flex">
-                <!-- <img :src="user.image_profile != '' ? user.image_profile : `/images/avatar.jpg`" style="width:35px; height:35px; vertical-align: middle;" class="rounded-circle img-fluid mr-3"> -->
-                <div class="mr-3">
+                <!-- <div class="mr-3">
                     <h1 class="text-img" v-bind:style="{backgroundImage: user.image_profile != '' ? `url('` + user.image_profile + `')` : `url('/images/avatar.jpg')` }">{{ user.username | username() }}</h1>
-                </div>
+                </div> -->
+                <img :src="user.image_profile != '' ? user.image_profile : `/images/avatar.jpg`" style="width:35px; height:35px; vertical-align: middle;" class="rounded-circle img-fluid mr-3">
                 <textarea class="form-control" ref="content" rows="2" v-model="content"></textarea>
             </div>
             <div v-if="image != ''" class="bg-images mb-2" v-bind:style="{backgroundImage: `url('` + image + `')`}" style="max-height:250px;"></div>
@@ -26,9 +26,9 @@
         <div class="row px-3 py-2 box-post">
             <!-- avatar + name -->
             <div class="col d-flex justify-content-between align-items-center">
-                <!-- <img :src="post.image_profile != '' ? post.image_profile : `/images/avatar.jpg`" style="width:35px; height:35px; vertical-align: middle;" class="rounded-circle img-fluid"> -->
                 <div class="d-flex align-items-center">
-                    <h1 class="text-img" v-bind:style="{backgroundImage: post.image_profile != '' ? `url('` + post.image_profile + `')` : `url('/images/avatar.jpg')` }">{{ post.username | username() }}</h1>
+                    <img :src="post.image_profile != '' ? post.image_profile : `/images/avatar.jpg`" style="width:35px; height:35px; vertical-align: middle;" class="rounded-circle img-fluid">
+                    <!-- <h1 class="text-img" v-bind:style="{backgroundImage: post.image_profile != '' ? `url('` + post.image_profile + `')` : `url('/images/avatar.jpg')` }">{{ post.username | username() }}</h1> -->
                     <div class="name-user-post">{{post.username}}</div>
                 </div>
                 <div class="dropdown">
@@ -63,8 +63,8 @@
                 </div>
                 <!-- input comment -->
                 <div class="d-flex align-items-center pb-2">
-                    <!-- <img :src="user.image_profile != '' ? user.image_profile : `/images/avatar.jpg`" style="width:35px; height:35px; vertical-align: middle;" class="rounded-circle img-fluid mr-3"> -->
-                    <h1 class="text-img pr-4" v-bind:style="{backgroundImage: user.image_profile != '' ? `url('` + user.image_profile + `')` : `url('/images/avatar.jpg')`}">{{ user.username | username() }}</h1>
+                    <img :src="user.image_profile != '' ? user.image_profile : `/images/avatar.jpg`" style="width:35px; height:35px; vertical-align: middle;" class="rounded-circle img-fluid mr-3">
+                    <!-- <h1 class="text-img pr-4" v-bind:style="{backgroundImage: user.image_profile != '' ? `url('` + user.image_profile + `')` : `url('/images/avatar.jpg')`}">{{ user.username | username() }}</h1> -->
                     <form @submit.prevent="addComment(index)" class="w-100">
                         <input type="text" v-bind:id="'comment' + index" ref='ref_comment' placeholder="Add comment..." class="rounded-pill px-3 py-1 w-100 comment">
                         <button type="submit" class="btn btn-sm rounded-pill" hidden></button>
@@ -74,7 +74,7 @@
         </div>
     </div>
     <!-- Modal -->
-    <div class="modal fade" ref="modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal" ref="modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog modal-sm modal-custom">
             <div class="modal-content text-center py-3">
                 <h4 class="modal-title py-4">itempty!</h4>
@@ -86,7 +86,7 @@
         </div>
     </div>
     <!-- Modal Create Post -->
-    <div class="modal fade box-create-post" ref="modalCreatePost" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal box-create-post" ref="modalCreatePost" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content px-3">
                 <div class="modal-header pb-0">
@@ -110,90 +110,89 @@
         </div>
     </div>
     <!-- Modal Show Post -->
-    <div class="modal fade px-3 box-show-post" ref="modalShowPost">
+    <div class="modal show-post" ref="modalShowPost">
         <i class="fa fa-times sticky-top position-fixed icon-close" v-on:click="close()"></i>
         <div class="modal-dialog modal-xl modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-body">
-                    <div class="container-fluid">
-                        <div class="row p-2 p-md-0">
-                            <div class="col-12 col-md-8 px-md-0">
-                                <figure class="image">
-                                    <img :src="info.path">
-                                </figure>
+            <div class="modal-content box-pc d-none d-lg-block">
+                <div class="modal-body d-flex" v-if="info != ''">
+                    <div class="w-75 box-image" v-bind:style="{backgroundImage: `url('` + info.path + `')`}"></div>
+                    <div class="w-25 overflow-scroll box-info">
+                        <div class="d-flex justify-content-between align-items-center pb-2">
+                            <div class="d-flex align-items-center">
+                                <img :src="info.image_profile != '' ? info.image_profile : `/images/avatar.jpg`" style="width:35px; height:35px; vertical-align: middle;" class="img-fluid border border-2">
+                                <div class="name-user-post">{{info.username}}</div>
                             </div>
-                            <div class="col px-md-0 content">
-                                <div class="box-post">
-                                    <!-- avatar + name -->
-                                    <div class="col d-flex justify-content-between align-items-center pr-md-6">
-                                        <div class="d-flex align-items-center">
-                                            <img :src="info.image_profile != '' ? info.image_profile : `/images/avatar.jpg`" style="width:35px; height:35px; vertical-align: middle;" class="img-fluid">
-                                            <div class="name-user-post">{{info.username}}</div>
-                                        </div>
-                                        <div>
-                                            <h5 data-toggle="dropdown"><i class="far fa-ellipsis-h"></i></h5>
-                                            <div class="dropdown-menu dropdown-menu-right">
-                                                <i v-if="info.user_id == user.id" @click="editPost(info_index)" class="fas fa-edit dropdown-item"></i>
-                                                <i v-if="info.user_id == user.id" @click="deletePost(info_index)" class="fas fa-trash-alt dropdown-item"></i>
-                                                <i class="fas fa-link dropdown-item" @click="copyURL(info_index)"></i>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- content + image -->
-                                    <div class="col overflow-scroll pr-md-6 box-comment">
-                                        <p>
-                                            The HTML Certificate documents your knowledge of HTML.
+                            <i class="far fa-ellipsis-h" data-toggle="dropdown"></i>
+                            <div class="dropdown-menu dropdown-menu-right shadow-sm">
+                                <i v-if="info.user_id == user.id" @click="editPost(info_index)" class="fas fa-edit dropdown-item"></i>
+                                <i v-if="info.user_id == user.id" @click="deletePost(info_index)" class="fas fa-trash-alt dropdown-item"></i>
+                                <i class="fas fa-link dropdown-item" @click="copyURL(info_index)"></i>
+                            </div>
+                        </div>
 
-                                            The CSS Certificate documents your knowledge of advanced CSS.
+                        <p class="m-0 p-content pb-2" v-if="info.content != null">{{info.content}}</p>
+                        
+                        <div class="d-flex pt-2 box-action" v-if="info != ''">
+                            <i :ref="'ref_likes' + info_index" v-bind:class="[info.likes.includes(user.id) ? isLiked : '']" v-bind:style="{color: info.likes.includes(user.id) ? '#ec524b' : ''}" v-on:click="likesPost(info_index)" class="far fa-heart"></i>
+                            <label for="comment"><i class="far fa-comment px-4"></i></label>
+                            <i class="far fa-share"></i>
+                        </div>
 
-                                            The JavaScript Certificate documents your knowledge of JavaScript and HTML DOM.
+                        <div class="d-flex pb-2" v-if="info.likes.length > 0 || info.comments.length > 0">
+                            <p class="m-0 pr-3" v-if="info.likes.length > 0">{{ info.likes.length }} likes</p>
+                            <p class="m-0" v-if="info.comments.length > 0">{{ info.comments.length }} comments</p>
+                        </div>
 
-                                            The Python Certificate documents your knowledge of Python.
+                        <div class="d-flex align-items-center pb-2">
+                            <img :src="user.image_profile != '' ? user.image_profile : `/images/avatar.jpg`" style="width:35px; height:35px; vertical-align: middle;" class="img-fluid mr-2 border border-2">
+                            <form @submit.prevent="modalComment(info_index)" class="w-100">
+                                <input type="text" id="comment" ref="comment" placeholder="Add comment..." class="w-100 border border-2">
+                                <button type="submit" class="btn btn-sm rounded-pill" hidden></button>
+                            </form>
+                        </div>
 
-                                            The jQuery Certificate documents your knowledge of jQuery.
-
-                                            The SQL Certificate documents your knowledge of SQL.
-
-                                            The PHP Certificate documents your knowledge of PHP and MySQL.
-
-                                            The XML Certificate documents your knowledge of XML, XML DOM and XSLT.
-
-                                            The Bootstrap Certificate documents your knowledge of the Bootstrap framework.
-                                            The HTML Certificate documents your knowledge of HTML.
-
-                                            The CSS Certificate documents your knowledge of advanced CSS.
-
-                                            The JavaScript Certificate documents your knowledge of JavaScript and HTML DOM.
-
-                                            The Python Certificate documents your knowledge of Python.
-
-                                            The jQuery Certificate documents your knowledge of jQuery.
-
-                                            The SQL Certificate documents your knowledge of SQL.
-
-                                            The PHP Certificate documents your knowledge of PHP and MySQL.
-
-                                            The XML Certificate documents your knowledge of XML, XML DOM and XSLT.
-
-                                            The Bootstrap Certificate documents your knowledge of the Bootstrap framework.
-                                            
-                                        </p>
-                                    </div>
-                                    <div class="col p-md-6 d-flex box-action" v-if="info != ''">
-                                        <i :ref="'ref_likes' + info_index" v-bind:class="[info.likes.includes(user.id) ? isLiked : '']" v-bind:style="{color: info.likes.includes(user.id) ? '#ec524b' : ''}" v-on:click="likesPost(info_index)" class="far fa-heart"></i>
-                                        <i class="far fa-comment px-4"></i>
-                                        <i class="far fa-share"></i>
-                                    </div>
-                                    <!-- input comment -->
-                                    <div class="col d-flex align-items-center py-md-6 pr-md-6" style="position: absolute; bottom: 0;">
-                                        <img :src="`/images/avatar.jpg`" style="width:35px; height:35px; vertical-align: middle; border: 2px solid #ecf4f3;" class="img-fluid mr-2">
-                                        <form @submit.prevent="addComment()" class="w-100">
-                                            <input type="text" ref='ref_comment' placeholder="Add comment..." class="w-100 py-1 px-2 comment">
-                                            <button type="submit" class="btn btn-sm rounded-pill" hidden></button>
-                                        </form>
-                                    </div>
+                        <div class="box-comment" v-if="info.comments.length > 0">
+                            <div class="d-flex pb-2" v-for="(item, index) in info.comments" :key="index">
+                                <img :src="item.user.image_profile != '' ? `../storage/images/users/`+ item.user.id + `/image_profile/` + item.user.image_profile : `/images/avatar.jpg`" style="width:35px; height:35px; vertical-align: middle;" class="img-fluid border border-2 mt-1">
+                                <div>
+                                    <div class="name-user-post px-2 m-0">{{item.user.username}}</div>
+                                    <p class="px-2">{{item.comment}}</p>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-content box-sp d-block d-lg-none">
+                <div class="modal-body" v-if="info != ''">
+                    <div class="box-image" v-bind:style="{backgroundImage: `url('` + info.path + `')`}"></div>
+                    <div class="box-info px-0" style="background:#fff; height:auto">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="d-flex align-items-center">
+                                <img :src="info.image_profile != '' ? info.image_profile : `/images/avatar.jpg`" style="width:35px; height:35px; vertical-align: middle;" class="img-fluid border border-2">
+                                <div class="name-user-post">{{info.username}}</div>
+                                <i class="far fa-ellipsis-h ml-3" data-toggle="dropdown"></i>
+                                <div class="dropdown-menu dropdown-menu-right shadow-sm">
+                                    <i v-if="info.user_id == user.id" @click="editPost(info_index)" class="fas fa-edit dropdown-item"></i>
+                                    <i v-if="info.user_id == user.id" @click="deletePost(info_index)" class="fas fa-trash-alt dropdown-item"></i>
+                                    <i class="fas fa-link dropdown-item" @click="copyURL(info_index)"></i>
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-center box-action" v-if="info != ''">
+                                <i :ref="'ref_likes' + info_index" v-bind:class="[info.likes.includes(user.id) ? isLiked : '']" v-bind:style="{color: info.likes.includes(user.id) ? '#ec524b' : ''}" v-on:click="likesPost(info_index)" class="far fa-heart"></i>
+                                <i class="far fa-share"></i>
+                            </div>
+                        </div>
+                        <div class="d-flex pt-2" v-if="info.likes.length > 0 || info.comments.length > 0">
+                            <p class="m-0 pr-3" v-if="info.likes.length > 0">{{ info.likes.length }} likes</p>
+                            <p class="m-0" v-if="info.comments.length > 0">{{ info.comments.length }} comments</p>
+                        </div>
+                        <div class="d-flex pt-2 align-items-center">
+                            <img :src="user.image_profile != '' ? user.image_profile : `/images/avatar.jpg`" style="width:35px; height:35px; vertical-align: middle;" class="img-fluid mr-2 border border-2">
+                            <form @submit.prevent="modalComment(info_index)" class="w-100">
+                                <input type="text" id="comment" ref="comment" placeholder="Add comment..." class="w-100 border border-2">
+                                <button type="submit" class="btn btn-sm rounded-pill" hidden></button>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -202,7 +201,7 @@
     </div>
 </div>
 </template>
-
+// :src="`../storage/images/users/`+ user.id + `/image_profile` + user.image_profile "
 <script>
     export default {
         data() {
@@ -232,7 +231,6 @@
             if(this.$route.query.action == 'create') {
                 $(this.$refs.modalCreatePost).modal('show')
             };
-            // console.log(document.getElementsByClassName('content').offsetHeight)
         },
         watch: {
             // Modal Create Post
@@ -249,20 +247,22 @@
         },
         methods: {
             detailsPost(index) {
-                // var id = this.posts[index].id;
-                // this.$router.push({ name: 'post-details', params: { id } }).catch(()=>{});
-                $(this.$refs.modalShowPost).modal('show');
-                this.info = this.posts[index]
-                this.info_index = index
+                if(this.posts[index].path == '') {
+                    var id = this.posts[index].id;
+                    this.$router.push({ name: 'post-details', params: { id } }).catch(()=>{});
+                } else {
+                    $(this.$refs.modalShowPost).modal('show');
+                    this.info = this.posts[index]
+                    this.info_index = index
+                    console.log(this.info)
+                }
 
-                console.log($(this.$refs.modalShowPost).height())
-                
-                // let data = this
                 // var i = new Image(); 
                 // i.onload = function(){
-                //     // data.height = i.height
+                //     // console.log(i.width, i.height)
                 // };
                 // i.src = this.info.path; 
+                // this.matchHeight(i.width,i.height);
             },
             close() {
                 $(this.$refs.modalShowPost).modal('toggle');
@@ -406,6 +406,9 @@
                 }
             },
             editPost(index) {
+                if($(this.$refs.modalShowPost).hasClass('show')) {
+                    $(this.$refs.modalShowPost).modal('toggle');
+                }
                 this.image = this.posts[index].path
                 this.content = this.posts[index].content
                 this.$refs['create_post'].scrollIntoView(0,0)
@@ -428,6 +431,9 @@
                 })
                 .then((response) => {
                     this.posts.splice(index, 1)
+                    if($(this.$refs.modalShowPost).hasClass('show')) {
+                        $(this.$refs.modalShowPost).modal('toggle');
+                    }
                 })
                 .catch((error) => {
                     return
@@ -485,9 +491,37 @@
                         this.posts[index].comments.push(
                             {'comment':this.$refs.ref_comment[index].value,
                             'user_id':this.user.id,
-                            'created_at': new Date().toISOString()}
+                            'created_at': new Date().toISOString(),
+                            'user': response.data
+                            }
                         )
                         this.$refs.ref_comment[index].value = ''
+                    })
+                    .catch((error) => {
+                        return
+                    });
+                }
+            },
+            modalComment(index) {
+                if(this.$refs.comment.value != '') {
+                    if(!this.$store.getters.loggedIn) {
+                        this.$router.push({ name: 'login' })
+                    }
+                    axios
+                    .post('/api/post/comment', {
+                        user_id:this.user.id,
+                        post_id: this.posts[index].id,
+                        comment: this.$refs.comment.value
+                    })
+                    .then((response) => {
+                        this.posts[index].comments.push(
+                            {'comment':this.$refs.comment.value,
+                            'user_id':this.user.id,
+                            'created_at': new Date().toISOString(),
+                            'user': response.data
+                            }
+                        )
+                        this.$refs.comment.value = ''
                     })
                     .catch((error) => {
                         return

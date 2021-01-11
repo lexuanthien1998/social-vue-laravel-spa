@@ -2,59 +2,60 @@
 <div>
     <router-view></router-view>   
     <div class="box-content shadow-sm">
-        <div class="row p-2">
+        <div class="row px-3 py-2 box-post">
             <!-- avatar + name -->
-            <div class="col d-flex">
-                <img src="/images/avatar.jpg" style="max-height:30px;" class="rounded-circle img-fluid">
-                <div class="mt-1 name-user-post">{{post.name}}</div>
-            </div>
-            <!-- action delete + edit -->
-            <div class="col d-flex justify-content-end">
+            <div class="col d-flex justify-content-between align-items-center">
+                <div class="d-flex align-items-center">
+                    <img :src="post.image_profile != '' ? post.image_profile : `/images/avatar.jpg`" style="width:35px; height:35px; vertical-align: middle;" class="rounded-circle img-fluid">
+                    <!-- <h1 class="text-img" v-bind:style="{backgroundImage: post.image_profile != '' ? `url('` + post.image_profile + `')` : `url('/images/avatar.jpg')` }">{{ post.username | username() }}</h1> -->
+                    <div class="name-user-post">{{post.username}}</div>
+                </div>
                 <div class="dropdown">
                     <h5 data-toggle="dropdown"><i class="far fa-ellipsis-h"></i></h5>
-                    <div class="dropdown-menu dropdown-menu-right mt-2">
-                        <a href="" class="dropdown-item">
-                            <i class="fas fa-edit"></i> Edit
-                        </a>
-                        <a @click="deletePost" class="dropdown-item">
-                            <i class="fas fa-trash-alt"></i> Delete
-                        </a>
-                        <a href="" class="dropdown-item">
-                            <i class="fas fa-link"></i> Copy URL Post
-                        </a>
+                    <div class="dropdown-menu dropdown-menu-right mt-1 px-2 shadow">
+                        <i v-if="post.user_id == user.id" @click="editPost()" class="fas fa-edit dropdown-item"></i>
+                        <i v-if="post.user_id == user.id" @click="deletePost()" class="fas fa-trash-alt dropdown-item"></i>
+                        <i class="fas fa-link dropdown-item" @click="copyURL()"></i>
                     </div>
                 </div>
             </div>
+            <!-- action delete + edit -->
             <!-- content + image -->
-            <div class="p-3 post-image">
-                <p>{{post.content}}</p>
-                <figure>
-                    <img v-bind:src="post.path" class="img-fluid" style="border-radius:10px;" alt="">
-                </figure>
+            <div class="px-3 post-image">
+                <span v-if="post.content != null" v-on:click="detailsPost()">{{ post.content }}</span>
+                <div class="my-2 bg-images" v-if="post.path != ''" v-on:click="detailsPost()" v-bind:style="{backgroundImage: `url('` + post.path + `')`}"></div>
             </div>
             <!-- icon like... -->
             <div class="px-3">
-                <div class="d-flex justify-content-around p-1 box-action-post">
+                <div class="d-flex justify-content-between p-2 box-action-post">
                     <div>
-                        <i v-if="post.likes" v-bind:class="[post.likes.includes(user.id) ? isLiked : '']" ref='ref_likes' v-on:click="likesPost" class="far fa-heart"></i>Like
+                        <i v-if="post.likes" v-bind:class="[post.likes.includes(user.id) ? isLiked : '']" ref='ref_likes' v-on:click="likesPost()" class="far fa-heart"></i>
+                        <label for="comment" class="px-2"><i class="far fa-comment"></i></label>
+                        <i class="far fa-share"></i>
                     </div>
-
-                    <label for="comment">
-                        <div><i class="far fa-comment"></i>Comment</div>
-                    </label>
-                    <div><i class="far fa-share"></i>Share</div>
-                </div>
-                <div class="d-flex py-2">
-                    <p v-if="post.likes" class="pr-3">{{ post.likes.length }} lượt thích</p>
-                    <p v-if="post.comments">{{ post.comments.length }} bình luận</p>
+                    <div class="d-flex mt-2" v-if="post.likes || post.comments">
+                        <p v-if="post.likes.length > 0">{{ post.likes.length }} likes</p>
+                        <p v-if="post.comments.length> 0" class="pl-3">{{ post.comments.length }} comments</p>
+                    </div>
                 </div>
                 <!-- input comment -->
-                <div class="d-flex">
-                    <img src="/images/avatar.jpg" style="max-height:30px;" class="rounded-circle img-fluid mr-2">
-                    <form @submit.prevent="addComment" class="w-100">
+                <div class="d-flex align-items-center pb-3">
+                    <img :src="user.image_profile != '' ? user.image_profile : `/images/avatar.jpg`" style="width:35px; height:35px; vertical-align: middle;" class="rounded-circle img-fluid mr-3">
+                    <!-- <h1 class="text-img pr-4" v-bind:style="{backgroundImage: user.image_profile != '' ? `url('` + user.image_profile + `')` : `url('/images/avatar.jpg')`}">{{ user.username | username() }}</h1> -->
+                    <form @submit.prevent="addComment()" class="w-100">
                         <input type="text" id="comment" ref='ref_comment' placeholder="Add comment..." class="rounded-pill px-3 py-1 w-100 comment">
                         <button type="submit" class="btn btn-sm rounded-pill" hidden></button>
                     </form>
+                </div>
+
+                <div class="box-comment" v-if="post.comments">
+                    <div class="d-flex" v-for="(item, index) in post.comments" :key="index">
+                        <img :src="item.user.image_profile != '' ? `../storage/images/users/`+ item.user.id + `/image_profile/` + item.user.image_profile : `/images/avatar.jpg`" style="width:35px; height:35px; vertical-align: middle;" class="mt-1 rounded-pill img-fluid">
+                        <div class="px-3">
+                            <div class="name-user-post m-0">{{item.user.username}}</div>
+                            <p>{{item.comment}}</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -81,28 +82,31 @@
             });
         },
         methods: {
-            deletePost(index) {
+            editPost() {
+                this.$router.push({ name: 'home' })
+            },
+            deletePost() {
                 axios
                 .post('/api/post/destroy', {
-                    id: this.posts[index].id
+                    id: this.post.id
                 })
                 .then((response) => {
-                    this.posts.splice(index, 1)
+                    this.$router.push({ name: 'home' })
                 })
                 .catch((error) => {
                     return
                 });
             },
-            likesPost(index) {
-                if(this.$refs.ref_likes[index].classList.contains('is-liked')) {
+            likesPost() {
+                if(this.$refs.ref_likes.classList.contains('is-liked')) {
                     axios
                     .post('/api/post/dislikes', {
                         user_id:this.user.id,
-                        post_id: this.posts[index].id
+                        post_id: this.post.id
                     })
                     .then((response) => {
-                        this.$refs.ref_likes[index].classList.remove('is-liked')
-                        this.posts[index].likes.splice(1)
+                        this.$refs.ref_likes.classList.remove('is-liked')
+                        this.post.likes.pop()
                     })
                     .catch((error) => {
                         return
@@ -111,35 +115,37 @@
                     axios
                     .post('/api/post/likes', {
                         user_id:this.user.id,
-                        post_id: this.posts[index].id
+                        post_id: this.post.id
                     })
                     .then((response) => {
-                        this.$refs.ref_likes[index].classList.add('is-liked')
-                        this.posts[index].likes.push(this.user.id)
+                        this.$refs.ref_likes.classList.add('is-liked')
+                        this.post.likes.push(this.user.id)
                     })
                     .catch((error) => {
                         return
                     });
                 }
             },
-            addComment(index) {
-                if(this.$refs.ref_comment[index].value != '') {
+            addComment() {
+                if(this.$refs.ref_comment.value != '') {
                     if(!this.$store.getters.loggedIn) {
                         this.$router.push({ name: 'login' })
                     }
                     axios
                     .post('/api/post/comment', {
                         user_id:this.user.id,
-                        post_id: this.posts[index].id,
-                        comment: this.$refs.ref_comment[index].value
+                        post_id: this.post.id,
+                        comment: this.$refs.ref_comment.value
                     })
                     .then((response) => {
-                        this.posts[index].comments.push(
-                            {'comment':this.$refs.ref_comment[index].value,
+                        this.post.comments.push(
+                            {'comment':this.$refs.ref_comment.value,
                             'user_id':this.user.id,
-                            'created_at': new Date().toISOString()}
+                            'created_at': new Date().toISOString(),
+                            'user': response.data
+                            }
                         )
-                        this.$refs.ref_comment[index].value = ''
+                        this.$refs.ref_comment.value = ''
                     })
                     .catch((error) => {
                         return

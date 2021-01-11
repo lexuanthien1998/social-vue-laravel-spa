@@ -24,10 +24,14 @@ class PostsController extends Controller
             $user = User::where('id', $post->user_id)->first();
             $likes = Likes::whereNull('deleted_at')->where('post_id', $post->id)->pluck('user_id');
             $comments = Comments::whereNull('deleted_at')->where('post_id', $post->id)->select('user_id', 'comment', 'created_at')->get();
+            $arrComments = [];
+            foreach($comments as $comment) {
+                $arrComments[] = collect($comment)->merge(['user' => User::find($comment->user_id)]);
+            }
             $image = ImagesPost::where('post_id', $post->id)->first();
             if($image) {
                 $image = $image->path;
-                $imagePath = 'images/posts/'.$post->id.'/';
+                $imagePath = 'public/images/posts/'.$post->user_id.'/';
                 if(Storage::disk('local')->exists($imagePath.$image)) {
                     $img = base64_encode(Storage::disk('local')->get($imagePath.$image));
                     if(pathinfo($image)['extension'] == "pdf") {
@@ -43,7 +47,7 @@ class PostsController extends Controller
             }
 
             if($user->image_profile != null) {
-                $imagePath = 'images/users/'.$user->id.'/image_profile'.'/';
+                $imagePath = 'public/images/users/'.$user->id.'/image_profile'.'/';
                 if(Storage::disk('local')->exists($imagePath.$user->image_profile)) {
                     $img = base64_encode(Storage::disk('local')->get($imagePath.$user->image_profile));
                     $image_profile = 'data:image/'.pathinfo($user->image_profile)['extension'].';base64,'.$img;
@@ -54,7 +58,7 @@ class PostsController extends Controller
                 $image_profile = '';
             }
 
-            $arr[] = collect($post)->merge(['username' => $user->username, 'image_profile' => $image_profile, 'path' => $path, 'likes' => $likes, 'comments' => $comments]);
+            $arr[] = collect($post)->merge(['username' => $user->username, 'image_profile' => $image_profile, 'path' => $path, 'likes' => $likes, 'comments' => $arrComments]);
         }
         return response()->json([
             'success' => true,
@@ -75,7 +79,7 @@ class PostsController extends Controller
             if($request->image != '' || $request->image != null) {
                 //delete
                 $images = ImagesPost::where('post_id', $post->id)->get();
-                $imagePath = 'images/posts/'.$post->id.'/';
+                $imagePath = 'public/images/posts/'.$request->user_id.'/';
                 foreach($images as $image) {
                     if(Storage::disk('local')->exists($imagePath.$image->path)) {
                         Storage::disk('local')->delete($imagePath.$image->path);
@@ -99,7 +103,7 @@ class PostsController extends Controller
                         });
                     } //resize 2048
 
-                    $imagePath = 'images/posts/'.$post->id.'/';
+                    $imagePath = 'public/images/posts/'.$request->user_id.'/';
                     Storage::disk('local')->put($imagePath.$imageName, $img->stream());
                     $images_post->path = $imageName;
                     $images_post->save();
@@ -128,7 +132,7 @@ class PostsController extends Controller
             if($images_post != null) {
                 //delete
                 $images = ImagesPost::where('post_id', $id)->get();
-                $imagePath = 'images/posts/'.$id.'/';
+                $imagePath = 'public/images/posts/'.$post->user_id.'/';
                 foreach($images as $image) {
                     if(Storage::disk('local')->exists($imagePath.$image->path)) {
                         Storage::disk('local')->delete($imagePath.$image->path);
@@ -149,7 +153,7 @@ class PostsController extends Controller
                         });
                     } //resize 2048
     
-                    $imagePath = 'images/posts/'.$id.'/';
+                    $imagePath = 'public/images/posts/'.$post->user_id.'/';
                     Storage::disk('local')->put($imagePath.$imageName, $img->stream());
                     $images_post->path = $imageName;
                     $images_post->save();
@@ -174,7 +178,7 @@ class PostsController extends Controller
                         });
                     } //resize 2048
 
-                    $imagePath = 'images/posts/'.$id.'/';
+                    $imagePath = 'public/images/posts/'.$post->user_id.'/';
                     Storage::disk('local')->put($imagePath.$imageName, $img->stream());
 
                     $images_post->path = $imageName;
@@ -186,7 +190,7 @@ class PostsController extends Controller
             if($images_post != null) {
                 //delete
                 $images = ImagesPost::where('post_id', $id)->get();
-                $imagePath = 'images/posts/'.$id.'/';
+                $imagePath = 'public/images/posts/'.$post->user_id.'/';
                 foreach($images as $image) {
                     if(Storage::disk('local')->exists($imagePath.$image->path)) {
                         Storage::disk('local')->delete($imagePath.$image->path);
@@ -207,10 +211,14 @@ class PostsController extends Controller
             $user = User::where('id', $post->user_id)->first();
             $likes = Likes::whereNull('deleted_at')->where('post_id', $post->id)->pluck('user_id');
             $comments = Comments::whereNull('deleted_at')->where('post_id', $post->id)->select('user_id', 'comment', 'created_at')->get();
+            $arrComments = [];
+            foreach($comments as $comment) {
+                $arrComments[] = collect($comment)->merge(['user' => User::find($comment->user_id)]);
+            }
             $image = ImagesPost::where('post_id', $post->id)->first();
             if($image) {
                 $image = $image->path;
-                $imagePath = 'images/posts/'.$post->id.'/';
+                $imagePath = 'public/images/posts/'.$post->user_id.'/';
                 if(Storage::disk('local')->exists($imagePath.$image)) {
                     $img = base64_encode(Storage::disk('local')->get($imagePath.$image));
                     if(pathinfo($image)['extension'] == "pdf") {
@@ -224,15 +232,34 @@ class PostsController extends Controller
             } else {
                 $path = "";
             }
-            $post = collect($post)->merge(['username' => $user->username, 'path' => $path, 'likes' => $likes, 'comments' => $comments]);
+
+            if($user->image_profile != null) {
+                $imagePath = 'public/images/users/'.$user->id.'/image_profile'.'/';
+                if(Storage::disk('local')->exists($imagePath.$user->image_profile)) {
+                    $img = base64_encode(Storage::disk('local')->get($imagePath.$user->image_profile));
+                    $image_profile = 'data:image/'.pathinfo($user->image_profile)['extension'].';base64,'.$img;
+                } else {
+                    $image_profile = '';
+                }
+            } else {
+                $image_profile = '';
+            }
+
+            $post = collect($post)->merge(['username' => $user->username, 'path' => $path, 'likes' => $likes, 'comments' => $arrComments, 'image_profile' => $image_profile]);
             return response()->json($post, 200);
         }
         return response()->json(['error' => 'not Found'],404);
     }
 
     public function destroy(Request $request, Posts $posts) {
+        $images = ImagesPost::whereNull('deleted_at')->where('post_id', $request->id)->get();
+        $imagePath = 'public/images/posts/'.Posts::find($request->id)->user_id.'/';
+        foreach($images as $image) {
+            if(Storage::disk('local')->exists($imagePath.$image->path)) {
+                Storage::disk('local')->delete($imagePath.$image->path);
+            }
+        }
         Posts::destroy($request->id);
-        // Posts::find($request->id)->forceDelete();
         return response()->json([
             'success' => true,
         ], 200);
@@ -264,7 +291,7 @@ class PostsController extends Controller
             $comment->post_id = $request->post_id;
             $comment->comment = $request->comment;
             $comment->save();
-            return response()->json(200);
+            return response()->json(User::find($request->user_id), 200);
         } else {
             return response()->json(404);
         }

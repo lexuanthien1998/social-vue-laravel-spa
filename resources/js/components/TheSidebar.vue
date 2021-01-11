@@ -4,7 +4,7 @@
             <input type="text" placeholder="Search..." class="w-100">
             <button type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
         </form>
-        <div v-if="users.length > 1" class="shadow-sm my-4 box-content box-followes">
+        <div v-if="users.length >= 1" class="shadow-sm my-4 box-content box-followes">
             <p class="text px-2 pt-2">maybe you...know</p>
             <div v-for="(member, index) in users" :key="index" class="px-2 pb-2 d-flex justify-content-between align-items-center">
                 <div class="d-flex">

@@ -27,9 +27,9 @@
             <router-view></router-view>
         </div>
         <!-- Modal -->
-        <div class="modal fade" ref="modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal" ref="modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
             <div class="modal-dialog">
-                <div class="modal-content px-3">
+                <div class="modal-content px-3 box-edit">
                     <div class="modal-header pb-0 d-flex justify-content-end">
                         <i class="fas fa-times" data-bs-dismiss="modal"></i>
                     </div>

@@ -7,9 +7,9 @@
             <i class="far fa-grin-squint-tears mb-2" style="font-size:50px; color:#ff7e67"></i>
             <p style="font-size:13px; color:#707070; letter-spacing: 1px;">please visit next time. empty photos !</p>
         </div>
-        <div class="modal fade box-show-images" ref="modal">
+        <div class="modal box-show-images" ref="modal">
             <i class="fa fa-times sticky-top position-fixed" v-on:click="closeModal()"></i>
-            <div class="modal-dialog modal modal-dialog-centered">
+            <div class="modal-dialog modal-dialog-centered">
                 <img :src="image">
             </div>
         </div>

@@ -297,8 +297,7 @@
   .box-content .post-image .see-more {
     color: #707070;
     cursor: pointer;
-    text-transform: uppercase;
-    font-size: 12px;
+    font-size: 13px;
     letter-spacing: 0.5px;
   }
   h1.text-img {
@@ -609,6 +608,12 @@
   .box-list-profile ul li:hover {
     color: #ff7e67;
   }
+  .box-edit .modal-header {
+    border-bottom: none !important;
+  }
+  .box-edit .form-post .modal-footer {
+    border-top: none !important;
+  }
   /* modal profile */
   .div-input {
     padding-bottom: 20px;
@@ -693,7 +698,7 @@
   }
   .box-show-images img {
     width:100%; 
-    height:100%;
+    height:auto;
     border: 5px solid #68b0ab;
   }
   /* follow page */
@@ -739,51 +744,92 @@
   }
 
   /* box-show-post */
-  .box-show-post i.icon-close {
-    font-size: 20px;
-    color: #68b0ab;
+  .show-post i.icon-close {
+    font-size: 25px;
+    color: #fff;
     font-weight: 900;
     position: absolute;
     top: 25px;
     right: 25px;
     cursor: pointer;
   }
-  .box-show-post .modal-content .modal-body , .box-show-post .modal-content .modal-body .container-fluid {
+  .show-post .modal-content .modal-body {
     padding: 0 !important;
   }
-  .box-show-post .modal-content{
+  .show-post .modal-content {
     border-radius: 0 !important;
-    max-height: 550px;
   }
-  .box-show-post figure img{
+  .show-post .modal-content .modal-body .box-image {
     width: 100%;
-    height: auto;
-    vertical-align: middle;
-  }
-  .box-show-post figure {
-    width: 100%;
-    height: auto;
-    max-height: 500px;
-    display: flex;
     align-items: center;
     overflow: hidden;
-    margin: 0 !important;
+    text-align: center;
+    justify-content: center;
+    background-size: cover;
+    background-position: center;  
+    background-origin: content-box;
+    position: relative;
   }
-  .box-show-post .content .box-post div .comment {
-    border: 2px solid #ecf4f3;
+  .show-post .modal-content .modal-body .box-info {
+    padding: 10px;
+    font-size: 13px;
+    letter-spacing: 0.5px;
   }
-  .box-show-post .content .box-post .box-comment{
-    font-weight: 500 !important;
-    color: #262626;
-    max-height:285px;
+  .show-post .modal-content .modal-body .box-info input{
+    padding: 6px;
   }
-  .box-show-post .content .box-post .box-action i {
-    font-size: 20px;
-    font-weight: 600;
+  .show-post .modal-content .modal-body .box-info .box-action {
+    border-top: 2px solid #dee2e6;
+  }
+  .show-post .modal-content .modal-body .box-info .p-content, .show-post .modal-content .modal-body .box-info .box-comment {
+    color: #222;
+  }
+  .show-post .modal-content .modal-body .box-info .box-action i{
+    color: #68b0ab;
+    font-weight: 700 !important;
+    font-size: 15px;
     cursor: pointer;
   }
-  .box-show-post .content .box-post .box-action {
-    position: absolute; 
-    bottom: 0;
-    padding-bottom: 70px !important;
+  .show-post .modal-content, .show-post .modal-content.box-pc .modal-body .box-image, .show-post .modal-content .modal-body .box-info {
+    height: 500px;
+  }
+  .show-post .modal-content .modal-body .box-info .dropdown-menu.show {
+    min-width:inherit;
+    display: inline-block;
+    border: none;
+    border-radius: 10px;
+    max-width: 50px;
+  }
+  .show-post .modal-content .modal-body .box-info .dropdown-menu i {
+    color: #68b0ab;
+    font-weight: 600;
+    cursor: pointer;
+    border-radius: 0px;
+    padding: 10px !important;
+    justify-content: center;
+    text-align: center;
+  }
+  .show-post .modal-content .modal-body .box-info .dropdown-menu i:hover {
+    background: #ecf4f3;
+  }
+  .show-post .modal-content .modal-body .box-info .dropdown-menu i:active {
+    color: #ff7e67;
+  }
+
+  /* box-sp */
+  .show-post .modal-content.box-sp .modal-body .box-image {
+    height: auto;
+    min-height: 350px;
+    max-height: 500px;
+  }
+  .show-post .modal-content.box-sp {
+    padding: 15px !important;
+    background: #fff;
+  }
+  .show-post .modal-content.box-sp .modal-body .box-info .box-action {
+    border-top: none !important;
+  }
+  .show-post .modal-content.box-sp .modal-body .box-info .box-action i{
+    font-size: 25px !important;
+    margin-left: 10px;
   }
