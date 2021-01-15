@@ -14,7 +14,6 @@ use App\Follows;
 use App\Likes;
 use App\Comments;
 use App\ImagesPost;
-use App\Contacts;
 
 class UserController extends Controller
 {
@@ -338,15 +337,8 @@ class UserController extends Controller
             return response()->json(['failed' => true], 404);
         }
     }
-    public function messages(Request $request) {
-        if(isset($request->user_id) && isset($request->id)) {
-            $add = new Contacts;
-            $add->from = $request->user_id;
-            $add->to = $request->id;
-            $add->save();
-            return response()->json(['success' => true], 200);   
-        } else {
-            return response()->json(['failed' => true], 404);
-        }
+
+    public function user() {
+        return response()->json(auth()->user());  
     }
 }

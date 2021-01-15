@@ -751,7 +751,7 @@
                 }
             },
             messages() {
-                this.axios.post('/api/add-messages', {
+                this.axios.post('/api/add-contact', {
                     user_id: this.user.id,
                     id: this.users.id,
                 })

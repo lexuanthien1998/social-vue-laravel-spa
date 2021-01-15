@@ -28,6 +28,19 @@
             //     console.log('ok');
             //     this.hanleIncoming(e.message);
             // });
+
+            // this.axios.get('/api/get-users', {
+            //     'headers' : {
+            //         'Accept' : 'application/json',
+            //         'Authorization' : 'Bearer '+this.$store.getters.token,
+            //     }
+            // })
+            // .then((response) => {
+            //     console.log(response.data)
+            // })
+            // .catch((error) => {
+            //     return
+            // });
     
             this.axios
             .get('/api/contacts', {
@@ -37,7 +50,6 @@
             })
             .then((response) => {
                 this.contacts = response.data;
-                console.log(this.contacts)
             });
         },
         methods: {

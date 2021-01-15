@@ -23,7 +23,7 @@
                 <router-view></router-view>
             </div>
 
-            <my-sidebar v-if="loggedIn"></my-sidebar>
+            <my-sidebar v-if="loggedIn && $route.name != 'messages'"></my-sidebar>
         </div>
     </div>
     </v-app>

@@ -18,6 +18,8 @@ use Illuminate\Support\Facades\Route;
 //     return $request->user();
 // });
 
+Route::middleware('auth:api')->get('/user', 'API\UserController@user');
+
 // post
 
 Route::prefix('/post')->group(function() {
@@ -37,7 +39,6 @@ Route::prefix('/post')->group(function() {
 Route::get('users', 'API\UserController@index');
 Route::post('follow', 'API\UserController@follow');
 Route::post('unfollow', 'API\UserController@unfollow');
-Route::post('add-messages', 'API\UserController@messages');
 
 Route::get('user/{username}', 'API\UserController@profile');
 Route::post('user/{id}/profile/update', 'API\UserController@profileUpdate');
@@ -47,6 +48,7 @@ Route::middleware('auth:api')->group(function () {
     Route::post('logout', 'Api\UserController@logout');
 });
 
+Route::post('add-contact', 'API\MessagesController@addContact');
 Route::get('contacts', 'API\MessagesController@contacts');
 Route::get('get-messages-for/{id}', 'API\MessagesController@getMessagesFor');
 Route::post('messages/send', 'API\MessagesController@send');

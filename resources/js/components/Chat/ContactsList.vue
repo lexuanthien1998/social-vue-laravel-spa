@@ -17,12 +17,13 @@
         props: {
             contacts: {
                 type: Array,
-                default: []
+                default: [],
+                required: true
             }
         },
         data() {
             return {
-                selected: this.contacts.length ? this.contacts[0] : null
+                selected: this.contacts.length ? this.contacts[0] : null,
             };
         },
         methods: {
