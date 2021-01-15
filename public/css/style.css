@@ -894,14 +894,14 @@ button:hover {
   padding: 20px;
 }
 .list-messages {
-  background: #ecf4f35d;
+  /* background: #ecf4f35d; */
   width: 100%;
   height: 85%;
-  border-radius: 20px;
   padding: 20px;
   border: 3px solid #ecf4f3;
   letter-spacing: 1px;
   font-size: 13px;
+  margin-top: 10px;
 }
 .list-messages ul {
   padding-left: 0 !important;
@@ -915,14 +915,14 @@ li.selected  {
 li.received {
   text-align: left;
   background: #dddddd;
-  max-width: 200px;
+  max-width: 150px;
   padding: 10px 20px;
 }
 li.sent {
   margin-left: auto;
   text-align: right;
   background: #5eaaa8;
-  max-width: 200px;
+  max-width: 150px;
   padding: 10px 20px;
 }
 .conversation h5 {

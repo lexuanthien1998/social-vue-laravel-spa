@@ -31,9 +31,13 @@
                     return;
                 }
                 axios.post('api/messages/send', {
-                    id: this.user.id,
                     contact_id: this.contact.id,
                     text: text
+                }, {
+                    'headers' : {
+                        'Accept' : 'application/json',
+                        'Authorization' : 'Bearer '+this.$store.getters.token,
+                    }
                 }).then((response) => {
                     this.$emit('new', response.data);
                 })

@@ -1,7 +1,7 @@
 <template>
     <div class="list-messages overflow-scroll" ref="feed">
         <ul v-if="contact">
-            <li v-for="message in messages" class="rounded-pill list-unstyled" :class="`message${message.to == contact.id ? ' sent' : ' received'}`" :key="message.id">
+            <li v-for="message in messages" class="list-unstyled" :class="`message${message.to == contact.id ? ' sent' : ' received'}`" :key="message.id">
                 {{ message.text }}
             </li>
         </ul>

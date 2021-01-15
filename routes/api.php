@@ -18,10 +18,7 @@ use Illuminate\Support\Facades\Route;
 //     return $request->user();
 // });
 
-Route::middleware('auth:api')->get('/user', 'API\UserController@user');
-
 // post
-
 Route::prefix('/post')->group(function() {
     Route::get('index', 'Api\PostsController@index');
     Route::get('{id}/details', 'Api\PostsController@show');
@@ -46,9 +43,9 @@ Route::post('login', 'API\UserController@login');
 Route::post('register', 'API\UserController@register');
 Route::middleware('auth:api')->group(function () {
     Route::post('logout', 'Api\UserController@logout');
+    
+    Route::post('add-contact', 'API\MessagesController@addContact');
+    Route::get('contacts', 'API\MessagesController@contacts');
+    Route::get('get-messages-for/{id}', 'API\MessagesController@getMessagesFor');
+    Route::post('messages/send', 'API\MessagesController@send');
 });
-
-Route::post('add-contact', 'API\MessagesController@addContact');
-Route::get('contacts', 'API\MessagesController@contacts');
-Route::get('get-messages-for/{id}', 'API\MessagesController@getMessagesFor');
-Route::post('messages/send', 'API\MessagesController@send');

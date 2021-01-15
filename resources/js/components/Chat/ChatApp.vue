@@ -23,30 +23,17 @@
             };
         },
         mounted() {
-            // Echo.private('chat.' + this.user.id)
-            // .listen('NewChatMessage', (e) => {
-            //     console.log('ok');
-            //     this.hanleIncoming(e.message);
-            // });
-
-            // this.axios.get('/api/get-users', {
-            //     'headers' : {
-            //         'Accept' : 'application/json',
-            //         'Authorization' : 'Bearer '+this.$store.getters.token,
-            //     }
-            // })
-            // .then((response) => {
-            //     console.log(response.data)
-            // })
-            // .catch((error) => {
-            //     return
-            // });
+            // Echo.private(`messages-${this.user.id}`)
+            //     .listen('NewMessage', (e) => {
+            //         this.hanleIncoming(e.message);
+            //     });
     
             this.axios
             .get('/api/contacts', {
-                params: {
-                    id: this.user.id
-                }
+                'headers' : {
+                    'Accept' : 'application/json',
+                    'Authorization' : 'Bearer '+this.$store.getters.token,
+                } 
             })
             .then((response) => {
                 this.contacts = response.data;
@@ -57,8 +44,9 @@
                 this.updateUnreadCount(contact, true);
                 axios
                 .get(`/api/get-messages-for/${contact.id}`, {
-                    params: {
-                        id: this.user.id
+                    'headers' : {
+                        'Accept' : 'application/json',
+                        'Authorization' : 'Bearer '+this.$store.getters.token,
                     }
                 })
                 .then((response) => {

@@ -752,8 +752,12 @@
             },
             messages() {
                 this.axios.post('/api/add-contact', {
-                    user_id: this.user.id,
                     id: this.users.id,
+                }, {
+                    'headers' : {
+                        'Accept' : 'application/json',
+                        'Authorization' : 'Bearer '+this.$store.getters.token,
+                    } 
                 })
                 .then((response) => {
                     this.$router.push({ name: 'messages' })
