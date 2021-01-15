@@ -5,7 +5,9 @@
         </router-link>
         <div class="box-content rounded-pill shadow-sm" v-on:click="openModal()"><i class="fas fa-feather-alt rounded-circle"></i><span>Post</span></div>
         <div class="box-content rounded-pill shadow-sm"><i class="fas fa-bell rounded-circle"></i><span>Notifications</span></div>
-        <div class="box-content rounded-pill shadow-sm"><i class="fab fa-facebook-messenger rounded-circle"></i><span>Messenger</span></div>
+        <router-link :to="{name: 'messages'}">
+            <div class="box-content rounded-pill shadow-sm"><i class="fab fa-facebook-messenger rounded-circle"></i><span>Messages</span></div>
+        </router-link>
         <router-link :to="{name: 'profile', params: { username: getUser.username } }">
             <div class="box-content rounded-pill shadow-sm" v-bind:class="[$route.name == 'profile' ? 'active' : '']"><i class="fas fa-user rounded-circle"></i><span>Profile</span></div>
         </router-link>

@@ -8,16 +8,16 @@
             <p class="text px-2 pt-2">maybe you...know</p>
             <div v-for="(member, index) in users" :key="index" class="px-2 pb-2 d-flex justify-content-between align-items-center">
                 <div class="d-flex">
-                    <img src="/images/avatar.jpg" class="img-fluid">
-                    <a href="">
+                    <img :src="member.image_profile != null ? `../storage/images/users/`+ member.id + `/image_profile/` + member.image_profile : `/images/user.png`" class="img-fluid">
+                    <router-link :to="{name: 'profile', params: { username: member.username } }">
                         <p class="username">{{member.username}}</p>
-                    </a>
+                    </router-link>
                 </div>
                 <p class="btn-follow" v-on:click="follow(index, $event)">follow</p>
             </div>
         </div>
         <div class="box-info-design">
-            <p>design by <i class="fas fa-heart"></i> lexuanthien</p>
+            <p><i class="fas fa-heart"></i></p>
         </div>
     </div>
 </template>
@@ -32,7 +32,9 @@
         },
         mounted() {
             this.axios
-            .get('/api/users')
+            .get('/api/users', {
+                params: { id: this.user.id }
+            })
             .then(response => {
                 const items = response.data.filter(user => user.id != this.user.id);
                 this.users = items

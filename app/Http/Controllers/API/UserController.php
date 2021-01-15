@@ -14,6 +14,7 @@ use App\Follows;
 use App\Likes;
 use App\Comments;
 use App\ImagesPost;
+use App\Contacts;
 
 class UserController extends Controller
 {
@@ -55,9 +56,12 @@ class UserController extends Controller
                     } else {
                         $image_profile = '';
                     }
+                    $followers = Follows::whereNull('deleted_at')->where('user_id_follow', $user->id)->pluck('user_id');
+                    $following = Follows::whereNull('deleted_at')->where('user_id', $user->id)->pluck('user_id_follow');
+
                     return response()->json([
                         'message' => 'Successful!',
-                        'user' => collect($user)->merge(['image_profile' => $image_profile]),
+                        'user' => collect($user)->merge(['image_profile' => $image_profile, 'followers' => $followers, 'following' => $following]),
                         'access_token' => $token
                     ], 200);
                 } else {
@@ -113,8 +117,13 @@ class UserController extends Controller
     }
 
     public function index(Request $request) {
-        $users = User::inRandomOrder()->limit(25)->get();
-        return response()->json($users, 200);
+        if(isset($request->id)) {
+            $following = Follows::whereNull('deleted_at')->where('user_id', $request->id)->pluck('user_id_follow');
+            $users = User::inRandomOrder()->limit(25)->whereNotIn('id', $following)->get();
+            return response()->json($users, 200);
+        } else {
+            return response()->json(['message' => 'error'], 200);
+        }
     }
 
     public function profile(Request $request, $username) {
@@ -148,6 +157,10 @@ class UserController extends Controller
             foreach($user->posts as $post) {
                 $likes = Likes::whereNull('deleted_at')->where('post_id', $post->id)->pluck('user_id');
                 $comments = Comments::whereNull('deleted_at')->where('post_id', $post->id)->select('user_id', 'comment', 'created_at')->get();
+                $arrComments = [];
+                foreach($comments as $comment) {
+                    $arrComments[] = collect($comment)->merge(['user' => User::find($comment->user_id)]);
+                }
                 $image = ImagesPost::where('post_id', $post->id)->first();
                 if($image) {
                     $image = $image->path;
@@ -165,7 +178,7 @@ class UserController extends Controller
                 } else {
                     $path = "";
                 }
-                $arrPosts[] = collect($post)->merge(['path' => $path, 'likes' => $likes, 'comments' => $comments]);
+                $arrPosts[] = collect($post)->merge(['path' => $path, 'likes' => $likes, 'comments' => $arrComments]);
             }
 
             $followers = Follows::whereNull('deleted_at')->where('user_id_follow', $user->id)->pluck('user_id');
@@ -297,8 +310,12 @@ class UserController extends Controller
             Storage::disk('local')->put($imagePath.$imageName, $img->stream());
             $user->image_profile = $imageName;
         }
+
+        $followers = Follows::whereNull('deleted_at')->where('user_id_follow', $id)->pluck('user_id');
+        $following = Follows::whereNull('deleted_at')->where('user_id', $id)->pluck('user_id_follow');
         
         $user->save();
+        $user = collect($user)->merge(['followers' => $followers, 'following' => $following]);
         return response()->json($user, 200);
     }
 
@@ -321,5 +338,15 @@ class UserController extends Controller
             return response()->json(['failed' => true], 404);
         }
     }
+    public function messages(Request $request) {
+        if(isset($request->user_id) && isset($request->id)) {
+            $add = new Contacts;
+            $add->from = $request->user_id;
+            $add->to = $request->id;
+            $add->save();
+            return response()->json(['success' => true], 200);   
+        } else {
+            return response()->json(['failed' => true], 404);
+        }
+    }
 }
-        

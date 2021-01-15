@@ -11,7 +11,6 @@ import RegisterUser from './views/user/RegisterUser.vue';
 import LogoutUser from './views/user/LogoutUser.vue';
 import Profile from './views/user/Profile.vue';
 
-import profilePosts from './views/user/profile/profilePosts.vue';
 import profilePhotos from './views/user/profile/profilePhotos.vue';
 import profileIntro from './views/user/profile/profileIntro.vue';
 import profileFollowers from './views/user/profile/profileFollowers.vue';
@@ -20,21 +19,24 @@ import profileFollowing from './views/user/profile/profileFollowing.vue';
 import HomePage from './views/page/Home.vue';
 import PostDetails from './views/page/Details.vue';
 
-const routes = [
-    { path: '/', name: 'home', component: HomePage, meta: { requiresAuth: true } },
-    { path: '/:id/details', name: 'post-details', component: PostDetails, meta: { title: 'Details', requiresAuth: true } },
+import ChatApp from './views/page/Chat.vue';
 
-    { path: '/user/:username', name: 'profile', component: Profile, meta: { title: 'Profile page', requiresAuth: true },
+const routes = [
+    { path: '/', name: 'home', component: HomePage, meta: { title: 'ʟ ᴏ ɴ ᴇ ʟ ʏ', requiresAuth: true } },
+    { path: '/:id/details', name: 'post-details', component: PostDetails, meta: { requiresAuth: true } },
+
+    { path: '/messages', name: 'messages', component: ChatApp, meta: { title: 'Messages', requiresAuth: true } },
+    
+    { path: '/user/:username', name: 'profile', component: Profile, meta: { requiresAuth: true },
         children: [
-            { path: 'posts', name: 'posts', component: profilePosts, meta: { title: 'posts' }},
-            { path: 'photos', name: 'photos', component: profilePhotos, meta: { title: 'photos' }},
-            { path: 'intro', name: 'intro', component: profileIntro, meta: { title: 'intro' }},
-            { path: 'followers', name: 'followers', component: profileFollowers, meta: { title: 'followers' }},
-            { path: 'following', name: 'following', component: profileFollowing, meta: { title: 'following' }}
+            { path: 'photos', name: 'photos', component: profilePhotos},
+            { path: 'intro', name: 'intro', component: profileIntro},
+            { path: 'followers', name: 'followers', component: profileFollowers},
+            { path: 'following', name: 'following', component: profileFollowing}
         ]
     },
-    { path: '/login', name: 'login', component: LoginUser, meta: { title: 'Login page', requiresVisitor: true } },
-    { path: '/register', name: 'register', component: RegisterUser, meta: { title: 'Register page', requiresVisitor: true } },
+    { path: '/login', name: 'login', component: LoginUser, meta: { requiresVisitor: true } },
+    { path: '/register', name: 'register', component: RegisterUser, meta: { requiresVisitor: true } },
     { path: '/logout', name: 'logout', component: LogoutUser},
     { path: '/:pathMatch(.*)*', redirect: { name: 'home' } }
     //requiresAuth : Nếu chưa Login thì không được truy cập

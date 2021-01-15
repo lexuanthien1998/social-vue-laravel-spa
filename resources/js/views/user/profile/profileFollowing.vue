@@ -3,7 +3,7 @@
         <div v-for="(item, index) in users" :key="index" class="col-6">
             <div class="d-flex align-items-center justify-content-between box-user p-3">
                 <div class="d-flex align-items-center">
-                    <div class="div-avatar" v-bind:style="{backgroundImage: item.image_profile != '' ? `url('` + item.image_profile + `')` : `url('/images/avatar.jpg')`}"></div>
+                    <div class="div-avatar" v-bind:style="{backgroundImage: item.image_profile != '' ? `url('` + item.image_profile + `')` : `url('/images/user.png')`}"></div>
                     <div class="div-name">{{item.username}}</div>
                 </div>
                 <i class="fas fa-ellipsis-h"></i>

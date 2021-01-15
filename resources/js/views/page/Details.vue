@@ -1,13 +1,13 @@
 <template>
 <div>
-    <router-view></router-view>   
+    <!-- <router-view></router-view>    -->
     <div class="box-content shadow-sm">
         <div class="row px-3 py-2 box-post">
             <!-- avatar + name -->
             <div class="col d-flex justify-content-between align-items-center">
                 <div class="d-flex align-items-center">
-                    <img :src="post.image_profile != '' ? post.image_profile : `/images/avatar.jpg`" style="width:35px; height:35px; vertical-align: middle;" class="rounded-circle img-fluid">
-                    <!-- <h1 class="text-img" v-bind:style="{backgroundImage: post.image_profile != '' ? `url('` + post.image_profile + `')` : `url('/images/avatar.jpg')` }">{{ post.username | username() }}</h1> -->
+                    <img :src="post.image_profile != '' ? post.image_profile : `/images/user.png`" style="width:35px; height:35px; vertical-align: middle;" class="rounded-circle img-fluid">
+                    <!-- <h1 class="text-img" v-bind:style="{backgroundImage: post.image_profile != '' ? `url('` + post.image_profile + `')` : `url('/images/user.png')` }">{{ post.username | username() }}</h1> -->
                     <div class="name-user-post">{{post.username}}</div>
                 </div>
                 <div class="dropdown">
@@ -40,8 +40,8 @@
                 </div>
                 <!-- input comment -->
                 <div class="d-flex align-items-center pb-3">
-                    <img :src="user.image_profile != '' ? user.image_profile : `/images/avatar.jpg`" style="width:35px; height:35px; vertical-align: middle;" class="rounded-circle img-fluid mr-3">
-                    <!-- <h1 class="text-img pr-4" v-bind:style="{backgroundImage: user.image_profile != '' ? `url('` + user.image_profile + `')` : `url('/images/avatar.jpg')`}">{{ user.username | username() }}</h1> -->
+                    <img :src="user.image_profile != '' ? user.image_profile : `/images/user.png`" style="width:35px; height:35px; vertical-align: middle;" class="rounded-circle img-fluid mr-3">
+                    <!-- <h1 class="text-img pr-4" v-bind:style="{backgroundImage: user.image_profile != '' ? `url('` + user.image_profile + `')` : `url('/images/user.png')`}">{{ user.username | username() }}</h1> -->
                     <form @submit.prevent="addComment()" class="w-100">
                         <input type="text" id="comment" ref='ref_comment' placeholder="Add comment..." class="rounded-pill px-3 py-1 w-100 comment">
                         <button type="submit" class="btn btn-sm rounded-pill" hidden></button>
@@ -50,7 +50,7 @@
 
                 <div class="box-comment" v-if="post.comments">
                     <div class="d-flex" v-for="(item, index) in post.comments" :key="index">
-                        <img :src="item.user.image_profile != '' ? `../storage/images/users/`+ item.user.id + `/image_profile/` + item.user.image_profile : `/images/avatar.jpg`" style="width:35px; height:35px; vertical-align: middle;" class="mt-1 rounded-pill img-fluid">
+                        <img :src="item.user.image_profile != null ? `../storage/images/users/`+ item.user.id + `/image_profile/` + item.user.image_profile : `/images/user.png`" style="width:35px; height:35px; vertical-align: middle;" class="mt-1 rounded-pill img-fluid">
                         <div class="px-3">
                             <div class="name-user-post m-0">{{item.user.username}}</div>
                             <p>{{item.comment}}</p>
@@ -64,6 +64,11 @@
 </template>
 <script>
     export default {
+        metaInfo () {
+            return {
+                title: this.post.username != undefined ? '@' + this.post.username + ' | ' + this.post.content : 'ʟ ᴏ ɴ ᴇ ʟ ʏ',
+            }
+        },
         data() {
             return {
                 user:this.$store.getters.getUser,

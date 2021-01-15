@@ -1,12 +1,12 @@
 <template>
-<div>
+<div style="padding-bottom:0.1px;">
     <div class="box-content shadow-sm bg-white">
         <form @submit.prevent="submitPost" class="form-post px-4 py-2" enctype="multipart/form-data" ref='create_post'>
             <div class="form-group d-flex">
-                <!-- <div class="mr-3">
-                    <h1 class="text-img" v-bind:style="{backgroundImage: user.image_profile != '' ? `url('` + user.image_profile + `')` : `url('/images/avatar.jpg')` }">{{ user.username | username() }}</h1>
-                </div> -->
-                <img :src="user.image_profile != '' ? user.image_profile : `/images/avatar.jpg`" style="width:35px; height:35px; vertical-align: middle;" class="rounded-circle img-fluid mr-3">
+                <div class="mr-3">
+                    <h1 class="text-img" v-bind:style="{backgroundImage: user.image_profile != '' ? `url('` + user.image_profile + `')` : `url('/images/user.png')` }">{{ user.username | username() }}</h1>
+                </div>
+                <!-- <img :src="user.image_profile != '' ? user.image_profile : `/images/user.png`" style="width:35px; height:35px; vertical-align: middle;" class="rounded-circle img-fluid mr-3"> -->
                 <textarea class="form-control" ref="content" rows="2" v-model="content"></textarea>
             </div>
             <div v-if="image != ''" class="bg-images mb-2" v-bind:style="{backgroundImage: `url('` + image + `')`}" style="max-height:250px;"></div>
@@ -27,9 +27,11 @@
             <!-- avatar + name -->
             <div class="col d-flex justify-content-between align-items-center">
                 <div class="d-flex align-items-center">
-                    <img :src="post.image_profile != '' ? post.image_profile : `/images/avatar.jpg`" style="width:35px; height:35px; vertical-align: middle;" class="rounded-circle img-fluid">
-                    <!-- <h1 class="text-img" v-bind:style="{backgroundImage: post.image_profile != '' ? `url('` + post.image_profile + `')` : `url('/images/avatar.jpg')` }">{{ post.username | username() }}</h1> -->
-                    <div class="name-user-post">{{post.username}}</div>
+                    <img :src="post.image_profile != '' ? post.image_profile : `/images/user.png`" style="width:35px; height:35px; vertical-align: middle;" class="rounded-circle img-fluid">
+                    <!-- <h1 class="text-img" v-bind:style="{backgroundImage: post.image_profile != '' ? `url('` + post.image_profile + `')` : `url('/images/user.png')` }">{{ post.username | username() }}</h1> -->
+                    <router-link :to="{name: 'profile', params: { username: post.username } }">
+                        <div class="name-user-post">{{post.username}}</div>
+                    </router-link>
                 </div>
                 <div class="dropdown">
                     <h5 data-toggle="dropdown"><i class="far fa-ellipsis-h"></i></h5>
@@ -63,8 +65,8 @@
                 </div>
                 <!-- input comment -->
                 <div class="d-flex align-items-center pb-2">
-                    <img :src="user.image_profile != '' ? user.image_profile : `/images/avatar.jpg`" style="width:35px; height:35px; vertical-align: middle;" class="rounded-circle img-fluid mr-3">
-                    <!-- <h1 class="text-img pr-4" v-bind:style="{backgroundImage: user.image_profile != '' ? `url('` + user.image_profile + `')` : `url('/images/avatar.jpg')`}">{{ user.username | username() }}</h1> -->
+                    <img :src="user.image_profile != '' ? user.image_profile : `/images/user.png`" style="width:35px; height:35px; vertical-align: middle;" class="rounded-circle img-fluid mr-3">
+                    <!-- <h1 class="text-img pr-4" v-bind:style="{backgroundImage: user.image_profile != '' ? `url('` + user.image_profile + `')` : `url('/images/user.png')`}">{{ user.username | username() }}</h1> -->
                     <form @submit.prevent="addComment(index)" class="w-100">
                         <input type="text" v-bind:id="'comment' + index" ref='ref_comment' placeholder="Add comment..." class="rounded-pill px-3 py-1 w-100 comment">
                         <button type="submit" class="btn btn-sm rounded-pill" hidden></button>
@@ -119,7 +121,7 @@
                     <div class="w-25 overflow-scroll box-info">
                         <div class="d-flex justify-content-between align-items-center pb-2">
                             <div class="d-flex align-items-center">
-                                <img :src="info.image_profile != '' ? info.image_profile : `/images/avatar.jpg`" style="width:35px; height:35px; vertical-align: middle;" class="img-fluid border border-2">
+                                <img :src="info.image_profile != '' ? info.image_profile : `/images/user.png`" style="width:35px; height:35px; vertical-align: middle;" :class="info.image_profile != '' ? 'border border-2' : ''" class="img-fluid">
                                 <div class="name-user-post">{{info.username}}</div>
                             </div>
                             <i class="far fa-ellipsis-h" data-toggle="dropdown"></i>
@@ -144,7 +146,7 @@
                         </div>
 
                         <div class="d-flex align-items-center pb-2">
-                            <img :src="user.image_profile != '' ? user.image_profile : `/images/avatar.jpg`" style="width:35px; height:35px; vertical-align: middle;" class="img-fluid mr-2 border border-2">
+                            <img :src="user.image_profile != '' ? user.image_profile : `/images/user.png`" style="width:35px; height:35px; vertical-align: middle;" :class="user.image_profile != '' ? 'border border-2' : ''" class="img-fluid mr-2">
                             <form @submit.prevent="modalComment(info_index)" class="w-100">
                                 <input type="text" id="comment" ref="comment" placeholder="Add comment..." class="w-100 border border-2">
                                 <button type="submit" class="btn btn-sm rounded-pill" hidden></button>
@@ -153,7 +155,7 @@
 
                         <div class="box-comment" v-if="info.comments.length > 0">
                             <div class="d-flex pb-2" v-for="(item, index) in info.comments" :key="index">
-                                <img :src="item.user.image_profile != '' ? `../storage/images/users/`+ item.user.id + `/image_profile/` + item.user.image_profile : `/images/avatar.jpg`" style="width:35px; height:35px; vertical-align: middle;" class="img-fluid border border-2 mt-1">
+                                <img :src="item.user.image_profile != null ? `../storage/images/users/`+ item.user.id + `/image_profile/` + item.user.image_profile : `/images/user.png`" :class="item.user.image_profile != null ? 'border border-2' : ''" style="width:35px; height:35px; vertical-align: middle;" class="img-fluid mt-1">
                                 <div>
                                     <div class="name-user-post px-2 m-0">{{item.user.username}}</div>
                                     <p class="px-2">{{item.comment}}</p>
@@ -169,7 +171,7 @@
                     <div class="box-info px-0" style="background:#fff; height:auto">
                         <div class="d-flex justify-content-between align-items-center">
                             <div class="d-flex align-items-center">
-                                <img :src="info.image_profile != '' ? info.image_profile : `/images/avatar.jpg`" style="width:35px; height:35px; vertical-align: middle;" class="img-fluid border border-2">
+                                <img :src="info.image_profile != '' ? info.image_profile : `/images/user.png`" style="width:35px; height:35px; vertical-align: middle;" :class="info.image_profile != '' ? 'border border-2' : ''" class="img-fluid">
                                 <div class="name-user-post">{{info.username}}</div>
                                 <i class="far fa-ellipsis-h ml-3" data-toggle="dropdown"></i>
                                 <div class="dropdown-menu dropdown-menu-right shadow-sm">
@@ -188,9 +190,9 @@
                             <p class="m-0" v-if="info.comments.length > 0">{{ info.comments.length }} comments</p>
                         </div>
                         <div class="d-flex pt-2 align-items-center">
-                            <img :src="user.image_profile != '' ? user.image_profile : `/images/avatar.jpg`" style="width:35px; height:35px; vertical-align: middle;" class="img-fluid mr-2 border border-2">
-                            <form @submit.prevent="modalComment(info_index)" class="w-100">
-                                <input type="text" id="comment" ref="comment" placeholder="Add comment..." class="w-100 border border-2">
+                            <img :src="user.image_profile != '' ? user.image_profile : `/images/user.png`" style="width:35px; height:35px; vertical-align: middle;" :class="user.image_profile != '' ? 'border border-2' : ''" class="img-fluid mr-2">
+                            <form @submit.prevent="modalCommentSP(info_index)" class="w-100">
+                                <input type="text" id="comment" ref="comment_sp" placeholder="Add comment..." class="w-100 border border-2">
                                 <button type="submit" class="btn btn-sm rounded-pill" hidden></button>
                             </form>
                         </div>
@@ -201,9 +203,13 @@
     </div>
 </div>
 </template>
-// :src="`../storage/images/users/`+ user.id + `/image_profile` + user.image_profile "
 <script>
     export default {
+        metaInfo () {
+            return {
+                title: 'ʟ ᴏ ɴ ᴇ ʟ ʏ',
+            }
+        },
         data() {
             return {
                 user:this.$store.getters.getUser,
@@ -254,7 +260,6 @@
                     $(this.$refs.modalShowPost).modal('show');
                     this.info = this.posts[index]
                     this.info_index = index
-                    console.log(this.info)
                 }
 
                 // var i = new Image(); 
@@ -522,6 +527,32 @@
                             }
                         )
                         this.$refs.comment.value = ''
+                    })
+                    .catch((error) => {
+                        return
+                    });
+                }
+            },
+            modalCommentSP(index) {
+                if(this.$refs.comment_sp.value != '') {
+                    if(!this.$store.getters.loggedIn) {
+                        this.$router.push({ name: 'login' })
+                    }
+                    axios
+                    .post('/api/post/comment', {
+                        user_id:this.user.id,
+                        post_id: this.posts[index].id,
+                        comment: this.$refs.comment_sp.value
+                    })
+                    .then((response) => {
+                        this.posts[index].comments.push(
+                            {'comment':this.$refs.comment_sp.value,
+                            'user_id':this.user.id,
+                            'created_at': new Date().toISOString(),
+                            'user': response.data
+                            }
+                        )
+                        this.$refs.comment_sp.value = ''
                     })
                     .catch((error) => {
                         return
