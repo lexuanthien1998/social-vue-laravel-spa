@@ -20,19 +20,19 @@ use Illuminate\Support\Facades\Route;
 
 // post
 Route::prefix('/post')->group(function() {
-    Route::get('index', 'Api\PostsController@index');
-    Route::get('{id}/details', 'Api\PostsController@show');
-    Route::post('store', 'Api\PostsController@store');
-    Route::post('{id}/update', 'Api\PostsController@update');
-    Route::post('destroy', 'Api\PostsController@destroy');
+    Route::get('index', 'API\PostsController@index');
+    Route::get('{id}/details', 'API\PostsController@show');
+    Route::post('store', 'API\PostsController@store');
+    Route::post('{id}/update', 'API\PostsController@update');
+    Route::post('destroy', 'API\PostsController@destroy');
 
-    Route::post('likes', 'Api\PostsController@likes');
-    Route::post('dislikes', 'Api\PostsController@dislikes');
-    Route::post('comment', 'Api\PostsController@comment');
-    Route::post('del-comment', 'Api\PostsController@deleteComment');
+    Route::post('likes', 'API\PostsController@likes');
+    Route::post('dislikes', 'API\PostsController@dislikes');
+    Route::post('comment', 'API\PostsController@comment');
+    Route::post('del-comment', 'API\PostsController@deleteComment');
 });
 
-Route::post('likes-comment/{id}', 'Api\PostsController@likesComment');
+Route::post('likes-comment/{id}', 'API\PostsController@likesComment');
 
 // user
 Route::get('users', 'API\UserController@index');
@@ -44,7 +44,7 @@ Route::post('user/{id}/profile/update', 'API\UserController@profileUpdate');
 Route::post('login', 'API\UserController@login');
 Route::post('register', 'API\UserController@register');
 Route::middleware('auth:api')->group(function () {
-    Route::post('logout', 'Api\UserController@logout');
+    Route::post('logout', 'API\UserController@logout');
     
     Route::post('add-contact', 'API\MessagesController@addContact');
     Route::get('contacts', 'API\MessagesController@contacts');
