@@ -8,7 +8,10 @@
                 <div class="d-flex align-items-center">
                     <img :src="post.image_profile != '' ? post.image_profile : `/images/user.png`" style="width:35px; height:35px; vertical-align: middle;" class="rounded-circle img-fluid">
                     <!-- <h1 class="text-img" v-bind:style="{backgroundImage: post.image_profile != '' ? `url('` + post.image_profile + `')` : `url('/images/user.png')` }">{{ post.username | username() }}</h1> -->
-                    <div class="name-user-post">{{post.username}}</div>
+                    <div>
+                        <router-link :to="{name: 'profile', params: { username: post.username } }"><div class="name-user-post">{{post.username}}</div></router-link>
+                        <p class="datatime-post">{{dateFormat(post.created_at)}}</p>
+                    </div>
                 </div>
                 <div class="dropdown">
                     <h5 data-toggle="dropdown"><i class="far fa-ellipsis-h"></i></h5>
@@ -53,7 +56,7 @@
                         <img :src="item.user.image_profile != null ? `../storage/images/users/`+ item.user.id + `/image_profile/` + item.user.image_profile : `/images/user.png`" style="width:35px; height:35px; vertical-align: middle;" class="mt-1 rounded-pill img-fluid">
                         <div class="px-3">
                             <div class="name-user-post m-0">{{item.user.username}}</div>
-                            <p>{{item.comment}}</p>
+                            <p v-on:click="likesComment(index)">{{item.comment}}</p>
                         </div>
                     </div>
                 </div>
@@ -63,6 +66,7 @@
 </div>
 </template>
 <script>
+    import moment from 'moment';
     export default {
         metaInfo () {
             return {
@@ -87,6 +91,14 @@
             });
         },
         methods: {
+            dateFormat(date) {
+                moment.locale("vi")
+               if(moment(date).add(5, 'days').format('L') < moment().format('L')) {
+                   return moment(date).format("DD MMM, YYYY");
+               } else {
+                   return moment(date).format("ddd, HH:mm");
+               }
+            },
             editPost() {
                 this.$router.push({ name: 'home' })
             },
@@ -156,6 +168,18 @@
                         return
                     });
                 }
+            },
+            likesComment(index) {
+                axios
+                .post('/api/likes-comment/'+ this.post.comments[index].id, {
+                    id: this.user.id,
+                })
+                .then((response) => {
+                   console.log(response.data)
+                })
+                .catch((error) => {
+                    return
+                });
             }
         }
     }

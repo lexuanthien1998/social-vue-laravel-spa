@@ -14,6 +14,7 @@ use App\Posts;
 use App\ImagesPost;
 use App\Likes;
 use App\Comments;
+use App\CommentInfo;
 
 class PostsController extends Controller
 {
@@ -210,7 +211,7 @@ class PostsController extends Controller
         if($post != null) {
             $user = User::where('id', $post->user_id)->first();
             $likes = Likes::whereNull('deleted_at')->where('post_id', $post->id)->pluck('user_id');
-            $comments = Comments::whereNull('deleted_at')->where('post_id', $post->id)->select('user_id', 'comment', 'created_at')->get();
+            $comments = Comments::whereNull('deleted_at')->where('post_id', $post->id)->select('id','user_id', 'comment', 'created_at')->get();
             $arrComments = [];
             foreach($comments as $comment) {
                 $arrComments[] = collect($comment)->merge(['user' => User::find($comment->user_id)]);
@@ -304,5 +305,17 @@ class PostsController extends Controller
             return response()->json(404);
         }
     }
-
+    public function likesComment(Request $request, $id) {
+        $data = CommentInfo::whereNull('deleted_at')->where('comment_id', $id)->where('likes', $request->id)->first();
+        if($data) {
+            $data->forceDelete();
+            return response()->json(['dislikes' => true], 200);
+        } else {
+            CommentInfo::whereNull('deleted_at')->insert([
+                'comment_id' => $id,
+                'likes' => $request->id
+            ]);
+            return response()->json(['likes' => true], 200);
+        }
+    }
 }

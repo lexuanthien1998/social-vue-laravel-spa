@@ -1,13 +1,13 @@
 <template>
     <div class="d-none d-lg-block sticky-top box-main-right">
         <form @submit.prevent="Search" class="rounded-pill shadow-sm px-4 w-100 d-flex align-items-center search-box">
-            <input type="text" placeholder="Search..." class="w-100">
+            <input type="text" placeholder="your keywords." class="w-100">
             <button type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
         </form>
         <div v-if="users.length >= 1" class="shadow-sm my-4 box-content box-followes">
-            <p class="text px-2 pt-2">maybe you...know</p>
-            <div v-for="(member, index) in users" :key="index" class="px-2 pb-2 d-flex justify-content-between align-items-center">
-                <div class="d-flex">
+            <p class="text px-2">maybe you...know !</p>
+            <div v-for="(member, index) in users" :key="index" class="p-2 d-flex justify-content-between align-items-center">
+                <div class="d-flex align-items-center">
                     <img :src="member.image_profile != null ? `../storage/images/users/`+ member.id + `/image_profile/` + member.image_profile : `/images/user.png`" class="img-fluid">
                     <router-link :to="{name: 'profile', params: { username: member.username } }">
                         <p class="username">{{member.username}}</p>

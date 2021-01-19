@@ -14,9 +14,6 @@ import App from './components/App';
 
 //Khai báo các Components
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
-Vue.component('my-menu-pc', require('./components/App/AppMenuPC.vue').default);
-Vue.component('my-menu-sp', require('./components/App/AppMenuSP.vue').default);
-Vue.component('my-menu-tl', require('./components/App/AppMenuTL.vue').default);
 Vue.component('my-sidebar', require('./components/TheSidebar.vue').default);
 Vue.component('my-heading', require('./components/TheHeading.vue').default);
 Vue.component('chat-app', require('./components/Chat/ChatApp.vue').default);

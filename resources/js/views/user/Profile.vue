@@ -50,8 +50,11 @@
                         <!-- avatar + name -->
                         <div class="col d-flex justify-content-between align-items-center">
                             <div class="d-flex align-items-center">
-                                <img :src="users.image_profile != '' ? users.image_profile : `/images/user.png`" style="width:35px; height:35px; vertical-align: middle;" class="rounded-circle img-fluid mr-3">
-                                <div class="name-user-post">{{users.username}}</div>
+                                <img :src="users.image_profile != '' ? users.image_profile : `/images/user.png`" style="width:35px; height:35px; vertical-align: middle;" class="rounded-circle img-fluid">
+                                <div>
+                                    <div class="name-user-post">{{users.username}}</div>
+                                    <p class="datatime-post">{{dateFormat(post.created_at)}}</p>
+                                </div>
                             </div>
                             <div class="dropdown">
                                 <h5 data-toggle="dropdown"><i class="far fa-ellipsis-h"></i></h5>
@@ -117,7 +120,10 @@
                                     <div class="d-flex justify-content-between align-items-center pb-2">
                                         <div class="d-flex align-items-center">
                                             <img :src="users.image_profile != '' ? users.image_profile : `/images/user.png`" style="width:35px; height:35px; vertical-align: middle;" :class="users.image_profile != '' ? 'border border-2' : ''" class="img-fluid">
-                                            <div class="name-user-post">{{users.username}}</div>
+                                            <div>
+                                                <div class="name-user-post">{{users.username}}</div>
+                                                <p class="datatime-post">{{dateFormat(info.created_at)}}</p>
+                                            </div>
                                         </div>
                                         <i class="far fa-ellipsis-h" data-toggle="dropdown"></i>
                                         <div class="dropdown-menu dropdown-menu-right shadow-sm">
@@ -167,7 +173,10 @@
                                     <div class="d-flex justify-content-between align-items-center">
                                         <div class="d-flex align-items-center">
                                             <img :src="users.image_profile != '' ? users.image_profile : `/images/user.png`" style="width:35px; height:35px; vertical-align: middle;" :class="users.image_profile != '' ? 'border border-2' : ''" class="img-fluid">
-                                            <div class="name-user-post">{{users.username}}</div>
+                                            <div>
+                                                <div class="name-user-post">{{users.username}}</div>
+                                                <p class="datatime-post">{{dateFormat(info.created_at)}}</p>
+                                            </div>
                                             <i class="far fa-ellipsis-h ml-3" data-toggle="dropdown"></i>
                                             <div class="dropdown-menu dropdown-menu-right shadow-sm">
                                                 <i v-if="info.user_id == user.id" @click="editPost(info_index)" class="fas fa-edit dropdown-item"></i>
@@ -295,6 +304,7 @@
 </template>
 
 <script>
+    import moment from 'moment';
     export default {
         metaInfo () {
             return {
@@ -395,6 +405,14 @@
             }
         },
         methods: {
+            dateFormat(date) {
+                moment.locale("vi")
+               if(moment(date).add(5, 'days').format('L') < moment().format('L')) {
+                   return moment(date).format("DD MMM, YYYY");
+               } else {
+                   return moment(date).format("ddd, HH:mm");
+               }
+            },
             postsPage() {
                 this.active = true
                 this.$router.push({name: 'profile', params: { username : this.users.username } });

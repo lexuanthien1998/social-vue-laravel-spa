@@ -30,8 +30,10 @@ Route::prefix('/post')->group(function() {
     Route::post('dislikes', 'Api\PostsController@dislikes');
     Route::post('comment', 'Api\PostsController@comment');
     Route::post('del-comment', 'Api\PostsController@deleteComment');
-
 });
+
+Route::post('likes-comment/{id}', 'Api\PostsController@likesComment');
+
 // user
 Route::get('users', 'API\UserController@index');
 Route::post('follow', 'API\UserController@follow');

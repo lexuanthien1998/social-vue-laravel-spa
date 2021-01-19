@@ -3,10 +3,10 @@
     <div class="box-content shadow-sm bg-white">
         <form @submit.prevent="submitPost" class="form-post px-4 py-2" enctype="multipart/form-data" ref='create_post'>
             <div class="form-group d-flex">
-                <div class="mr-3">
+                <!-- <div class="mr-3">
                     <h1 class="text-img" v-bind:style="{backgroundImage: user.image_profile != '' ? `url('` + user.image_profile + `')` : `url('/images/user.png')` }">{{ user.username | username() }}</h1>
-                </div>
-                <!-- <img :src="user.image_profile != '' ? user.image_profile : `/images/user.png`" style="width:35px; height:35px; vertical-align: middle;" class="rounded-circle img-fluid mr-3"> -->
+                </div> -->
+                <img :src="user.image_profile != '' ? user.image_profile : `/images/user.png`" style="width:35px; height:35px; vertical-align: middle;" class="rounded-circle img-fluid mr-3">
                 <textarea class="form-control" ref="content" rows="2" v-model="content"></textarea>
             </div>
             <div v-if="image != ''" class="bg-images mb-2" v-bind:style="{backgroundImage: `url('` + image + `')`}" style="max-height:250px;"></div>
@@ -29,12 +29,13 @@
                 <div class="d-flex align-items-center">
                     <img :src="post.image_profile != '' ? post.image_profile : `/images/user.png`" style="width:35px; height:35px; vertical-align: middle;" class="rounded-circle img-fluid">
                     <!-- <h1 class="text-img" v-bind:style="{backgroundImage: post.image_profile != '' ? `url('` + post.image_profile + `')` : `url('/images/user.png')` }">{{ post.username | username() }}</h1> -->
-                    <router-link :to="{name: 'profile', params: { username: post.username } }">
-                        <div class="name-user-post">{{post.username}}</div>
-                    </router-link>
+                    <div>
+                        <router-link :to="{name: 'profile', params: { username: post.username } }"><div class="name-user-post">{{post.username}}</div></router-link>
+                        <p class="datatime-post">{{dateFormat(post.created_at)}}</p>
+                    </div>
                 </div>
                 <div class="dropdown">
-                    <h5 data-toggle="dropdown"><i class="far fa-ellipsis-h"></i></h5>
+                    <i class="far fa-ellipsis-h" data-toggle="dropdown"></i>
                     <div class="dropdown-menu dropdown-menu-right mt-1 px-2 shadow">
                         <i v-if="post.user_id == user.id" @click="editPost(index)" class="fas fa-edit dropdown-item"></i>
                         <i v-if="post.user_id == user.id" @click="deletePost(index)" class="fas fa-trash-alt dropdown-item"></i>
@@ -89,7 +90,7 @@
     </div>
     <!-- Modal Create Post -->
     <div class="modal box-create-post" ref="modalCreatePost" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
+        <div class="modal-dialog modal-lg modal-custom">
             <div class="modal-content px-3">
                 <div class="modal-header pb-0">
                     <h5 class="modal-title"><i class="fas fa-feather-alt mr-1" style="color:#ff7e67;"></i>create...</h5>
@@ -122,7 +123,10 @@
                         <div class="d-flex justify-content-between align-items-center pb-2">
                             <div class="d-flex align-items-center">
                                 <img :src="info.image_profile != '' ? info.image_profile : `/images/user.png`" style="width:35px; height:35px; vertical-align: middle;" :class="info.image_profile != '' ? 'border border-2' : ''" class="img-fluid">
-                                <div class="name-user-post">{{info.username}}</div>
+                                <div>
+                                    <div class="name-user-post">{{info.username}}</div>
+                                    <p class="datatime-post">{{dateFormat(info.created_at)}}</p>
+                                </div>
                             </div>
                             <i class="far fa-ellipsis-h" data-toggle="dropdown"></i>
                             <div class="dropdown-menu dropdown-menu-right shadow-sm">
@@ -172,7 +176,10 @@
                         <div class="d-flex justify-content-between align-items-center">
                             <div class="d-flex align-items-center">
                                 <img :src="info.image_profile != '' ? info.image_profile : `/images/user.png`" style="width:35px; height:35px; vertical-align: middle;" :class="info.image_profile != '' ? 'border border-2' : ''" class="img-fluid">
-                                <div class="name-user-post">{{info.username}}</div>
+                                <div>
+                                    <div class="name-user-post">{{info.username}}</div>
+                                    <p class="datatime-post">{{dateFormat(info.created_at)}}</p>
+                                </div>
                                 <i class="far fa-ellipsis-h ml-3" data-toggle="dropdown"></i>
                                 <div class="dropdown-menu dropdown-menu-right shadow-sm">
                                     <i v-if="info.user_id == user.id" @click="editPost(info_index)" class="fas fa-edit dropdown-item"></i>
@@ -204,6 +211,7 @@
 </div>
 </template>
 <script>
+    import moment from 'moment';
     export default {
         metaInfo () {
             return {
@@ -252,6 +260,14 @@
             }
         },
         methods: {
+            dateFormat(date) {
+                moment.locale("vi")
+               if(moment(date).add(5, 'days').format('L') < moment().format('L')) {
+                   return moment(date).format("DD MMM, YYYY");
+               } else {
+                   return moment(date).format("ddd, HH:mm");
+               }
+            },
             detailsPost(index) {
                 if(this.posts[index].path == '') {
                     var id = this.posts[index].id;
