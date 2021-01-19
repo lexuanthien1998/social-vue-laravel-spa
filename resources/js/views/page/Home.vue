@@ -16,7 +16,7 @@
                     <input id="file-input" v-on:change="onImageChange" type="file"/>
                 </div>
                 <div>
-                    <button type="submit" class="btn btn-sm rounded-pill">Đăng bài</button>
+                    <button type="submit" class="btn rounded-pill">post</button>
                 </div>
             </div>
         </form>
@@ -106,7 +106,7 @@
                             <label for="file-input-modal"><i class="far fa-images"></i></label>
                             <input id="file-input-modal" v-on:change="onImageChangeModal" type="file"/>
                         </div>
-                        <button type="submit" class="btn rounded-pill py-2 px-4">Đăng bài</button>
+                        <button type="submit" class="btn rounded-pill py-2 px-4">post</button>
                     </div>
                 </form>
             </div>
