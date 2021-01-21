@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'private_key' => env('PASSPORT_PRIVATE_KEY', 'MIIJKQIBAAKCAgEAzldJ1/HjKH6xcgMsTvddHTF1XIbzJ1LbhrMpiVwa38J4Aazy
+    'private_key' => 'PASSPORT_PRIVATE_KEY', 'MIIJKQIBAAKCAgEAzldJ1/HjKH6xcgMsTvddHTF1XIbzJ1LbhrMpiVwa38J4Aazy
     /QJTgSYW4SdV9pr1F0dOl2yYNoBJNlhDpt97/B9xBjf7MNaPKKplBapUpp5EjPAW
     7PmR7MLGubRMkF2qxcBrXUrtx/GpWE7e14pIR2S49yW/UTCKzgF/coQBd/VOZQfA
     83dM6znzlUh66hisr0l0SZK/hX9bvE/sEEIDdtW2rgK+5fYkoUujctcMZujOmn4T
@@ -61,9 +61,9 @@ return [
     9ncx4q5xkx8TyqjrfNxIMuXOX87m3firvZW5Yl3P2o2vIyvWkZye60beiYBd/DNb
     K93McmUBwMol+lggD0VWb5lNBJ7A83YfHTynz/VUbFmah+BLv+W9LJRVkeFXlr8n
     FFPMXgW5fmq5N/JTjFgzWiExRtGbeFwJ1wtzvguY1vWc5Z8hVpC/YXi1YYbPKem9
-    fZrnqtFWHRang5RwPYL1Z934SJsOZyxIWl5dunoVHR1X2HqbQPZoBa4YS5mq'),
+    fZrnqtFWHRang5RwPYL1Z934SJsOZyxIWl5dunoVHR1X2HqbQPZoBa4YS5mq',
 
-    'public_key' => env('PASSPORT_PUBLIC_KEY', 'MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAzldJ1/HjKH6xcgMsTvdd
+    'public_key' => 'MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAzldJ1/HjKH6xcgMsTvdd
     HTF1XIbzJ1LbhrMpiVwa38J4Aazy/QJTgSYW4SdV9pr1F0dOl2yYNoBJNlhDpt97
     /B9xBjf7MNaPKKplBapUpp5EjPAW7PmR7MLGubRMkF2qxcBrXUrtx/GpWE7e14pI
     R2S49yW/UTCKzgF/coQBd/VOZQfA83dM6znzlUh66hisr0l0SZK/hX9bvE/sEEID
@@ -74,7 +74,7 @@ return [
     kVqmCASmIwSAGYwJMSvHLb2JOXvUKLKDMCD8fjRJjGVEmoQm32oh8ggmuNDw2rty
     SfzKw4Nl0LCHMcwf0JGLdNbfG/Y3e29eQmu0VWn+ECMLXDpDGG3BtoDmoZX0JNhi
     35CtiCZmgRqHPREeQPRB7A9AXUNCwvOWk/cHLLBLL/Zq7EmaMBtgz8bKi4M2l/gk
-    w6S9wtalv8Hw1CuyH7UYdcUCAwEAAQ=='),
+    w6S9wtalv8Hw1CuyH7UYdcUCAwEAAQ==',
 
     /*
     |--------------------------------------------------------------------------
