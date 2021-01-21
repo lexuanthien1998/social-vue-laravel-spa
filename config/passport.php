@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'private_key' => 'PASSPORT_PRIVATE_KEY', 'MIIJKQIBAAKCAgEAzldJ1/HjKH6xcgMsTvddHTF1XIbzJ1LbhrMpiVwa38J4Aazy
+    'private_key' => 'MIIJKQIBAAKCAgEAzldJ1/HjKH6xcgMsTvddHTF1XIbzJ1LbhrMpiVwa38J4Aazy
     /QJTgSYW4SdV9pr1F0dOl2yYNoBJNlhDpt97/B9xBjf7MNaPKKplBapUpp5EjPAW
     7PmR7MLGubRMkF2qxcBrXUrtx/GpWE7e14pIR2S49yW/UTCKzgF/coQBd/VOZQfA
     83dM6znzlUh66hisr0l0SZK/hX9bvE/sEEIDdtW2rgK+5fYkoUujctcMZujOmn4T
