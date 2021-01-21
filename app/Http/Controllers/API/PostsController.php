@@ -14,7 +14,6 @@ use App\Posts;
 use App\ImagesPost;
 use App\Likes;
 use App\Comments;
-use App\CommentInfo;
 
 class PostsController extends Controller
 {
