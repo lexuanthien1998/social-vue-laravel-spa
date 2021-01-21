@@ -1,28 +1,20 @@
 <template>
-    <div class="box-content p-5 shadow bg-white form-register">
+    <div class="box-content p-5 shadow text-center form-login">
         <form @submit.prevent="login">
-            <h3 class="text-center">Login</h3>
-
-            <div class="d-flex">
+            <h3 >Login</h3>
+            <div class="d-flex align-items-center rounded-pill box-input">
                 <i class="fas fa-envelope-open"></i>
-                <input type="email" placeholder="Email..." v-model="email" class="rounded-pill px-3 py-1 w-100">
+                <input type="email" placeholder="your email." v-model="email">
             </div>
-
-            <div class="d-flex">
+            <div class="d-flex align-items-center rounded-pill box-input">
                 <i class="fas fa-key"></i>
-                <input type="password" placeholder="Password..." v-model="password" class="rounded-pill px-3 py-1 w-100">
+                <input type="password" placeholder="your password." v-model="password">
             </div>
-
-            <div class="px-2" v-if="message != ''">
-                <p class="text-message rounded-pill">{{message}}</p>
-            </div>
-
-            <div class="text-center">
-                <button type="submit" class="btn rounded-pill">Login</button>
-            </div>
-            <div class="text-center box-next-page">
+            <p v-if="message != ''" class="text-message rounded-pill">{{message}}</p>
+            <button type="submit" class="w-100 btn rounded-pill">Login</button>
+            <div>
                 <router-link :to="{name: 'register'}">or... Create new account</router-link>
-            </div>      
+            </div>
         </form>
     </div>
 </template>
