@@ -247,9 +247,9 @@ body {
   border-top: 2px solid #ecf4f3;
   color: #68b0ab;
 }
-.box-action-post .is-liked {
+.is-liked {
   color:#ef4f4f !important;
-  font-weight: 900;
+  font-weight: 900 !important;
 }
 .box-action-post p {
   cursor: pointer;
@@ -259,6 +259,7 @@ body {
 }
 .box-content .comment {
   border: 2px solid #ecf4f3 !important;
+  letter-spacing: 1px !important;
 }
 .box-content .comment:focus {
   outline: none !important;
@@ -771,7 +772,6 @@ button:hover {
 }
 .show-post .modal-content .modal-body .box-info .box-action i{
   color: #68b0ab;
-  font-weight: 700 !important;
   font-size: 20px;
   cursor: pointer;
 }
@@ -815,7 +815,7 @@ button:hover {
   border-top: none !important;
 }
 .show-post .modal-content.box-sp .modal-body .box-info .box-action i{
-  font-size: 25px !important;
+  font-size: 20px !important;
   margin-left: 10px;
 }
 
@@ -913,4 +913,30 @@ li.sent {
   text-transform: uppercase;
   color: #68b0ab;
   font-weight: 700;
+}
+.box-post .box-comment i:hover {
+  background: none;
+  color: #ff7e67;
+  font-weight: 700;
+}
+.box-post .box-comment .info-cm, .box-info .box-comment .info-cm {
+  color: grey;
+  display: flex;
+  font-size: 11px;
+}
+.box-post .box-comment .info-cm p{
+  margin: 0px !important;
+  padding-top: 5px;
+  padding-right: 20px;
+}
+.box-post .box-comment .info-cm p.reply, .box-info .box-comment .info-cm p.reply{
+  cursor: pointer;
+}
+.box-post .box-comment .info-cm p.reply:hover, .box-info .box-comment .info-cm p.reply:hover{
+  color: #ff7e67;
+}
+.box-info .box-comment .info-cm p{
+  margin: 0px !important;
+  padding-top: 5px;
+  padding-right: 10px;
 }

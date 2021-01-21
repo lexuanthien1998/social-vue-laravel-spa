@@ -52,11 +52,41 @@
                 </div>
 
                 <div class="box-comment" v-if="post.comments">
-                    <div class="d-flex" v-for="(item, index) in post.comments" :key="index">
-                        <img :src="item.user.image_profile != null ? `../storage/images/users/`+ item.user.id + `/image_profile/` + item.user.image_profile : `/images/user.png`" style="width:35px; height:35px; vertical-align: middle;" class="mt-1 rounded-pill img-fluid">
-                        <div class="px-3">
-                            <div class="name-user-post m-0">{{item.user.username}}</div>
-                            <p v-on:click="likesComment(index)">{{item.comment}}</p>
+                    <div class="d-flex py-2" v-for="(item, index) in post.comments" :key="index">
+                        <img :src="item.user.image_profile != null ? `../storage/images/users/`+ item.user.id + `/image_profile/` + item.user.image_profile : `/images/user.png`" style="width:35px; height:35px; vertical-align: middle;" class="rounded-pill img-fluid">
+                        <div class="d-flex align-items-center w-100 justify-content-between pl-3">
+                            <div class="w-100">
+                                <div class="d-flex align-items-center w-100 justify-content-between">
+                                    <div>
+                                        <p class="name-user-post m-0">{{item.user.username}}</p>
+                                        <p class="m-0">{{item.comment}}</p>
+                                    </div>
+                                    <i class="far fa-heart px-0 ml-10" ref='liked' v-bind:class="[item.likes.includes(user.id) ? isLiked : '']" v-on:click="likesComment(index)"></i>
+                                </div>
+                                <div class="info-cm">
+                                    <p>{{dateFormat(item.created_at)}}</p>
+                                    <p v-if="item.likes != ''">{{ item.likes.length }} likes</p>
+                                    <p class="reply" v-on:click="replyComment(index)">Reply</p>
+                                    <p class="reply" v-if="item.reply > 0" v-on:click="seeTheAnswer(index)">See answer ({{ item.reply }})</p>
+                                </div>
+                                <!-- reply comment -->
+                                <div class="d-flex align-items-center pt-1">
+                                    <img v-if="item.active" :src="user.image_profile != '' ? user.image_profile : `/images/user.png`" style="width:30px; height:30px; vertical-align: middle;" class="img-fluid mr-3" :class="user.image_profile != '' ? 'border border-2' : ''">
+                                    <form @submit.prevent="reply(index)" class="w-100">
+                                        <input type="text" placeholder="Comment..." :hidden="item.active ? false : true" ref="reply" class="px-2 py-1 w-100 comment">
+                                        <button type="submit" class="btn" hidden></button>
+                                    </form>
+                                </div>
+                                <div v-if="item.replies != []">
+                                    <div class="d-flex py-1" v-for="(reply, key) in item.replies" :key="key">
+                                        <img :src="reply.user.image_profile != null ? `../storage/images/users/`+ reply.user.id + `/image_profile/` + reply.user.image_profile : `/images/user.png`" style="width:30px; height:30px; vertical-align: middle;" class="img-fluid mt-1 mr-2" :class="reply.user.image_profile != null ? 'border border-2' : ''">
+                                        <div>
+                                            <p class="name-user-post m-0">{{reply.user.username}}</p>
+                                            <p class="m-0">{{reply.text}}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -78,6 +108,7 @@
                 user:this.$store.getters.getUser,
                 post:{},
                 isLiked: 'is-liked',
+                replies: {}
             }
         },
         mounted() {
@@ -89,6 +120,8 @@
             .catch(error => {
                 this.$router.back()
             });
+        },
+        computed: {
         },
         methods: {
             dateFormat(date) {
@@ -155,11 +188,15 @@
                         comment: this.$refs.ref_comment.value
                     })
                     .then((response) => {
-                        this.post.comments.push(
+                        this.post.comments.unshift(
                             {'comment':this.$refs.ref_comment.value,
                             'user_id':this.user.id,
                             'created_at': new Date().toISOString(),
-                            'user': response.data
+                            'user': response.data.user,
+                            'active': false,
+                            'likes': [],
+                            'reply': 0,
+                            'id': response.data.comment_id
                             }
                         )
                         this.$refs.ref_comment.value = ''
@@ -175,7 +212,53 @@
                     id: this.user.id,
                 })
                 .then((response) => {
-                   console.log(response.data)
+                    if(response.data.likes) {
+                        this.$refs.liked[index].classList.add('is-liked')
+                        this.post.comments[index].likes.push(this.user.id)
+                    } else {
+                        this.$refs.liked[index].classList.remove('is-liked')
+                        const arr = this.post.comments[index].likes.filter(item => item !== this.user.id);
+                        this.post.comments[index].likes = arr
+                    }
+                })
+                .catch((error) => {
+                    return
+                });
+            },
+            replyComment(index) {
+                if(this.post.comments[index].active) {
+                    this.post.comments[index].active = false
+                } else {
+                    this.post.comments[index].active = true
+                    this.$refs.reply[index].value = '@' + this.post.comments[index].user.username + ' '
+                }
+            },
+            reply(index) {
+                if(this.$refs.reply[index].value != '') {
+                    if(!this.$store.getters.loggedIn) {
+                        this.$router.push({ name: 'login' })
+                    }
+                    axios
+                    .post('/api/reply-comment/'+ this.post.comments[index].id, {
+                        id: this.user.id,
+                        text: this.$refs.reply[index].value
+                    })
+                    .then((response) => {
+                        // this.$refs.reply[index].value = ''
+                        this.post.comments[index].reply += 1
+                        this.post.comments[index].active = false
+                    })
+                    .catch((error) => {
+                        return
+                    });
+                }
+            },
+            seeTheAnswer(index) {
+                this.post.comments[index].active = false
+                axios
+                .get('/api/replies/'+ this.post.comments[index].id)
+                .then((response) => {
+                    this.post.comments[index].replies = response.data
                 })
                 .catch((error) => {
                     return

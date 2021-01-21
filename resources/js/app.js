@@ -41,3 +41,4 @@ const app = new Vue({
 // - Run npm install
 // - Run npm run dev (lệnh này tạo ra 2 forder css and js trong /public của Laravel)
 // - Chú ý: use npm i vuetify-loader@1.4.3
+// Key path "file:///app/storage/oauth-public.key" does not exist or is not readable: Run heroku ps:exec -a your_app_name -> Run php artisan passport:keys

@@ -24,11 +24,29 @@ class PostsController extends Controller
         foreach($posts as $post) {
             $user = User::where('id', $post->user_id)->first();
             $likes = Likes::whereNull('deleted_at')->where('post_id', $post->id)->pluck('user_id');
-            $comments = Comments::whereNull('deleted_at')->where('post_id', $post->id)->select('user_id', 'comment', 'created_at')->get();
+
+            $comments = Comments::whereNull('deleted_at')->where('post_id', $post->id)->orderBy('created_at', 'desc')->get();
             $arrComments = [];
             foreach($comments as $comment) {
-                $arrComments[] = collect($comment)->merge(['user' => User::find($comment->user_id)]);
+                $likes = $comment->likes;
+                if($likes == null) {
+                    $likes = [];
+                }
+
+                if($comment->reply == null) {
+                    $reply = 0;
+                } else {
+                    $listReply = [];
+                    foreach(array_values($comment->reply) as $replies) {
+                        foreach($replies as $reply) {
+                            $listReply[] = $reply;
+                        }
+                    }
+                    $reply = count($listReply);
+                }
+                $arrComments[] = collect($comment)->merge(['user' => User::find($comment->user_id), 'likes' => $likes, 'reply' => $reply, 'replies' => [], 'active' => false]);
             }
+            
             $image = ImagesPost::where('post_id', $post->id)->first();
             if($image) {
                 $image = $image->path;
@@ -211,10 +229,25 @@ class PostsController extends Controller
         if($post != null) {
             $user = User::where('id', $post->user_id)->first();
             $likes = Likes::whereNull('deleted_at')->where('post_id', $post->id)->pluck('user_id');
-            $comments = Comments::whereNull('deleted_at')->where('post_id', $post->id)->select('id','user_id', 'comment', 'created_at')->get();
+            $comments = Comments::whereNull('deleted_at')->where('post_id', $post->id)->select('id','user_id', 'comment', 'likes', 'reply', 'created_at')->orderBy('created_at', 'desc')->get();
             $arrComments = [];
             foreach($comments as $comment) {
-                $arrComments[] = collect($comment)->merge(['user' => User::find($comment->user_id)]);
+                $likes = $comment->likes;
+                if($likes == null) {
+                    $likes = [];
+                }
+                if($comment->reply == null) {
+                    $reply = 0;
+                } else {
+                    $arr = [];
+                    foreach(array_values($comment->reply) as $replies) {
+                        foreach($replies as $reply) {
+                            $arr[] = $reply;
+                        }
+                    }
+                    $reply = count($arr);
+                }
+                $arrComments[] = collect($comment)->merge(['user' => User::find($comment->user_id), 'likes' => $likes, 'reply' => $reply, 'replies' => [], 'active' => false]);
             }
             $image = ImagesPost::where('post_id', $post->id)->first();
             if($image) {
@@ -292,7 +325,10 @@ class PostsController extends Controller
             $comment->post_id = $request->post_id;
             $comment->comment = $request->comment;
             $comment->save();
-            return response()->json(User::find($request->user_id), 200);
+            return response()->json([
+                'user' => User::find($request->user_id),
+                'comment_id' => $comment->id
+            ], 200);
         } else {
             return response()->json(404);
         }
@@ -306,16 +342,57 @@ class PostsController extends Controller
         }
     }
     public function likesComment(Request $request, $id) {
-        $data = CommentInfo::whereNull('deleted_at')->where('comment_id', $id)->where('likes', $request->id)->first();
-        if($data) {
-            $data->forceDelete();
+        $comment = Comments::find($id);
+        $options = $comment->likes; //đăt $options = $comment->likes
+        if(is_array($options) && in_array($request->id, $options)) {
+            $auth_id = $request->id;
+            $newArr = array_filter($options, function ($likes) use ($auth_id) {
+                if($likes != $auth_id) {
+                    return $likes;
+                }
+            });
+            $comment->likes = array_values($newArr);
+            $comment->save();
             return response()->json(['dislikes' => true], 200);
         } else {
-            CommentInfo::whereNull('deleted_at')->insert([
-                'comment_id' => $id,
-                'likes' => $request->id
-            ]);
+            $options[] = $request->id; //inport vào mảng
+            $comment->likes = array_values($options); //gán lại giá trị cho $comment->likes
+            $comment->save();
             return response()->json(['likes' => true], 200);
         }
+    }
+    public function replyComment(Request $request, $id) {
+        $comment = Comments::find($id);
+        $options = $comment->reply;
+        if(!empty($options) && array_key_exists($request->id, $options)) {
+            $arr = $options[$request->id];
+            $arr[] = $request->text;
+            $options[$request->id] = $arr;
+        } else {
+            $options[$request->id] = (array)$request->text;
+        }
+        $comment->reply = $options;
+        $comment->save();
+        return response()->json($comment, 200);
+    }
+    public function getReply(Request $request, $id) {
+        $comment = Comments::find($id);
+        if($comment->reply != null) {
+            $arrReply = [];
+            $arrKey = array_keys($comment->reply);
+            $arrValue = array_values($comment->reply);
+            $keys = array_keys($arrValue);
+            foreach($keys as $key) {
+                foreach($arrValue[$key] as $reply) {
+                    $user_id_reply = $arrKey[$key];
+                    $arrReply[] =  [
+                        'user' => User::find($user_id_reply),
+                        'text' => $reply
+                    ];
+                }
+            }
+            return response()->json($arrReply, 200);
+        }
+        return response()->json('empty', 200);
     }
 }

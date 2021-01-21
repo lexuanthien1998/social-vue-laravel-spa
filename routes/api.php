@@ -33,6 +33,8 @@ Route::prefix('/post')->group(function() {
 });
 
 Route::post('likes-comment/{id}', 'API\PostsController@likesComment');
+Route::post('reply-comment/{id}', 'API\PostsController@replyComment');
+Route::get('replies/{id}', 'API\PostsController@getReply');
 
 // user
 Route::get('users', 'API\UserController@index');
