@@ -3,23 +3,17 @@
     <div class="container-fluid container-lg">
         <div class="vh-100 d-flex overflow-scroll p-3">
             <my-heading v-if="loggedIn"></my-heading>
-            
-            <div class="mx-auto align-self-center" v-if="$route.name == 'login'">
-                <router-view></router-view>
-            </div>
-            <div class="mx-auto align-self-center" v-else-if="$route.name == 'register'">
+            <div class="mx-auto align-self-center" v-if="$route.name == 'login' || $route.name == 'register'">
                 <router-view></router-view>
             </div>
             <div class="w-100 px-0 px-sm-5 px-md-10 page-main-PC" v-else>
                 <router-view></router-view>
             </div>
-
             <my-sidebar v-if="loggedIn && $route.name != 'messages'"></my-sidebar>
         </div>
     </div>
     </v-app>
 </template>
-
 <script>
     export default {
         data() {
