@@ -10,6 +10,13 @@
                 <i class="fas fa-key"></i>
                 <input type="password" placeholder="your password." v-model="password">
             </div>
+
+            <!-- <label class="text-left box-checkbox pb-3">
+                <p>Remember Me</p>
+                <input type="checkbox" v-model="remember_me">
+                <span class="checkmark"></span>
+            </label> -->
+
             <p v-if="message != ''" class="text-message rounded-pill">{{message}}</p>
             <button type="submit" class="w-100 btn rounded-pill">Login</button>
             <div>
@@ -25,6 +32,7 @@
             return {
                 email:'',
                 password:'',
+                remember_me:'',
                 message: '',
             }
         },

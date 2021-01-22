@@ -25,8 +25,8 @@
             <!-- action delete + edit -->
             <!-- content + image -->
             <div class="px-3 post-image">
-                <span v-if="post.content != null" v-on:click="detailsPost()">{{ post.content }}</span>
-                <div class="my-2 bg-images" v-if="post.path != ''" v-on:click="detailsPost()" v-bind:style="{backgroundImage: `url('` + post.path + `')`}"></div>
+                <span v-if="post.content != null">{{ post.content }}</span>
+                <div class="my-2 bg-images" v-if="post.path != ''" v-bind:style="{backgroundImage: `url('` + post.path + `')`}"></div>
             </div>
             <!-- icon like... -->
             <div class="px-3">

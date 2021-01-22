@@ -39,7 +39,7 @@
                                 <input id="file-input" v-on:change="onImageChange" type="file"/>
                             </div>
                             <div>
-                                <button type="submit" class="btn btn-sm rounded-pill">Đăng bài</button>
+                                <button type="submit" class="btn btn-sm rounded-pill">Post</button>
                             </div>
                         </div>
                     </form>
@@ -83,7 +83,7 @@
                                 </div>
                                 <div class="d-flex mt-2">
                                     <p v-if="post.likes.length > 0">{{ post.likes.length }} likes</p>
-                                    <p v-if="post.comments.length> 0" class="pl-3">{{ post.comments.length }} comments</p>
+                                    <p v-if="post.comments.length> 0" class="pl-3" v-on:click="detailsPost(index)">{{ post.comments.length }} comments</p>
                                 </div>
                             </div>
                             <!-- input comment -->

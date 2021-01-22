@@ -61,7 +61,7 @@
                     </div>
                     <div class="d-flex mt-2">
                         <p v-if="post.likes.length > 0">{{ post.likes.length }} likes</p>
-                        <p v-if="post.comments.length> 0" class="pl-3">{{ post.comments.length }} comments</p>
+                        <p v-if="post.comments.length> 0" class="pl-3" v-on:click="detailsPost(index)">{{ post.comments.length }} comments</p>
                     </div>
                 </div>
                 <!-- input comment -->
@@ -270,7 +270,6 @@
             .get('/api/post/index')
             .then(response => {
                 this.posts = response.data.posts
-                console.log(this.posts)
             })
             .catch(response => {
             });
@@ -310,8 +309,6 @@
                     $(this.$refs.modalShowPost).modal('show');
                     this.info = this.posts[index]
                     this.info_index = index
-                    console.log(this.$route)
-                    // this.$router.push({ name: this.$route.name, query: { id: this.posts[index].id } }).catch(()=>{});
                 }
 
                 // var i = new Image(); 
