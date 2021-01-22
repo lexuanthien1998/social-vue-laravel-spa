@@ -1,7 +1,7 @@
 <template>
-    <div class="d-flex shadow-sm box-chat">
+    <div class="d-flex h-100">
         <ContactsList class="col-3" :contacts="contacts" @selected="startConversationWith"/>
-        <Conversation class="col" :contact="selectedContact" :messages="messages" @new="saveNewMessage"/>
+        <Conversation class="col ml-5 px-8" :contact="selectedContact" :messages="messages" @new="saveNewMessage"/>
     </div>
 </template>
 

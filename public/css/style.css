@@ -882,19 +882,11 @@ button:hover {
   margin-left: 10px;
 }
 
-.box-chat {
-  height: 100%;
-  background: #fff;
-  border-radius: 20px;
-}
 .box-messages {
-  padding-left: 0 !important;
-  margin-left: 12px;
-  padding-right: 0px !important;
-}
-.box-messages li {
-  padding: 5px 10px;
-  margin-bottom: 5px;
+  background: #fff;
+  padding: 0 !important;
+  margin-bottom: 0px !important;
+  border-radius: 20px;
 }
 .box-messages li:hover {
   background: #ecf4f3;
@@ -918,6 +910,10 @@ button:hover {
   .box-messages .username {
     width: 50px; 
   }
+}
+.conversation {
+  background: #fff;
+  border-radius: 20px;
 }
 .unread {
   color: #ef4f4f;
@@ -946,7 +942,7 @@ button:hover {
   border-radius: 20px;
   letter-spacing: 1px;
   font-size: 13px;
-  margin-top: 10px;
+  margin-top: 20px;
 }
 .list-messages ul {
   padding-left: 0 !important;
