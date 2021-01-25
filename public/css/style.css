@@ -847,6 +847,8 @@ button:hover {
   border: none;
   border-radius: 10px;
   max-width: 40px;
+  border-radius: 0 !important;
+  padding: 0px !important;
 }
 .show-post .modal-content .modal-body .box-info .dropdown-menu i {
   color: #68b0ab;
@@ -880,6 +882,16 @@ button:hover {
 .show-post .modal-content.box-sp .modal-body .box-info .box-action i{
   font-size: 20px !important;
   margin-left: 10px;
+}
+.action-details-post {
+  cursor: pointer;
+}
+
+.show-post .modal-content.box-sp .modal-body .box-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 130px !important;
 }
 
 .box-messages {

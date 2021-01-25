@@ -25,7 +25,7 @@ const routes = [
     { path: '/', name: 'home', component: HomePage, meta: { title: 'ʟ ᴏ ɴ ᴇ ʟ ʏ', requiresAuth: true } },
     { path: '/:id/details', name: 'post-details', component: PostDetails, meta: { requiresAuth: true } },
 
-    { path: '/messages', name: 'messages', component: ChatApp, meta: { title: 'Messages', requiresAuth: true } },
+    { path: '/messages', name: 'messages', component: ChatApp, meta: { requiresAuth: true } },
     
     { path: '/user/:username', name: 'profile', component: Profile, meta: { requiresAuth: true },
         children: [

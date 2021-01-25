@@ -45,7 +45,7 @@ class UserController extends Controller
                     $token = Auth::user()->createToken('login')->accessToken;
                     
                     if($user->image_profile != null) {
-                        $imagePath = 'public/images/users/'.$user->id.'/image_profile'.'/';
+                        $imagePath = '/public/images/users/'.$user->id.'/image_profile'.'/';
                         if(Storage::disk('local')->exists($imagePath.$user->image_profile)) {
                             $img = base64_encode(Storage::disk('local')->get($imagePath.$user->image_profile));
                             $image_profile = 'data:image/'.pathinfo($user->image_profile)['extension'].';base64,'.$img;
@@ -129,7 +129,7 @@ class UserController extends Controller
         $user = User::whereNull('deleted_at')->where('username', $username)->first();
         if($user != null) {
             if($user->image_main != null) {
-                $imagePath = 'public/images/users/'.$user->id.'/image_main'.'/';
+                $imagePath = '/public/images/users/'.$user->id.'/image_main'.'/';
                 if(Storage::disk('local')->exists($imagePath.$user->image_main)) {
                     $img = base64_encode(Storage::disk('local')->get($imagePath.$user->image_main));
                     $image_main = 'data:image/'.pathinfo($user->image_main)['extension'].';base64,'.$img;
@@ -141,7 +141,7 @@ class UserController extends Controller
             }
 
             if($user->image_profile != null) {
-                $imagePath = 'public/images/users/'.$user->id.'/image_profile'.'/';
+                $imagePath = '/public/images/users/'.$user->id.'/image_profile'.'/';
                 if(Storage::disk('local')->exists($imagePath.$user->image_profile)) {
                     $img = base64_encode(Storage::disk('local')->get($imagePath.$user->image_profile));
                     $image_profile = 'data:image/'.pathinfo($user->image_profile)['extension'].';base64,'.$img;
@@ -163,7 +163,7 @@ class UserController extends Controller
                 $image = ImagesPost::where('post_id', $post->id)->first();
                 if($image) {
                     $image = $image->path;
-                    $imagePath = 'public/images/posts/'.$user->id.'/';
+                    $imagePath = '/public/images/posts/'.$user->id.'/';
                     if(Storage::disk('local')->exists($imagePath.$image)) {
                         $img = base64_encode(Storage::disk('local')->get($imagePath.$image));
                         if(pathinfo($image)['extension'] == "pdf") {
@@ -185,7 +185,7 @@ class UserController extends Controller
             $arrUsersFoffowers = [];
             foreach($users_followers as $user_follow) {
                 if($user_follow->image_profile != null) {
-                    $imagePath = 'public/images/users/'.$user_follow->id.'/image_profile'.'/';
+                    $imagePath = '/public/images/users/'.$user_follow->id.'/image_profile'.'/';
                     if(Storage::disk('local')->exists($imagePath.$user_follow->image_profile)) {
                         $img = base64_encode(Storage::disk('local')->get($imagePath.$user_follow->image_profile));
                         $imageProfile = 'data:image/'.pathinfo($user_follow->image_profile)['extension'].';base64,'.$img;
@@ -203,7 +203,7 @@ class UserController extends Controller
             $arrUsersFoffowing = [];
             foreach($users_following as $user_following) {
                 if($user_following->image_profile != null) {
-                    $imagePath = 'public/images/users/'.$user_following->id.'/image_profile'.'/';
+                    $imagePath = '/public/images/users/'.$user_following->id.'/image_profile'.'/';
                     if(Storage::disk('local')->exists($imagePath.$user_following->image_profile)) {
                         $img = base64_encode(Storage::disk('local')->get($imagePath.$user_following->image_profile));
                         $imageProfile = 'data:image/'.pathinfo($user_following->image_profile)['extension'].';base64,'.$img;
@@ -259,7 +259,7 @@ class UserController extends Controller
         $image_main = $request['image_main'];
         if (preg_match('/^data:image\/(\w+);base64,/', $image_main)) {
             //delete
-            $imagePath = 'public/images/users/'.$id.'/image_main'.'/';
+            $imagePath = '/public/images/users/'.$id.'/image_main'.'/';
             if($user->image_main != null) {
                 if(Storage::disk('local')->exists($imagePath.$user->image_main)) {
                     Storage::disk('local')->delete($imagePath.$user->image_main);
@@ -286,7 +286,7 @@ class UserController extends Controller
         $image_profile = $request['image_profile'];
         if (preg_match('/^data:image\/(\w+);base64,/', $image_profile)) {
             //delete
-            $imagePath = 'public/images/users/'.$id.'/image_profile'.'/';
+            $imagePath = '/public/images/users/'.$id.'/image_profile'.'/';
             if($user->image_main != null) {
                 if(Storage::disk('local')->exists($imagePath.$user->image_profile)) {
                     Storage::disk('local')->delete($imagePath.$user->image_profile);

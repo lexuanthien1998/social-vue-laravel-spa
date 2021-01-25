@@ -24,6 +24,10 @@ Vue.component('chat-app', require('./components/Chat/ChatApp.vue').default);
 //vuetify
 import vuetify from '../plugins/vuetify';
 
+// meta info - set title page
+import MetaInfo from 'vue-meta-info'
+Vue.use(MetaInfo)
+
 //router.js
 import router from './router';
 

@@ -100,7 +100,7 @@
     export default {
         metaInfo () {
             return {
-                title: this.post.username != undefined ? '@' + this.post.username + ' | ' + this.post.content : 'ʟ ᴏ ɴ ᴇ ʟ ʏ',
+                title: this.post.username != undefined && this.post.content != null ? '@' + this.post.username + ' | ' + this.post.content : 'ʟ ᴏ ɴ ᴇ ʟ ʏ',
             }
         },
         data() {

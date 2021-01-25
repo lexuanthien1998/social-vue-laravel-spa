@@ -1,7 +1,7 @@
 <template>
 <div style="padding-bottom:0.1px;">
     <div class="box-content shadow-sm bg-white">
-        <form @submit.prevent="submitPost" class="form-post px-4 py-2" enctype="multipart/form-data" ref='create_post'>
+        <form @submit.prevent="submitPost" class="form-post px-4 py-2" enctype="multipart/form-data">
             <div class="form-group d-flex">
                 <!-- <div class="mr-3">
                     <h1 class="text-img" v-bind:style="{backgroundImage: user.image_profile != '' ? `url('` + user.image_profile + `')` : `url('/images/user.png')` }">{{ user.username | username() }}</h1>
@@ -22,7 +22,7 @@
         </form>
     </div>
 
-    <div class="box-content shadow-sm" v-for="(post, index) in items" :key="index">
+    <div class="box-content shadow-sm" v-for="(post, index) in items" :key="index" :ref="'box_post' + post.id">
         <div class="row px-3 py-2 box-post">
             <!-- avatar + name -->
             <div class="col d-flex justify-content-between align-items-center">
@@ -115,7 +115,7 @@
     <!-- Modal Show Post -->
     <div class="modal show-post" ref="modalShowPost">
         <i class="fa fa-times sticky-top position-fixed icon-close" v-on:click="close()"></i>
-        <div class="modal-dialog modal-xl modal-dialog-centered">
+        <div class="modal-dialog modal-xl modal-dialog-centered px-5 p-sm-0">
             <div class="modal-content box-pc d-none d-lg-block">
                 <div class="modal-body d-flex" v-if="info != ''">
                     <div class="w-75 box-image" v-bind:style="{backgroundImage: `url('` + info.path + `')`}"></div>
@@ -206,30 +206,32 @@
                 <div class="modal-body" v-if="info != ''">
                     <div class="box-image" v-bind:style="{backgroundImage: `url('` + info.path + `')`}"></div>
                     <div class="box-info px-0" style="background:#fff; height:auto">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div class="d-flex align-items-center">
-                                <img :src="info.image_profile != '' ? info.image_profile : `/images/user.png`" style="width:35px; height:35px; vertical-align: middle;" :class="info.image_profile != '' ? 'border border-2' : ''" class="img-fluid">
-                                <div>
-                                    <div class="name-user-post">{{info.username}}</div>
-                                    <p class="datatime-post">{{dateFormat(info.created_at)}}</p>
+                        <div>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="d-flex align-items-center">
+                                    <img :src="info.image_profile != '' ? info.image_profile : `/images/user.png`" style="width:35px; height:35px; vertical-align: middle;" :class="info.image_profile != '' ? 'border border-2' : ''" class="img-fluid">
+                                    <div>
+                                        <div class="name-user-post">{{info.username}}</div>
+                                        <p class="datatime-post">{{dateFormat(info.created_at)}}</p>
+                                    </div>
+                                    <i class="far fa-ellipsis-h ml-3" data-toggle="dropdown"></i>
+                                    <div class="dropdown-menu dropdown-menu-right shadow-sm">
+                                        <i v-if="info.user_id == user.id" @click="editPost(info_index)" class="fas fa-edit dropdown-item"></i>
+                                        <i v-if="info.user_id == user.id" @click="deletePost(info_index)" class="fas fa-trash-alt dropdown-item"></i>
+                                        <i class="fas fa-link dropdown-item" @click="copyURL(info_index)"></i>
+                                    </div>
                                 </div>
-                                <i class="far fa-ellipsis-h ml-3" data-toggle="dropdown"></i>
-                                <div class="dropdown-menu dropdown-menu-right shadow-sm">
-                                    <i v-if="info.user_id == user.id" @click="editPost(info_index)" class="fas fa-edit dropdown-item"></i>
-                                    <i v-if="info.user_id == user.id" @click="deletePost(info_index)" class="fas fa-trash-alt dropdown-item"></i>
-                                    <i class="fas fa-link dropdown-item" @click="copyURL(info_index)"></i>
+                                <div class="d-flex align-items-center box-action" v-if="info != ''">
+                                    <i :ref="'ref_likes' + info_index" v-bind:class="[info.likes.includes(user.id) ? isLiked : '']" v-bind:style="{color: info.likes.includes(user.id) ? '#ec524b' : ''}" v-on:click="likesPost(info_index)" class="far fa-heart"></i>
+                                    <i class="far fa-share"></i>
                                 </div>
                             </div>
-                            <div class="d-flex align-items-center box-action" v-if="info != ''">
-                                <i :ref="'ref_likes' + info_index" v-bind:class="[info.likes.includes(user.id) ? isLiked : '']" v-bind:style="{color: info.likes.includes(user.id) ? '#ec524b' : ''}" v-on:click="likesPost(info_index)" class="far fa-heart"></i>
-                                <i class="far fa-share"></i>
+                            <div class="d-flex pt-2" v-if="info.likes.length > 0 || info.comments.length > 0">
+                                <p class="m-0 pr-3" v-if="info.likes.length > 0">{{ info.likes.length }} likes</p>
+                                <p class="m-0 action-details-post" v-if="info.comments.length > 0" v-on:click="pagePost(info_index)">{{ info.comments.length }} comments</p>
                             </div>
                         </div>
-                        <div class="d-flex pt-2" v-if="info.likes.length > 0 || info.comments.length > 0">
-                            <p class="m-0 pr-3" v-if="info.likes.length > 0">{{ info.likes.length }} likes</p>
-                            <p class="m-0" v-if="info.comments.length > 0">{{ info.comments.length }} comments</p>
-                        </div>
-                        <div class="d-flex pt-2 align-items-center">
+                        <div class="d-flex align-items-center">
                             <img :src="user.image_profile != '' ? user.image_profile : `/images/user.png`" style="width:35px; height:35px; vertical-align: middle;" :class="user.image_profile != '' ? 'border border-2' : ''" class="img-fluid mr-2">
                             <form @submit.prevent="modalCommentSP(info_index)" class="w-100">
                                 <input type="text" id="comment" ref="comment_sp" placeholder="Add comment..." class="w-100 border border-2">
@@ -318,6 +320,11 @@
                 // i.src = this.info.path; 
                 // this.matchHeight(i.width,i.height);
             },
+            pagePost(index) {
+                var id = this.posts[index].id;
+                this.$router.push({ name: 'post-details', params: { id } }).catch(()=>{});
+                $(this.$refs.modalShowPost).modal('toggle');
+            },
             close() {
                 $(this.$refs.modalShowPost).modal('toggle');
                 this.info = ''
@@ -367,6 +374,7 @@
                         delete query.action;
                         this.$router.replace({ query });
                         $(this.$refs.modalCreatePost).modal('toggle');
+                        this.$refs['create_post'].scrollIntoView(0,0)
                     })
                     .catch((error) => {
                         //detele query router
