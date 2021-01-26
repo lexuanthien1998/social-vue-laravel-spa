@@ -12,7 +12,8 @@
             <div class="rounded-circle shadow" v-bind:style="{backgroundImage: users.image_profile != '' ? `url('` + users.image_profile + `')` : `url('/images/user.png')`}"></div>
         </div>
         <div class="text-center box-name">
-            <p>{{user.name}}</p>
+            <p class="m-1">{{users.name != '' ? users.name : users.username}}</p>
+            <p v-if="users.description != ''">{{users.description}}</p>
         </div>
         <div class="box-list-profile">
             <ul class="list-unstyled d-flex justify-content-evenly pl-0">
