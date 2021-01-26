@@ -212,19 +212,6 @@ body {
   color: #68b0ab;
   letter-spacing: 1px;
 }
-.box-info-design p {
-  color: #7d7d7d;
-  opacity: 0.8;
-  display: none;
-}
-.box-info-design i {
-  color: #ff7e67 !important;
-}
-@media only screen and (min-width: 1400px) {
-  .box-info-design p {
-    display: block;
-  }
-}
 
 /* content-page */
 .box-content {
@@ -243,19 +230,24 @@ body {
   border-radius: 50%;
 }
 .box-action-post {
-  margin-top: 10px;
-  border-top: 2px solid #ecf4f3;
   color: #68b0ab;
 }
 .is-liked {
   color:#ef4f4f !important;
   font-weight: 900 !important;
 }
+.is-liked:after {
+  font-size: 50px !important;
+}
 .box-action-post p {
   cursor: pointer;
 }
 .box-action-post i {
-  font-size: 15px;
+  padding: 0 !important;
+  font-size: 18px !important;
+}
+.box-action-post i:hover {
+  background: none !important;
 }
 .box-content .comment {
   border: 2px solid #ecf4f3 !important;
@@ -418,10 +410,9 @@ button:hover {
 }
 
 .form-login .box-checkbox p {
-  padding-left: 35px;
+  padding-left: 30px;
   margin-bottom: 0 !important;
   color: #68b0ab !important;
-  padding-top: 3px;
 }
 .form-login .box-checkbox input {
   position: absolute;
@@ -434,36 +425,37 @@ button:hover {
   position: absolute;
   top: 0;
   left: 0;
-  height: 25px;
-  width: 25px;
-  /* background-color: #ecf4f3; */
+  height: 20px;
+  width: 20px;
   border: 2px solid #ecf4f3;
-  border-radius: 50%;
+  border-radius: 5px;
 }
-.form-login .box-checkbox:hover input ~ .checkmark {
+/* .form-login .box-checkbox:hover input ~ .checkmark {
   background-color: #ecf4f3;
-}
+} */
 .form-login .box-checkbox input:checked ~ .checkmark {
   background-color: #68b0ab;
+  border: 2px solid #fff;
 }
 .form-login .checkmark:after {
-  content: "";
+  content: "\f00c";
   position: absolute;
   display: none;
+  font-family: "Font Awesome 5 Free" !important;
+  font-weight: 900;
+  font-size: 11px !important;
 }
 .form-login .box-checkbox input:checked ~ .checkmark:after {
   display: block;
 }
 .form-login .box-checkbox .checkmark:after {
-  left: 8px;
-  top: 4px;
-  width: 6px;
-  height: 10px;
-  border: solid #fff;
-  border-width: 0 3px 3px 0;
-  -webkit-transform: rotate(45deg);
-  -ms-transform: rotate(45deg);
-  transform: rotate(45deg);
+  font-family: "Font Awesome 5 Free" !important;
+  color: #fff;
+  margin: 0px 0px 3px 2.5px;
+}
+p.forgot-pw {
+  color: #68b0ab !important;
+  cursor: pointer;
 }
 
 /* dropdown */
@@ -671,6 +663,7 @@ button:hover {
 .div-input i {
   color: #68b0ab;
   padding-right: 20px;
+  min-width: 50px;
 }
 .div-input input {
   border: 2px solid #ecf4f3 !important;
@@ -693,14 +686,21 @@ button:hover {
   margin: -50px auto 15px;
 }
 .v-input__control {
-  padding-left: 20px;
+  padding-left: 40px;
+  min-width: 200px;
 }
-.v-input__control .v-input__slot {
+.v-input__control .v-select__slot, .v-input__control .v-text-field__slot {
+  padding: 0px 10px;
+}
+/* .v-input__control .v-input__slot {
   padding-left: 10px;
+} */
+.v-input__prepend-outer {
+  margin: 0px !important;
 }
 .v-input__icon i {
   color: #68b0ab !important;
-  font-weight: 700 !important;
+  font-weight: 900 !important;
 }
 
 /* page-photos */
@@ -1010,4 +1010,14 @@ li.sent {
   margin: 0px !important;
   padding-top: 5px;
   padding-right: 10px;
+}
+
+.notifications {
+  bottom: 5px !important;
+  right: 5px !important;
+  top: auto !important;
+}
+.vue-notification {
+  background: #68b0ab !important;
+  border-left-color: #68b0ab !important;
 }

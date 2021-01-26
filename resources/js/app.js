@@ -28,6 +28,9 @@ import vuetify from '../plugins/vuetify';
 import MetaInfo from 'vue-meta-info'
 Vue.use(MetaInfo)
 
+import Notifications from 'vue-notification'
+Vue.use(Notifications)
+
 //router.js
 import router from './router';
 

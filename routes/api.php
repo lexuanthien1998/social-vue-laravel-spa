@@ -41,6 +41,11 @@ Route::get('users', 'API\UserController@index');
 Route::post('follow', 'API\UserController@follow');
 Route::post('unfollow', 'API\UserController@unfollow');
 
+// reset pw
+Route::post('reset-pasword', 'API\UserController@resetPassword');
+Route::get('password/reset', 'API\UserController@checkToken');
+Route::post('new-password', 'API\UserController@newPassword');
+
 Route::get('user/{username}', 'API\UserController@profile');
 Route::post('user/{id}/profile/update', 'API\UserController@profileUpdate');
 Route::post('login', 'API\UserController@login');

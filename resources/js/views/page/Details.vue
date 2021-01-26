@@ -26,19 +26,19 @@
             <!-- content + image -->
             <div class="px-3 post-image">
                 <span v-if="post.content != null">{{ post.content }}</span>
-                <div class="my-2 bg-images" v-if="post.path != ''" v-bind:style="{backgroundImage: `url('` + post.path + `')`}"></div>
+                <div class="mt-2 bg-images" v-if="post.path != ''" v-bind:style="{backgroundImage: `url('` + post.path + `')`}"></div>
             </div>
             <!-- icon like... -->
             <div class="px-3">
-                <div class="d-flex justify-content-between p-2 box-action-post">
-                    <div>
+                <div class="d-flex align-items-center py-3 justify-content-between box-action-post">
+                    <div class="d-flex">
                         <i v-if="post.likes" v-bind:class="[post.likes.includes(user.id) ? isLiked : '']" ref='ref_likes' v-on:click="likesPost()" class="far fa-heart"></i>
-                        <label for="comment" class="px-2"><i class="far fa-comment"></i></label>
+                        <label for="comment" class="px-4 m-0"><i class="far fa-comment"></i></label>
                         <i class="far fa-share"></i>
                     </div>
-                    <div class="d-flex mt-2" v-if="post.likes || post.comments">
-                        <p v-if="post.likes.length > 0">{{ post.likes.length }} likes</p>
-                        <p v-if="post.comments.length> 0" class="pl-3">{{ post.comments.length }} comments</p>
+                    <div class="d-flex" v-if="post.likes || post.comments">
+                        <p v-if="post.likes.length > 0" class="m-0">{{ post.likes.length }} likes</p>
+                        <p v-if="post.comments.length> 0" class="m-0 pl-3">{{ post.comments.length }} comments</p>
                     </div>
                 </div>
                 <!-- input comment -->
@@ -126,11 +126,11 @@
         methods: {
             dateFormat(date) {
                 moment.locale("vi")
-               if(moment(date).add(5, 'days').format('L') < moment().format('L')) {
-                   return moment(date).format("DD MMM, YYYY");
-               } else {
-                   return moment(date).format("ddd, HH:mm");
-               }
+                if(moment(date).add(5, 'days').format('L') < moment().format('L')) {
+                    return moment(date).format("DD MMM, YYYY");
+                } else {
+                    return moment(date).format("ddd, HH:mm");
+                }
             },
             editPost() {
                 this.$router.push({ name: 'home' })

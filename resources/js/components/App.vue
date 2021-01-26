@@ -12,6 +12,7 @@
             <my-sidebar v-if="loggedIn && $route.name != 'messages'"></my-sidebar>
         </div>
     </div>
+    <notifications class="notifications" group="foo" />
     </v-app>
 </template>
 <script>

@@ -1,18 +1,18 @@
 <template>
 <div style="padding-bottom:0.1px;">
     <div class="box-content shadow-sm bg-white">
-        <form @submit.prevent="submitPost" class="form-post px-4 py-2" enctype="multipart/form-data">
-            <div class="form-group d-flex">
+        <form @submit.prevent="submitPost" class="form-post p-2" enctype="multipart/form-data" ref='create_post'>
+            <div class="d-flex">
                 <!-- <div class="mr-3">
                     <h1 class="text-img" v-bind:style="{backgroundImage: user.image_profile != '' ? `url('` + user.image_profile + `')` : `url('/images/user.png')` }">{{ user.username | username() }}</h1>
                 </div> -->
                 <img :src="user.image_profile != '' ? user.image_profile : `/images/user.png`" style="width:35px; height:35px; vertical-align: middle;" class="rounded-circle img-fluid mr-3">
                 <textarea class="form-control" ref="content" rows="2" v-model="content"></textarea>
             </div>
-            <div v-if="image != ''" class="bg-images mb-2" v-bind:style="{backgroundImage: `url('` + image + `')`}" style="max-height:250px;"></div>
-            <div class="d-flex justify-content-between align-items-center">
+            <div v-if="image != ''" class="bg-images my-2" v-bind:style="{backgroundImage: `url('` + image + `')`}" style="max-height:250px;"></div>
+            <div class="d-flex justify-content-between align-items-center mt-2">
                 <div class="image-upload">
-                    <label for="file-input"><i class="far fa-images"></i></label>
+                    <label for="file-input" class="m-0"><i class="far fa-images p-0"></i></label>
                     <input id="file-input" v-on:change="onImageChange" type="file"/>
                 </div>
                 <div>
@@ -23,7 +23,7 @@
     </div>
 
     <div class="box-content shadow-sm" v-for="(post, index) in items" :key="index" :ref="'box_post' + post.id">
-        <div class="row px-3 py-2 box-post">
+        <div class="row p-2 box-post">
             <!-- avatar + name -->
             <div class="col d-flex justify-content-between align-items-center">
                 <div class="d-flex align-items-center">
@@ -49,19 +49,19 @@
                 <span v-if="post.content != null" v-on:click="detailsPost(index)">{{ post.content | shortText(250) }}</span>
                 <span class="d-none" v-if="post.content != null" v-on:click="detailsPost(index)">{{ post.content }}</span>
                 <div v-if="post.content != null && post.content.length > 250" v-on:click="toggler($event)" class="see-more">See more</div>
-                <div class="my-2 bg-images" v-if="post.path != ''" v-on:click="detailsPost(index)" v-bind:style="{backgroundImage: `url('` + post.path + `')`}"></div>
+                <div class="mt-2 bg-images" v-if="post.path != ''" v-on:click="detailsPost(index)" v-bind:style="{backgroundImage: `url('` + post.path + `')`}"></div>
             </div>
             <!-- icon like... -->
             <div class="px-3">
-                <div class="d-flex justify-content-between p-2 box-action-post">
-                    <div>
+                <div class="d-flex align-items-center justify-content-between py-3 box-action-post">
+                    <div class="d-flex">
                         <i v-bind:class="[post.likes.includes(user.id) ? isLiked : '']" ref='ref_likes' v-on:click="likesPost(index)" class="far fa-heart"></i>
-                        <label v-bind:for="'comment' + index" class="px-2"><i class="far fa-comment"></i></label>
+                        <label v-bind:for="'comment' + index" class="px-4 m-0"><i class="far fa-comment"></i></label>
                         <i class="far fa-share"></i>
                     </div>
-                    <div class="d-flex mt-2">
-                        <p v-if="post.likes.length > 0">{{ post.likes.length }} likes</p>
-                        <p v-if="post.comments.length> 0" class="pl-3" v-on:click="detailsPost(index)">{{ post.comments.length }} comments</p>
+                    <div class="d-flex">
+                        <p v-if="post.likes.length > 0" class="m-0">{{ post.likes.length }} likes</p>
+                        <p v-if="post.comments.length> 0" class="m-0 pl-3" v-on:click="detailsPost(index)">{{ post.comments.length }} comments</p>
                     </div>
                 </div>
                 <!-- input comment -->
@@ -375,6 +375,13 @@
                         this.$router.replace({ query });
                         $(this.$refs.modalCreatePost).modal('toggle');
                         this.$refs['create_post'].scrollIntoView(0,0)
+
+                        this.$notify({
+                            group: 'foo',
+                            title: 'Created a Successfully post!',
+                            duration: 10000,
+                            speed: 1000
+                        });
                     })
                     .catch((error) => {
                         //detele query router
@@ -430,6 +437,13 @@
                             this.image = ''
                             this.content = ''
                             this.isEdit = null
+
+                            this.$notify({
+                                group: 'foo',
+                                title: 'Update post Successfully!',
+                                duration: 10000,
+                                speed: 1000
+                            });
                         })
                         .catch((error) => {
                             return
@@ -456,6 +470,13 @@
                             })
                             this.image = ''
                             this.content = ''
+
+                            this.$notify({
+                                group: 'foo',
+                                title: 'Created a Successfully post!',
+                                duration: 10000,
+                                speed: 1000
+                            });
                         })
                         .catch((error) => {
                             if(error.response) {
@@ -496,10 +517,19 @@
                     if($(this.$refs.modalShowPost).hasClass('show')) {
                         $(this.$refs.modalShowPost).modal('toggle');
                     }
+                    const text = `Date: ${moment().calendar()}`
+                    this.$notify({
+                        group: 'foo',
+                        title: 'Deleted Successfully!',
+                        text,
+                        duration: 10000,
+                        speed: 1000
+                    });
                 })
                 .catch((error) => {
                     return
                 });
+
             },
             copyURL(index) {
                 const path = this.$router.resolve({
@@ -508,6 +538,13 @@
                 }).href;
                 const fullUrl = window.location.origin + path;
                 navigator.clipboard.writeText(fullUrl);
+
+                this.$notify({
+                    group: 'foo',
+                    title: 'Copied Successfully!',
+                    duration: 10000,
+                    speed: 1000
+                });
             },
             likesPost(index) {
                 if(this.$refs.ref_likes[index].classList.contains('is-liked')) {

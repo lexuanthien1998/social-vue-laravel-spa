@@ -16,9 +16,9 @@
                 <p class="btn-follow" v-on:click="follow(index, $event)">follow</p>
             </div>
         </div>
-        <div class="box-info-design">
-            <p><i class="fas fa-heart"></i></p>
-        </div>
+        <!-- <div class="d-flex sidebar-footer box-info-design">
+            <i class="fas fa-heart"></i>
+        </div> -->
     </div>
 </template>
 

@@ -49,7 +49,7 @@ class PostsController extends Controller
             $image = ImagesPost::where('post_id', $post->id)->first();
             if($image) {
                 $image = $image->path;
-                $imagePath = '/public/images/posts/'.$post->user_id.'/';
+                $imagePath = 'public/images/posts/'.$post->user_id.'/';
                 if(Storage::disk('local')->exists($imagePath.$image)) {
                     $img = base64_encode(Storage::disk('local')->get($imagePath.$image));
                     if(pathinfo($image)['extension'] == "pdf") {
@@ -65,7 +65,7 @@ class PostsController extends Controller
             }
 
             if($user->image_profile != null) {
-                $imagePath = '/public/images/users/'.$user->id.'/image_profile'.'/';
+                $imagePath = 'public/images/users/'.$user->id.'/image_profile'.'/';
                 if(Storage::disk('local')->exists($imagePath.$user->image_profile)) {
                     $img = base64_encode(Storage::disk('local')->get($imagePath.$user->image_profile));
                     $image_profile = 'data:image/'.pathinfo($user->image_profile)['extension'].';base64,'.$img;
@@ -97,7 +97,7 @@ class PostsController extends Controller
             if($request->image != '' || $request->image != null) {
                 //delete
                 $images = ImagesPost::where('post_id', $post->id)->get();
-                $imagePath = '/public/images/posts/'.$request->user_id.'/';
+                $imagePath = 'public/images/posts/'.$request->user_id.'/';
                 foreach($images as $image) {
                     if(Storage::disk('local')->exists($imagePath.$image->path)) {
                         Storage::disk('local')->delete($imagePath.$image->path);
@@ -121,7 +121,7 @@ class PostsController extends Controller
                         });
                     } //resize 2048
 
-                    $imagePath = '/public/images/posts/'.$request->user_id.'/';
+                    $imagePath = 'public/images/posts/'.$request->user_id.'/';
                     Storage::disk('local')->put($imagePath.$imageName, $img->stream());
                     $images_post->path = $imageName;
                     $images_post->save();
@@ -150,7 +150,7 @@ class PostsController extends Controller
             if($images_post != null) {
                 //delete
                 $images = ImagesPost::where('post_id', $id)->get();
-                $imagePath = '/public/images/posts/'.$post->user_id.'/';
+                $imagePath = 'public/images/posts/'.$post->user_id.'/';
                 foreach($images as $image) {
                     if(Storage::disk('local')->exists($imagePath.$image->path)) {
                         Storage::disk('local')->delete($imagePath.$image->path);
@@ -171,7 +171,7 @@ class PostsController extends Controller
                         });
                     } //resize 2048
     
-                    $imagePath = '/public/images/posts/'.$post->user_id.'/';
+                    $imagePath = 'public/images/posts/'.$post->user_id.'/';
                     Storage::disk('local')->put($imagePath.$imageName, $img->stream());
                     $images_post->path = $imageName;
                     $images_post->save();
@@ -196,7 +196,7 @@ class PostsController extends Controller
                         });
                     } //resize 2048
 
-                    $imagePath = '/public/images/posts/'.$post->user_id.'/';
+                    $imagePath = 'public/images/posts/'.$post->user_id.'/';
                     Storage::disk('local')->put($imagePath.$imageName, $img->stream());
 
                     $images_post->path = $imageName;
@@ -208,7 +208,7 @@ class PostsController extends Controller
             if($images_post != null) {
                 //delete
                 $images = ImagesPost::where('post_id', $id)->get();
-                $imagePath = '/public/images/posts/'.$post->user_id.'/';
+                $imagePath = 'public/images/posts/'.$post->user_id.'/';
                 foreach($images as $image) {
                     if(Storage::disk('local')->exists($imagePath.$image->path)) {
                         Storage::disk('local')->delete($imagePath.$image->path);
@@ -251,7 +251,7 @@ class PostsController extends Controller
             $image = ImagesPost::where('post_id', $post->id)->first();
             if($image) {
                 $image = $image->path;
-                $imagePath = '/public/images/posts/'.$post->user_id.'/';
+                $imagePath = 'public/images/posts/'.$post->user_id.'/';
                 if(Storage::disk('local')->exists($imagePath.$image)) {
                     $img = base64_encode(Storage::disk('local')->get($imagePath.$image));
                     if(pathinfo($image)['extension'] == "pdf") {
@@ -267,7 +267,7 @@ class PostsController extends Controller
             }
 
             if($user->image_profile != null) {
-                $imagePath = '/public/images/users/'.$user->id.'/image_profile'.'/';
+                $imagePath = 'public/images/users/'.$user->id.'/image_profile'.'/';
                 if(Storage::disk('local')->exists($imagePath.$user->image_profile)) {
                     $img = base64_encode(Storage::disk('local')->get($imagePath.$user->image_profile));
                     $image_profile = 'data:image/'.pathinfo($user->image_profile)['extension'].';base64,'.$img;
@@ -286,7 +286,7 @@ class PostsController extends Controller
 
     public function destroy(Request $request, Posts $posts) {
         $images = ImagesPost::whereNull('deleted_at')->where('post_id', $request->id)->get();
-        $imagePath = '/public/images/posts/'.Posts::find($request->id)->user_id.'/';
+        $imagePath = 'public/images/posts/'.Posts::find($request->id)->user_id.'/';
         foreach($images as $image) {
             if(Storage::disk('local')->exists($imagePath.$image->path)) {
                 Storage::disk('local')->delete($imagePath.$image->path);
