@@ -1,5 +1,9 @@
 <template>
 <div style="padding-bottom:0.1px;">
+    <div class="spin-wrapper" v-if="posts == ''">
+        <div class="spinner"></div>
+    </div>
+
     <div class="box-content shadow-sm bg-white">
         <form @submit.prevent="submitPost" class="form-post p-2" enctype="multipart/form-data" ref='create_post'>
             <div class="d-flex">
@@ -21,7 +25,6 @@
             </div>
         </form>
     </div>
-
     <div class="box-content shadow-sm" v-for="(post, index) in items" :key="index" :ref="'box_post' + post.id">
         <div class="row p-2 box-post">
             <!-- avatar + name -->

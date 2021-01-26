@@ -43,8 +43,6 @@ Route::post('unfollow', 'API\UserController@unfollow');
 
 // reset pw
 Route::post('reset-pasword', 'API\UserController@resetPassword');
-Route::get('password/reset', 'API\UserController@checkToken');
-Route::post('new-password', 'API\UserController@newPassword');
 
 Route::get('user/{username}', 'API\UserController@profile');
 Route::post('user/{id}/profile/update', 'API\UserController@profileUpdate');
@@ -58,3 +56,6 @@ Route::middleware('auth:api')->group(function () {
     Route::get('get-messages-for/{id}', 'API\MessagesController@getMessagesFor');
     Route::post('messages/send', 'API\MessagesController@send');
 });
+
+Route::get('search', 'API\UserController@search');
+

@@ -7,7 +7,7 @@
                 <router-view></router-view>
             </div>
             <div class="w-100 px-0 px-sm-5 px-md-10 page-main-PC" v-else>
-                <router-view></router-view>
+                <router-view class="position-relative"></router-view>
             </div>
             <my-sidebar v-if="loggedIn && $route.name != 'messages'"></my-sidebar>
         </div>

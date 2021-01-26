@@ -1,6 +1,8 @@
 <template>
-<div>
-    <!-- <router-view></router-view>    -->
+<div style="padding-bottom:0.1px;">
+    <div class="spin-wrapper" v-if="post == ''">
+        <div class="spinner"></div>
+    </div>
     <div class="box-content shadow-sm">
         <div class="row px-3 py-2 box-post">
             <!-- avatar + name -->
@@ -106,7 +108,7 @@
         data() {
             return {
                 user:this.$store.getters.getUser,
-                post:{},
+                post:[],
                 isLiked: 'is-liked',
                 replies: {}
             }

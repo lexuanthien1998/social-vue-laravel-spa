@@ -468,4 +468,20 @@ class UserController extends Controller
     //         ], 200);
     //     }
     // }
+
+    public function search(Request $request) {
+        $keyword = $request->keyword;
+        if(isset($keyword) && strlen($keyword) > 0){
+            $user = User::whereNull('deleted_at')
+            ->where(function($query) use ($keyword){
+                $query->where('username', 'LIKE', '%' . $keyword . '%')
+                        ->orWhere('address', 'LIKE', '%' . $keyword . '%')
+                        ->orWhere('phone_number', 'LIKE', '%' . $keyword . '%')
+                        ->orWhere('email', 'LIKE', '%' . $keyword . '%')
+                        ->orWhere('name', 'LIKE', '%' . $keyword . '%');
+            })->select('id', 'username', 'image_profile', 'name')->get();
+            return response()->json($user, 200);
+        }
+        return response()->json(['message' => 'keyword not defined.'], 404);
+    }
 }

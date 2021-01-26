@@ -1,5 +1,8 @@
 <template>
     <div>
+        <div class="spin-wrapper" v-if="users.id == ''">
+            <div class="spinner"></div>
+        </div>
         <div class="img-main shadow" v-bind:style="{backgroundImage: users.image_main != '' ? `url('` + users.image_main + `')` : `url('/images/bg.jpg')` }">
             <div class="d-flex box-btn">
                 <div class="d-flex align-items-center" v-if="user.id != users.id" v-on:click="messages()"><i class="far fa-envelope-open"></i><span class="d-none d-xl-block">messages</span></div>
