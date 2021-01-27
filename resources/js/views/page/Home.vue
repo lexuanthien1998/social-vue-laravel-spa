@@ -1,9 +1,15 @@
 <template>
 <div style="padding-bottom:0.1px;">
     <div class="spin-wrapper" v-if="posts == ''">
-        <div class="spinner"></div>
+        <div class="spinner">
+            <div class="rect1"></div>
+            <div class="rect2"></div>
+            <div class="rect3"></div>
+            <div class="rect4"></div>
+            <div class="rect5"></div>
+        </div>
     </div>
-
+    
     <div class="box-content shadow-sm bg-white">
         <form @submit.prevent="submitPost" class="form-post p-2" enctype="multipart/form-data" ref='create_post'>
             <div class="d-flex">

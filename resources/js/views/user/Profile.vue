@@ -1,7 +1,16 @@
 <template>
     <div>
-        <div class="spin-wrapper" v-if="users.id == ''">
+        <!-- <div class="spin-wrapper" v-if="users.id == ''">
             <div class="spinner"></div>
+        </div> -->
+        <div class="spin-wrapper" v-if="users.id == ''">
+            <div class="spinner">
+                <div class="rect1"></div>
+                <div class="rect2"></div>
+                <div class="rect3"></div>
+                <div class="rect4"></div>
+                <div class="rect5"></div>
+            </div>
         </div>
         <div class="img-main shadow" v-bind:style="{backgroundImage: users.image_main != '' ? `url('` + users.image_main + `')` : `url('/images/bg.jpg')` }">
             <div class="d-flex box-btn">

@@ -3,20 +3,17 @@
         <div class="rounded-pill shadow-sm px-4 w-100 d-flex align-items-center position-relative search-box">
             <div class="d-flex align-items-center dropdown w-100">
                 <input type="text" placeholder="your keywords." v-model="keyword" class="w-100" data-toggle="dropdown">
-                <button type="button"><i class="fa fa-search" aria-hidden="true" v-if="!loading"></i></button>
-                <div class="spin-wrapper-search" v-if="loading">
-                    <div class="spinner-search"></div>
+                <div class="item loading-3" v-if="loading">
+                    <div class="loading"></div>
                 </div>
+                <i class="fas fa-times" v-else-if="isKeywords" v-on:click="deleteKeywords()"></i>
+                <button type="button" v-else><i class="fa fa-search" aria-hidden="true"></i></button>
+
                 <div class="dropdown-menu w-100 shadow px-3 overflow-scroll">
-                    <!-- <div class="d-flex align-items-center p-1" v-if="data == ''">
+                    <div class="d-flex align-items-center p-2" v-if="data == '' && answer != null">
                         <p>{{answer}}</p>
                     </div>
-                    <router-link :to="{name: 'profile', params: { username: item.username } }" class="rounded-pill d-flex align-items-center p-2" v-else v-for="(item, index) in data" :key='index'>
-                        <img :src="item.image_profile != null ? `../storage/images/users/`+ item.id + `/image_profile/` + item.image_profile : `/images/user.png`" class="img-fluid">
-                        <p>{{ item.username }}</p>
-                    </router-link> -->
-                    
-                    <router-link :to="{name: 'profile', params: { username: item.username } }" class="rounded-pill d-flex align-items-center p-2" v-for="(item, index) in data" :key='index'>
+                    <router-link :to="{name: 'profile', params: { username: item.username } }" class="rounded-pill d-flex align-items-center p-2 m-1" v-else v-for="(item, index) in data" :key='index'>
                         <img :src="item.image_profile != null ? `../storage/images/users/`+ item.id + `/image_profile/` + item.image_profile : `/images/user.png`" class="img-fluid">
                         <p>{{ item.username }}</p>
                     </router-link>
@@ -49,7 +46,8 @@
                 users: [],
                 keyword: '',
                 loading: false,
-                answer: 'Enter your keywords.',
+                isKeywords: false,
+                answer: null,
                 data: []
             }
         },
@@ -60,7 +58,7 @@
             })
             .then(response => {
                 const items = response.data.filter(user => user.id != this.user.id);
-                this.users = items
+                this.users = items;
             })
             .catch(response => {
                 return
@@ -68,22 +66,23 @@
         },
         watch: {
             keyword: function (newKeyword, oldKeyword) {
-                this.loading = true
-                this.debouncedGetAnswer()
+                this.loading = true;
+                this.debouncedGetAnswer();
             }
         },
         created: function () {
-            this.debouncedGetAnswer = _.debounce(this.getAnswer, 500)
+            this.debouncedGetAnswer = _.debounce(this.getAnswer, 500);
         },
         methods: {
             getAnswer: function () {
                 if (this.keyword == '') {
-                    this.loading = false
-                    this.data = []
-                    this.answer = 'Enter your keywords.'
+                    this.loading = false;
+                    this.isKeywords = false;
+                    this.data = [];
+                    this.answer = null;
                     return
                 }
-                var vm = this
+                var vm = this;
                 axios
                 .get('/api/search', {
                     params: {
@@ -91,15 +90,19 @@
                     }
                 })
                 .then(function (response) {
-                    vm.loading = false
-                    vm.data = response.data
+                    vm.loading = false;
+                    vm.isKeywords = true;
+                    vm.data = response.data;
                     if(vm.data.length == 0) {
-                        vm.answer = 'No results found.'
+                        vm.answer = 'No results found.';
                     }
                 })
                 .catch(function (error) {
                     return
                 })
+            },
+            deleteKeywords() {
+                this.keyword = '';
             },
             follow(index, e) {
                 if(e.target.innerHTML == 'follow') {
