@@ -19,13 +19,13 @@ import profileFollowing from './views/user/profile/profileFollowing.vue';
 import HomePage from './views/page/Home.vue';
 import PostDetails from './views/page/Details.vue';
 
-import ChatApp from './views/page/Chat.vue';
+import Messages from './views/page/Messages.vue';
 
 const routes = [
     { path: '/', name: 'home', component: HomePage, meta: { title: 'ʟ ᴏ ɴ ᴇ ʟ ʏ', requiresAuth: true } },
     { path: '/:id/details', name: 'post-details', component: PostDetails, meta: { requiresAuth: true } },
 
-    { path: '/messages', name: 'messages', component: ChatApp, meta: { requiresAuth: true } },
+    { path: '/messages', name: 'messages', component: Messages, meta: { requiresAuth: true } },
     
     { path: '/user/:username', name: 'profile', component: Profile, meta: { requiresAuth: true },
         children: [

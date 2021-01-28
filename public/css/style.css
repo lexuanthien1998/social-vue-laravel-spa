@@ -119,12 +119,6 @@ body {
   font-weight: 700;
   cursor: pointer;
 }
-@media only screen and (max-width: 576px) {
-  .page-main-PC {
-    padding-top: 60px;
-  }
-}
-
 /*main right */
 .box-main-right {
   width: 400px !important;
@@ -932,97 +926,6 @@ p.forgot-pw {
   height: 130px !important;
 }
 
-.box-messages {
-  background: #fff;
-  padding: 0 !important;
-  margin-bottom: 0px !important;
-  border-radius: 20px;
-}
-.box-messages li:hover {
-  background: #ecf4f3;
-}
-.box-messages .username{
-  margin-bottom: 0px !important;
-  white-space: nowrap; 
-  width: 100px; 
-  overflow: hidden;
-  text-overflow: ellipsis; 
-  letter-spacing: 1px;
-  font-size: 13px;
-  cursor: pointer;
-}
-@media only screen and (min-width: 1200px) {
-  .box-messages .username {
-    width: 160px; 
-  }
-}
-@media only screen and (max-width: 576px) {
-  .box-messages .username {
-    width: 50px; 
-  }
-}
-.conversation {
-  background: #fff;
-  border-radius: 20px;
-}
-.unread {
-  color: #ef4f4f;
-  font-size: 10px;
-}
-.input-send-messages {
-  position: absolute;
-  bottom:2px;
-  left: 0;
-  width: 100%;
-  padding: 12px;
-}
-.input-send-messages input{
-  width: 100%;
-  height: 40px;
-  background: #ecf4f3;
-  border: 3px solid #ecf4f3;
-  padding: 20px;
-}
-.list-messages {
-  /* background: #ecf4f35d; */
-  width: 100%;
-  height: 85%;
-  padding: 20px;
-  border: 3px solid #ecf4f3;
-  border-radius: 20px;
-  letter-spacing: 1px;
-  font-size: 13px;
-  margin-top: 20px;
-}
-.list-messages ul {
-  padding-left: 0 !important;
-}
-.list-messages ul li {
-  margin-bottom: 20px;
-}
-li.selected  {
-  background: #ecf4f3;
-}
-li.received {
-  text-align: left;
-  background: #dddddd;
-  max-width: 150px;
-  padding: 5px 10px;
-}
-li.sent {
-  margin-left: auto;
-  text-align: right;
-  background: #5eaaa8;
-  max-width: 150px;
-  padding: 5px 10px;
-}
-.conversation h5 {
-  letter-spacing: 5px;
-  font-size: 13px !important;
-  text-transform: uppercase;
-  color: #68b0ab;
-  font-weight: 700;
-}
 .box-post .box-comment i:hover {
   background: none;
   color: #ff7e67;
@@ -1195,4 +1098,73 @@ li.sent {
     transform: scaleY(1.0);
     -webkit-transform: scaleY(1.0);
   }
+}
+
+.messages {
+  background: #fff;
+  color: #68b0ab;
+  border-radius: 20px;
+  letter-spacing: 1px;
+}
+.messages .box-info  {
+  border-right: 5px solid #68b0ab;
+}
+.messages .box-info div {
+  padding: 5px;
+  cursor: pointer;
+  border-radius: 10px;
+}
+.messages .box-info img{
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  vertical-align: middle;
+  object-fit: cover;
+}
+.messages .box-info p {
+  margin: 0 !important;
+  white-space: nowrap; 
+  overflow: hidden;
+  text-overflow: ellipsis; 
+  cursor: pointer;
+}
+@media (min-width: 576px) { 
+  .messages .box-info p {
+    max-width: 30px;
+  }
+ }
+@media (min-width: 768px) { 
+  .messages .box-info p {
+    max-width: 50px;
+  }
+}
+@media (min-width: 992px) { 
+  .messages .box-info p {
+    max-width: 50px;
+  }
+}
+@media (min-width: 1200px) { 
+  .messages .box-info p {
+    max-width: 100px;
+  }
+}
+
+.messages .box-chat {
+  position: relative;
+}
+.messages .message {
+  height: 85%;
+}
+.messages .box-chat input{
+  position: absolute; 
+  bottom: 0; 
+  border: 2px solid #ecf4f3;
+  width: 100%;
+  padding: 10px;
+}
+.messages .message span {
+  background: #ecf4f3;
+}
+.unread {
+  color: #ff7e67 !important;
 }

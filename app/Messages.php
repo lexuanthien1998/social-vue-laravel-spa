@@ -15,8 +15,7 @@ class Messages extends Model
     public $timestamps = true;
     protected $dates = ['deleted_at'];
 
-    public function fromContact()
-    {
+    public function fromContact() {
         return $this->hasOne(User::class, 'id', 'from');
     }
 }

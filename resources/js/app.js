@@ -16,7 +16,6 @@ import App from './components/App';
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('my-sidebar', require('./components/TheSidebar.vue').default);
 Vue.component('my-heading', require('./components/TheHeading.vue').default);
-Vue.component('chat-app', require('./components/Chat/ChatApp.vue').default);
 
 // axios.defaults.withCredentials = true;
 // axios.defaults.baseURL = 'https://gabbyblog.herokuapp.com/';
