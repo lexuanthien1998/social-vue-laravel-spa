@@ -290,8 +290,12 @@ class PostsController extends Controller
         foreach($images as $image) {
             if(Storage::disk('local')->exists($imagePath.$image->path)) {
                 Storage::disk('local')->delete($imagePath.$image->path);
+                $image->delete();
             }
         }
+        Comments::whereNull('deleted_at')->where('post_id', $request->id)->delete();
+        Likes::whereNull('deleted_at')->where('post_id', $request->id)->delete();
+
         Posts::destroy($request->id);
         return response()->json([
             'success' => true,

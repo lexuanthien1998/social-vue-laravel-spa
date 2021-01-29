@@ -961,6 +961,7 @@ p.forgot-pw {
 .vue-notification {
   background: #68b0ab !important;
   border-left-color: #68b0ab !important;
+  border-radius: 5px !important;
 }
 
 /* Spinners search */
