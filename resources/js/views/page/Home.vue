@@ -306,7 +306,7 @@
         methods: {
             dateFormat(date) {
                 moment.locale("vi")
-               if(moment(date).add(5, 'days').format('L') < moment().format('L')) {
+               if(moment(date).add(5, 'days') < moment()) {
                    return moment(date).format("DD MMM, YYYY");
                } else {
                    return moment(date).format("ddd, HH:mm");

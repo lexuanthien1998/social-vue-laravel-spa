@@ -7,7 +7,6 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\User;
 use App\Messages;
-use App\Contacts;
 use App\Events\sendNewNessage;
 
 class MessagesController extends Controller
@@ -34,7 +33,14 @@ class MessagesController extends Controller
             foreach(array_unique($arrID) as $id) {
                 $user = User::whereNull('deleted_at')->where('id', $id)->select('id', 'username', 'name', 'image_profile')->first();
                 $messages = Messages::whereNull('deleted_at')->where('from', $id)->where('to', Auth::user()->id)->where('read', 0)->orderBy('id', 'desc')->get();
-                $arrUsers[] = collect($user)->merge(['unread' => count($messages)]);
+                $message = Messages::whereNull('deleted_at')->where(function($q) use ($id) {
+                    $q->where('from', Auth::user()->id);
+                    $q->where('to', $id);
+                })->orWhere(function($q) use ($id) {
+                    $q->where('from', $id);
+                    $q->where('to', Auth::user()->id);
+                })->orderBy('id', 'desc')->first();
+                $arrUsers[] = collect($user)->merge(['unread' => count($messages), 'last_message' => $message->created_at]);
             }
             return response()->json($arrUsers, 200);
         }

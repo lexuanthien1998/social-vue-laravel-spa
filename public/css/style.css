@@ -1101,18 +1101,23 @@ p.forgot-pw {
 }
 
 .messages {
-  background: #fff;
+  /* background: #fff; */
   color: #68b0ab;
   border-radius: 20px;
   letter-spacing: 1px;
 }
 .messages .box-info  {
-  border-right: 5px solid #68b0ab;
+  background: #fff;
+  border-radius: 20px;
 }
 .messages .box-info div {
   padding: 5px;
   cursor: pointer;
-  border-radius: 10px;
+  border-bottom-left-radius: 0px !important;
+  margin: 5px 0px;
+}
+.messages .box-info div:hover {
+  background: #ecf4f3;
 }
 .messages .box-info img{
   width: 40px;
@@ -1130,41 +1135,90 @@ p.forgot-pw {
 }
 @media (min-width: 576px) { 
   .messages .box-info p {
-    max-width: 30px;
+    max-width: 70px;
   }
  }
 @media (min-width: 768px) { 
   .messages .box-info p {
-    max-width: 50px;
+    max-width: 100px;
   }
 }
 @media (min-width: 992px) { 
   .messages .box-info p {
-    max-width: 50px;
+    max-width: 110px;
   }
 }
 @media (min-width: 1200px) { 
   .messages .box-info p {
-    max-width: 100px;
+    max-width: 170px;
   }
 }
-
+@media (min-width: 1400px) { 
+  .messages .box-info p {
+    max-width: 225px;
+  }
+}
 .messages .box-chat {
   position: relative;
+  background: #fff;
+  border-radius: 20px;
+  padding: 0px;
+}
+.messages .box-chat .info-contact {
+  box-shadow: 0 4px 2px -2px rgba(0, 0, 0, 0.075);
+  border-bottom-left-radius: 5px !important;
+  border-bottom-right-radius: 5px !important;
+}
+.messages .box-chat .info-contact a {
+  color:#68b0ab;
+  text-decoration: none;
 }
 .messages .message {
-  height: 85%;
+  height: 84%;
 }
-.messages .box-chat input{
+.messages .message div {
+  background: #ecf4f3;
+  max-width: 150px;
+}
+.messages .message div.your {
+  margin-left: auto;
+  text-align: right;
+  background: #d4e2d4 !important;
+  border-top-left-radius: 10px !important;
+  border-top-right-radius: 10px !important;
+  border-bottom-left-radius: 10px !important;
+  border-bottom-right-radius: 0px !important;
+}
+.messages .message div.other {
+  border-top-left-radius: 10px !important;
+  border-top-right-radius: 10px !important;
+  border-bottom-left-radius: 0px !important;
+  border-bottom-right-radius: 10px !important;
+}
+.messages .box-chat img {
+  border-radius: 50%;
+  height: 50px;
+  width: 50px;
+}
+.messages .box-chat .box-input {
   position: absolute; 
   bottom: 0; 
+  width: 100%;
+  padding: 15px;
+  border-top-left-radius: 5px !important;
+  border-top-right-radius: 5px !important;
+}
+.messages .box-chat input {
   border: 2px solid #ecf4f3;
   width: 100%;
   padding: 10px;
+  margin: 0 !important;
 }
 .messages .message span {
   background: #ecf4f3;
+  padding: 5px;
+  border-radius: 5px;
 }
 .unread {
-  color: #ff7e67 !important;
+  color: #ff7171 !important;
 }
