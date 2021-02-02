@@ -55,6 +55,7 @@ Route::middleware('auth:api')->group(function () {
     Route::get('contacts', 'API\MessagesController@contacts');
     Route::get('get-messages-for/{id}', 'API\MessagesController@getMessagesFor');
     Route::post('messages/send', 'API\MessagesController@send');
+    Route::get('search-messages', 'API\MessagesController@searchMessages');
 });
 
 Route::get('search', 'API\UserController@search');

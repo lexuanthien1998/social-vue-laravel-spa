@@ -7,7 +7,7 @@
             <div class="box-content rounded-pill shadow-sm" v-on:click="openModal()"><i class="fas fa-feather-alt rounded-circle"></i><span>Post</span></div>
             <div class="box-content rounded-pill shadow-sm"><i class="fas fa-bell rounded-circle"></i><span>Notifications</span></div>
             <router-link :to="{name: 'messages'}">
-            <div class="box-content rounded-pill shadow-sm" v-bind:class="[$route.name == 'messages' ? 'active' : '']"><i class="fab fa-facebook-messenger rounded-circle"></i><span>Messages</span></div>
+            <div class="box-content rounded-pill shadow-sm" v-bind:class="[$route.name == 'messages' ? 'active' : '']"><i class="fas fa-envelope-open rounded-circle"></i><span>Messages</span></div>
             </router-link>
             <router-link :to="{name: 'profile', params: { username: getUser.username } }">
                 <div class="box-content rounded-pill shadow-sm" v-bind:class="[$route.name == 'profile' ? 'active' : '']"><i class="fas fa-user rounded-circle"></i><span>Profile</span></div>
@@ -24,7 +24,7 @@
             <i class="fas fa-feather-alt rounded-circle shadow-sm" v-on:click="openModal()"></i>
             <i class="fas fa-bell rounded-circle shadow-sm"></i>
             <router-link :to="{name: 'messages'}">
-                <i class="fab fa-facebook-messenger rounded-circle shadow-sm" v-bind:class="[$route.name == 'messages' ? 'active' : '']"></i>
+                <i class="fas fa-envelope-open rounded-circle shadow-sm" v-bind:class="[$route.name == 'messages' ? 'active' : '']"></i>
             </router-link>
             <router-link :to="{name: 'profile', params: { username: getUser.username } }">
                 <i class="fas fa-user rounded-circle shadow-sm" v-bind:class="[$route.name == 'profile' ? 'active' : '']"></i>
@@ -41,7 +41,7 @@
             <i class="fas fa-feather-alt rounded-circle shadow-sm" v-on:click="openModal()"></i>
             <i class="fas fa-bell rounded-circle shadow-sm"></i>
             <router-link :to="{name: 'messages'}">
-                <i class="fab fa-facebook-messenger rounded-circle shadow-sm" v-bind:class="[$route.name == 'messages' ? 'active' : '']"></i>
+                <i class="fas fa-envelope-open rounded-circle shadow-sm" v-bind:class="[$route.name == 'messages' ? 'active' : '']"></i>
             </router-link>
             <router-link :to="{name: 'profile', params: { username: getUser.username } }">
                 <i class="fas fa-user rounded-circle shadow-sm" v-bind:class="[$route.name == 'profile' ? 'active' : '']"></i>

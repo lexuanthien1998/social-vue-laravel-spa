@@ -84,4 +84,32 @@ class MessagesController extends Controller
             return response()->json(['failed' => true], 404);
         }
     }
+    public function searchMessages(Request $request) {
+        $keyword = $request->keyword;
+        if(isset($keyword) && strlen($keyword) > 0){
+            $messages = Messages::whereNull('deleted_at')->where(function ($query) {
+                $query->where('from', Auth::user()->id)
+                      ->orWhere('to', Auth::user()->id);
+            })->orderBy('id', 'desc')->select('from', 'to')->get();
+            $arrID = [];
+            if(count($messages) > 0) {
+                foreach($messages as $message) {
+                    if($message->from == Auth::user()->id) {
+                        $arrID[] = $message->to;
+                    } else {
+                        $arrID[] = $message->from;
+                    }
+                }
+                $users = User::whereNull('deleted_at')
+                ->whereIn('id', array_unique($arrID))
+                ->where(function($query) use ($keyword){
+                    $query->where('username', 'LIKE', '%' . $keyword . '%')
+                        ->orWhere('phone_number', 'LIKE', '%' . $keyword . '%')
+                        ->orWhere('name', 'LIKE', '%' . $keyword . '%');
+                })->select('id')->get();
+                return response()->json($users, 200);
+            }
+        }
+        return response()->json(['message' => 'keyword not defined.'], 404);
+    }
 }
