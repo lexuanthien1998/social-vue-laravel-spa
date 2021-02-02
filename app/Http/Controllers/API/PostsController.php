@@ -22,7 +22,7 @@ class PostsController extends Controller
         $arr = [];
         foreach($posts as $post) {
             $user = User::where('id', $post->user_id)->first();
-            $likes = Likes::whereNull('deleted_at')->where('post_id', $post->id)->pluck('user_id');
+            $likes_post = Likes::whereNull('deleted_at')->where('post_id', $post->id)->pluck('user_id');
 
             $comments = Comments::whereNull('deleted_at')->where('post_id', $post->id)->orderBy('created_at', 'desc')->get();
             $arrComments = [];
@@ -76,7 +76,7 @@ class PostsController extends Controller
                 $image_profile = '';
             }
 
-            $arr[] = collect($post)->merge(['username' => $user->username, 'image_profile' => $image_profile, 'path' => $path, 'likes' => $likes, 'comments' => $arrComments]);
+            $arr[] = collect($post)->merge(['username' => $user->username, 'image_profile' => $image_profile, 'path' => $path, 'likes' => $likes_post, 'comments' => $arrComments]);
         }
         return response()->json([
             'success' => true,
@@ -227,7 +227,7 @@ class PostsController extends Controller
         $post = Posts::find($id);
         if($post != null) {
             $user = User::where('id', $post->user_id)->first();
-            $likes = Likes::whereNull('deleted_at')->where('post_id', $post->id)->pluck('user_id');
+            $likes_post = Likes::whereNull('deleted_at')->where('post_id', $post->id)->pluck('user_id');
             $comments = Comments::whereNull('deleted_at')->where('post_id', $post->id)->select('id','user_id', 'comment', 'likes', 'reply', 'created_at')->orderBy('created_at', 'desc')->get();
             $arrComments = [];
             foreach($comments as $comment) {
@@ -278,7 +278,7 @@ class PostsController extends Controller
                 $image_profile = '';
             }
 
-            $post = collect($post)->merge(['username' => $user->username, 'path' => $path, 'likes' => $likes, 'comments' => $arrComments, 'image_profile' => $image_profile]);
+            $post = collect($post)->merge(['username' => $user->username, 'path' => $path, 'likes' => $likes_post, 'comments' => $arrComments, 'image_profile' => $image_profile]);
             return response()->json($post, 200);
         }
         return response()->json(['error' => 'not Found'],404);
@@ -304,21 +304,18 @@ class PostsController extends Controller
 
     public function likes(Request $request) {
         if(isset($request->user_id) && isset($request->post_id)) {
+            $like = Likes::whereNull('deleted_at')->where('user_id', $request->user_id)->where('post_id', $request->post_id)->first();
+            if($like != null) {
+                $like->forceDelete();
+                return response()->json(['dislikes' => true], 200);
+            }
             $likes = new Likes;
             $likes->user_id = $request->user_id;
             $likes->post_id = $request->post_id;
             $likes->save();
-            return response()->json(200);
+            return response()->json(['likes' => true], 200);
         } else {
-            return response()->json(404);
-        }
-    }
-    public function dislikes(Request $request) {
-        if(isset($request->user_id) && isset($request->post_id)) {
-            $likes = Likes::where('user_id', $request->user_id)->where('post_id', $request->post_id)->forceDelete();
-            return response()->json(200);
-        } else {
-            return response()->json(404);
+            return response()->json(['failed' => true], 404);
         }
     }
     public function comment(Request $request) {
@@ -333,15 +330,15 @@ class PostsController extends Controller
                 'comment_id' => $comment->id
             ], 200);
         } else {
-            return response()->json(404);
+            return response()->json(['failed' => true], 404);
         }
     }
     public function deleteComment(Request $request) {
         if($request->id != '' || $request->id != null) {
             $comment = Comments::find($request->id)->forceDelete();
-            return response()->json(200);
+            return response()->json(['success' => true], 200);
         } else {
-            return response()->json(404);
+            return response()->json(['failed' => true], 404);
         }
     }
     public function likesComment(Request $request, $id) {

@@ -27,7 +27,6 @@ Route::prefix('/post')->group(function() {
     Route::post('destroy', 'API\PostsController@destroy');
 
     Route::post('likes', 'API\PostsController@likes');
-    Route::post('dislikes', 'API\PostsController@dislikes');
     Route::post('comment', 'API\PostsController@comment');
     Route::post('del-comment', 'API\PostsController@deleteComment');
 });

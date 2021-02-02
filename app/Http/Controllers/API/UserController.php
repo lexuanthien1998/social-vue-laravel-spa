@@ -160,11 +160,27 @@ class UserController extends Controller
 
             $arrPosts = [];
             foreach($user->posts as $post) {
-                $likes = Likes::whereNull('deleted_at')->where('post_id', $post->id)->pluck('user_id');
-                $comments = Comments::whereNull('deleted_at')->where('post_id', $post->id)->select('user_id', 'comment', 'created_at')->get();
+                $likes_post = Likes::whereNull('deleted_at')->where('post_id', $post->id)->pluck('user_id');
+                $comments = Comments::whereNull('deleted_at')->where('post_id', $post->id)->orderBy('created_at', 'desc')->get();
                 $arrComments = [];
                 foreach($comments as $comment) {
-                    $arrComments[] = collect($comment)->merge(['user' => User::find($comment->user_id)]);
+                    $likes = $comment->likes;
+                    if($likes == null) {
+                        $likes = [];
+                    }
+
+                    if($comment->reply == null) {
+                        $reply = 0;
+                    } else {
+                        $listReply = [];
+                        foreach(array_values($comment->reply) as $replies) {
+                            foreach($replies as $reply) {
+                                $listReply[] = $reply;
+                            }
+                        }
+                        $reply = count($listReply);
+                    }
+                    $arrComments[] = collect($comment)->merge(['user' => User::find($comment->user_id), 'likes' => $likes, 'reply' => $reply, 'replies' => [], 'active' => false]);
                 }
                 $image = ImagesPost::where('post_id', $post->id)->first();
                 if($image) {
@@ -183,7 +199,7 @@ class UserController extends Controller
                 } else {
                     $path = "";
                 }
-                $arrPosts[] = collect($post)->merge(['path' => $path, 'likes' => $likes, 'comments' => $arrComments]);
+                $arrPosts[] = collect($post)->merge(['path' => $path, 'likes' => $likes_post, 'comments' => $arrComments]);
             }
 
             $followers = Follows::whereNull('deleted_at')->where('user_id_follow', $user->id)->pluck('user_id');

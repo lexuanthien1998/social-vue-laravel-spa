@@ -556,33 +556,23 @@
                 });
             },
             likesPost(index) {
-                if(this.$refs.ref_likes[index].classList.contains('is-liked')) {
-                    axios
-                    .post('/api/post/dislikes', {
-                        user_id:this.user.id,
-                        post_id: this.posts[index].id
-                    })
-                    .then((response) => {
-                        this.$refs.ref_likes[index].classList.remove('is-liked')
-                        this.posts[index].likes.pop()
-                    })
-                    .catch((error) => {
-                        return
-                    });
-                } else {
-                    axios
-                    .post('/api/post/likes', {
-                        user_id:this.user.id,
-                        post_id: this.posts[index].id
-                    })
-                    .then((response) => {
+                axios
+                .post('/api/post/likes', {
+                    user_id:this.user.id,
+                    post_id: this.posts[index].id
+                })
+                .then((response) => {
+                    if(response.data.likes) {
                         this.$refs.ref_likes[index].classList.add('is-liked')
                         this.posts[index].likes.push(this.user.id)
-                    })
-                    .catch((error) => {
-                        return
-                    });
-                }
+                    } else {
+                        this.$refs.ref_likes[index].classList.remove('is-liked')
+                        this.posts[index].likes = this.posts[index].likes.filter(item => item !== this.user.id);
+                    }
+                })
+                .catch((error) => {
+                    return
+                });
             },
             addComment(index) {
                 if(this.$refs.ref_comment[index].value != '') {

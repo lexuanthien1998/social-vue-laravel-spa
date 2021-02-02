@@ -124,6 +124,7 @@
             .get('/api/post/'+this.$route.params.id+'/details')
             .then(response => {
                 this.post = response.data
+                console.log(this.post)
             })
             .catch(error => {
                 this.$router.back()
@@ -156,33 +157,24 @@
                 });
             },
             likesPost() {
-                if(this.$refs.ref_likes.classList.contains('is-liked')) {
-                    axios
-                    .post('/api/post/dislikes', {
-                        user_id:this.user.id,
-                        post_id: this.post.id
-                    })
-                    .then((response) => {
-                        this.$refs.ref_likes.classList.remove('is-liked')
-                        this.post.likes.pop()
-                    })
-                    .catch((error) => {
-                        return
-                    });
-                } else {
-                    axios
-                    .post('/api/post/likes', {
-                        user_id:this.user.id,
-                        post_id: this.post.id
-                    })
-                    .then((response) => {
+                axios
+                .post('/api/post/likes', {
+                    user_id:this.user.id,
+                    post_id: this.post.id
+                })
+                .then((response) => {
+                    if(response.data.likes) {
                         this.$refs.ref_likes.classList.add('is-liked')
                         this.post.likes.push(this.user.id)
-                    })
-                    .catch((error) => {
-                        return
-                    });
-                }
+                    } else {
+                        this.$refs.ref_likes.classList.remove('is-liked')
+                        this.post.likes = this.post.likes.filter(item => item !== this.user.id);
+                    }
+                })
+                .catch((error) => {
+                    return
+                });
+                // if(this.$refs.ref_likes.classList.contains('is-liked')) {
             },
             addComment() {
                 if(this.$refs.ref_comment.value != '') {
