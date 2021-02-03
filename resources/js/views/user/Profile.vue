@@ -91,7 +91,7 @@
                             <div class="d-flex align-items-center py-3 justify-content-between box-action-post">
                                 <div class="d-flex">
                                     <i v-bind:class="[post.likes.includes(user.id) ? isLiked : '']" ref='ref_likes' v-on:click="likesPost(index)" class="far fa-heart"></i>
-                                    <label v-bind:for="'comment' + index" class="px-4 m-0"><i class="far fa-comment"></i></label>
+                                    <label v-bind:for="'comment' + index" class="px-5 m-0"><i class="far fa-comment"></i></label>
                                     <i class="far fa-share"></i>
                                 </div>
                                 <div class="d-flex">

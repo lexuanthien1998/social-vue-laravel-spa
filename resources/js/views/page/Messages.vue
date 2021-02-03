@@ -155,6 +155,7 @@
                 })
                 .catch(function (error) {
                     vm.loading = false;
+                    vm.contacts = vm.users;
                     return
                 })
             },

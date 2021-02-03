@@ -279,7 +279,7 @@ body {
 }
 .box-action-post i {
   padding: 0 !important;
-  font-size: 18px !important;
+  font-size: 19px !important;
 }
 .box-action-post i:hover {
   background: none !important;
@@ -309,10 +309,9 @@ body {
   color: #222;
 }
 .box-content .post-image .see-more {
-  color: #707070;
+  color: #68b0ab;
   cursor: pointer;
-  font-size: 12px;
-  font-weight: 900;
+  text-transform: lowercase;
 }
 h1.text-img {
   font-size: 35px;
@@ -1250,4 +1249,3 @@ p.forgot-pw {
 .unread {
   color: #ff7171 !important;
 }
-

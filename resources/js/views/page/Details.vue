@@ -41,7 +41,7 @@
                 <div class="d-flex align-items-center py-3 justify-content-between box-action-post">
                     <div class="d-flex">
                         <i v-if="post.likes" v-bind:class="[post.likes.includes(user.id) ? isLiked : '']" ref='ref_likes' v-on:click="likesPost()" class="far fa-heart"></i>
-                        <label for="comment" class="px-4 m-0"><i class="far fa-comment"></i></label>
+                        <label for="comment" class="px-5 m-0"><i class="far fa-comment"></i></label>
                         <i class="far fa-share"></i>
                     </div>
                     <div class="d-flex" v-if="post.likes || post.comments">

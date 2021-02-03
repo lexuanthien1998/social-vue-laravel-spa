@@ -9,7 +9,6 @@
             <div class="rect5"></div>
         </div>
     </div>
-    
     <div class="box-content shadow-sm bg-white">
         <form @submit.prevent="submitPost" class="form-post p-2" enctype="multipart/form-data" ref='create_post'>
             <div class="d-flex">
@@ -31,13 +30,11 @@
             </div>
         </form>
     </div>
-    <div class="box-content shadow-sm" v-for="(post, index) in items" :key="index" :ref="'box_post' + post.id">
+    <div class="box-content shadow-sm" v-for="(post, index) in items" :key="index">
         <div class="row p-2 box-post">
-            <!-- avatar + name -->
             <div class="col d-flex justify-content-between align-items-center">
                 <div class="d-flex align-items-center">
                     <img :src="post.image_profile != '' ? post.image_profile : `/images/user.png`" style="width:35px; height:35px; vertical-align: middle;" class="rounded-circle img-fluid">
-                    <!-- <h1 class="text-img" v-bind:style="{backgroundImage: post.image_profile != '' ? `url('` + post.image_profile + `')` : `url('/images/user.png')` }">{{ post.username | username() }}</h1> -->
                     <div>
                         <router-link :to="{name: 'profile', params: { username: post.username } }"><div class="name-user-post">{{post.username}}</div></router-link>
                         <p class="datatime-post">{{dateFormat(post.created_at)}}</p>
@@ -52,20 +49,17 @@
                     </div>
                 </div>
             </div>
-            <!-- action delete + edit -->
-            <!-- content + image -->
             <div class="px-3 post-image">
                 <span v-if="post.content != null" v-on:click="detailsPost(index)">{{ post.content | shortText(250) }}</span>
                 <span class="d-none" v-if="post.content != null" v-on:click="detailsPost(index)">{{ post.content }}</span>
                 <div v-if="post.content != null && post.content.length > 250" v-on:click="toggler($event)" class="see-more">See more</div>
                 <div class="mt-2 bg-images" v-if="post.path != ''" v-on:click="detailsPost(index)" v-bind:style="{backgroundImage: `url('` + post.path + `')`}"></div>
             </div>
-            <!-- icon like... -->
             <div class="px-3">
                 <div class="d-flex align-items-center justify-content-between py-3 box-action-post">
                     <div class="d-flex">
                         <i v-bind:class="[post.likes.includes(user.id) ? isLiked : '']" ref='ref_likes' v-on:click="likesPost(index)" class="far fa-heart"></i>
-                        <label v-bind:for="'comment' + index" class="px-4 m-0"><i class="far fa-comment"></i></label>
+                        <label v-bind:for="'comment' + index" class="px-5 m-0"><i class="far fa-comment"></i></label>
                         <i class="far fa-share" v-on:click="sharePost(index)"></i>
                     </div>
                     <div class="d-flex">
@@ -73,10 +67,8 @@
                         <p v-if="post.comments.length> 0" class="m-0 pl-3" v-on:click="detailsPost(index)">{{ post.comments.length }} comments</p>
                     </div>
                 </div>
-                <!-- input comment -->
                 <div class="d-flex align-items-center pb-2">
                     <img :src="user.image_profile != '' ? user.image_profile : `/images/user.png`" style="width:35px; height:35px; vertical-align: middle;" class="rounded-circle img-fluid mr-3">
-                    <!-- <h1 class="text-img pr-4" v-bind:style="{backgroundImage: user.image_profile != '' ? `url('` + user.image_profile + `')` : `url('/images/user.png')`}">{{ user.username | username() }}</h1> -->
                     <form @submit.prevent="addComment(index)" class="w-100">
                         <input type="text" v-bind:id="'comment' + index" ref='ref_comment' placeholder="Add comment..." class="rounded-pill px-3 py-1 w-100 comment">
                         <button type="submit" class="btn btn-sm rounded-pill" hidden></button>
@@ -561,7 +553,6 @@
                     params: { id: this.posts[index].id }
                 }).href;
                 const fullUrl = window.location.origin + path;
-                // window.location.href = `https://www.facebook.com/sharer?u=` + fullUrl;
                 window.open(`https://www.facebook.com/sharer?u=` + fullUrl, '_blank');
             },
             likesPost(index) {
