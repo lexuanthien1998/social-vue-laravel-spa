@@ -66,7 +66,7 @@
                     <div class="d-flex">
                         <i v-bind:class="[post.likes.includes(user.id) ? isLiked : '']" ref='ref_likes' v-on:click="likesPost(index)" class="far fa-heart"></i>
                         <label v-bind:for="'comment' + index" class="px-4 m-0"><i class="far fa-comment"></i></label>
-                        <i class="far fa-share"></i>
+                        <i class="far fa-share" v-on:click="sharePost(index)"></i>
                     </div>
                     <div class="d-flex">
                         <p v-if="post.likes.length > 0" class="m-0">{{ post.likes.length }} likes</p>
@@ -554,6 +554,15 @@
                     duration: 10000,
                     speed: 1000
                 });
+            },
+            sharePost(index) {
+                const path = this.$router.resolve({
+                    name: "post-details",
+                    params: { id: this.posts[index].id }
+                }).href;
+                const fullUrl = window.location.origin + path;
+                // window.location.href = `https://www.facebook.com/sharer?u=` + fullUrl;
+                window.open(`https://www.facebook.com/sharer?u=` + fullUrl, '_blank');
             },
             likesPost(index) {
                 axios
