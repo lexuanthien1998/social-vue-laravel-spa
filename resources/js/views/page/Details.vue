@@ -9,7 +9,41 @@
             <div class="rect5"></div>
         </div>
     </div>
-    <div class="box-content shadow-sm">
+    <div class="box-content shadow-sm" v-if="post == ''">
+        <div class="row p-2 template-post">
+            <div class="col d-flex justify-content-between align-items-center">
+                <div class="d-flex align-items-center">
+                    <div class="circle-img mr-2"></div>
+                    <div class="p-0">
+                        <div class="rounded-pill icon-user"></div>
+                        <div class="rounded-pill icon-date"></div>
+                    </div>
+                </div>
+                <i class="far fa-ellipsis-h"></i>
+            </div>
+            <div class="px-3 icon-content">
+                <div class="rounded-pill w-50"></div>
+                <div class="rounded-pill w-75"></div>
+                <div class="rounded-pill w-25"></div>
+            </div>
+            <div class="px-3">
+                <div class="d-flex align-items-center justify-content-between icon-ation pt-2">
+                    <div class="d-flex">
+                        <i class="far fa-heart"></i>
+                        <i class="far fa-comment"></i>
+                        <i class="far fa-share"></i>
+                    </div>
+                    <p class="rounded-pill"></p>
+                </div>
+                <div class="d-flex align-items-center py-3 icon-comment">
+                    <div class="circle-img"></div>
+                    <div class="rounded-pill icon-input ml-auto"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="box-content shadow-sm" v-else>
         <div class="row px-3 py-2 box-post">
             <!-- avatar + name -->
             <div class="col d-flex justify-content-between align-items-center">
