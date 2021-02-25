@@ -1,4 +1,4 @@
-@keyframes swing {
+/* @keyframes swing {
   0% {
     transform: rotate(0deg);
   }
@@ -37,7 +37,7 @@
     transform: scale(2);
     opacity: 0;
   }
-}
+} */
 body {
   background: #F2F3F5 !important;
   font-weight: 550 !important;
@@ -52,8 +52,47 @@ body {
     display: none;
 }
 /* menu-left */
-.page-main {
-  width: 160px !important;
+.heading .box-content {
+  width: 150px;
+  display: flex;
+  align-items: center;
+  background: #fff;
+  padding: 10px;
+  color: #68b0ab;
+  margin-bottom: 15px;
+}
+.heading .box-content:hover {
+  background: #ecf4f3;
+  cursor: pointer;
+}
+.heading .box-content i {
+  margin-right: 10px;
+  padding: 10px;
+  background: #68b0ab;
+  color: #fff;
+}
+.heading .box-content i:hover {
+  background: #ff7e67;
+}
+.heading a {
+  text-decoration: none;
+}
+.heading-sp i:hover, .heading-sm i:hover{
+  background: #ecf4f3;
+}
+.heading-sp {
+  right:0.5px !important; 
+  background: #fff !important;
+}
+.heading-sp i {
+  padding: 15px;
+  background: #fff;
+  color: #68b0ab;
+  font-weight: 700;
+  cursor: pointer;
+}
+/* .page-main {
+  width: 300px !important;
 }
 .page-main .box-content {
   background: #fff;
@@ -75,25 +114,12 @@ body {
 .page-main .box-content i:hover {
   background: #ff7e67;
 }
-
-.sidebar-footer {
-  position: absolute;
-  bottom: 0;
-  margin-bottom: 0 !important;
-}
 .page-main a {
   text-decoration: none;
   color: black;
 }
 .page-main a:hover {
   color: black;
-}
-.box-login {
-  position: absolute;
-  bottom: 80px;
-}
-.active {
-  background: #ecf4f3 !important;
 }
 .page-main-sm i{
   padding: 15px;
@@ -106,7 +132,6 @@ body {
 .page-main-sp i:hover, .page-main-sm i:hover{
   background: #ecf4f3;
 }
-
 .page-main-sp {
   padding: 10px 35px;
   right:0.4px !important; 
@@ -118,6 +143,18 @@ body {
   color: #68b0ab;
   font-weight: 700;
   cursor: pointer;
+} */
+.sidebar-footer {
+  position: absolute;
+  bottom: 0;
+  margin-bottom: 0 !important;
+}
+.box-login {
+  position: absolute;
+  bottom: 80px;
+}
+.active {
+  background: #ecf4f3 !important;
 }
 /*main right */
 .box-main-right {
@@ -357,10 +394,11 @@ h1.text-img {
   color:#fff;
   background: #68b0ab;
   text-transform: uppercase;
-  padding: 5px 15px !important;
+  padding: 2px 10px !important;
   font-weight: 700;
-  letter-spacing: 2px;
+  letter-spacing: 1px;
   font-size: 13px;
+  border-radius: 7px;
 }
 button:hover {
   color: #fff !important;
@@ -1269,7 +1307,7 @@ p.forgot-pw {
   margin-top: 5px;
 }
 .template-post i{
-  font-size: 20px !important;
+  font-size: 23px !important;
   color: #ecf4f3 !important;
   padding: 0;
 }

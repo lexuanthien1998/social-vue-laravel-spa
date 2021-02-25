@@ -33,7 +33,6 @@
                         <i class="far fa-comment"></i>
                         <i class="far fa-share"></i>
                     </div>
-                    <p class="rounded-pill"></p>
                 </div>
                 <div class="d-flex align-items-center py-3 icon-comment">
                     <div class="circle-img"></div>

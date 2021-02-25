@@ -33,7 +33,7 @@
     </div>
 
     <div v-if="posts == ''">
-        <div class="box-content shadow-sm" v-for="index  in 2" :key="index">
+        <div class="box-content shadow-sm" v-for="a in 2" :key="a">
             <div class="row p-2 template-post">
                 <div class="col d-flex justify-content-between align-items-center">
                     <div class="d-flex align-items-center">
@@ -57,7 +57,6 @@
                             <i class="far fa-comment"></i>
                             <i class="far fa-share"></i>
                         </div>
-                        <p class="rounded-pill"></p>
                     </div>
                     <div class="d-flex align-items-center py-3 icon-comment">
                         <div class="circle-img"></div>
@@ -128,24 +127,24 @@
         </div>
     </div>
     <!-- Modal Create Post -->
-    <div class="modal box-create-post" ref="modalCreatePost" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal box-create-post" ref="modalCreatePost" v-on:click="closeModal()">
         <div class="modal-dialog modal-lg modal-custom">
-            <div class="modal-content px-3">
-                <div class="modal-header pb-0">
+            <div class="modal-content p-3">
+                <div class="modal-header p-0">
                     <h5 class="modal-title"><i class="fas fa-feather-alt mr-1" style="color:#ff7e67;"></i>create...</h5>
                     <i class="fas fa-times" v-on:click="closeModal()"></i>
                 </div>
-                <form @submit.prevent="submitPostModal" class="form-post p-3" enctype="multipart/form-data">
-                    <div class="modal-body">
+                <form @submit.prevent="submitPostModal" class="form-post" enctype="multipart/form-data">
+                    <div class="modal-body my-3">
                         <textarea class="form-control" rows="3" v-model="content_modal"></textarea>
                         <div v-if="image_modal != ''" class="bg-images mt-3" v-bind:style="{backgroundImage: `url('` + image_modal + `')`}" style="max-height:250px;"></div>
                     </div>
-                    <div class="modal-footer px-0 d-flex justify-content-between">
+                    <div class="modal-footer p-0 d-flex justify-content-between">
                         <div class="image-upload">
-                            <label for="file-input-modal"><i class="far fa-images"></i></label>
+                            <label for="file-input-modal" class="m-0"><i class="far fa-images"></i></label>
                             <input id="file-input-modal" v-on:change="onImageChangeModal" type="file"/>
                         </div>
-                        <button type="submit" class="btn rounded-pill py-2 px-4">post</button>
+                        <button type="submit" class="btn rounded-pill">post</button>
                     </div>
                 </form>
             </div>
@@ -433,14 +432,16 @@
                 }
             },
             closeModal() {
-                //detele query router
-                let query = Object.assign({}, this.$route.query);
-                delete query.action;
-                this.$router.replace({ query });
-
-                this.image_modal = '';
-                this.content_modal = '';
-                $(this.$refs.modalCreatePost).modal('toggle');
+                if (this.$route.query.action == 'create') {
+                    //detele query router
+                    let query = Object.assign({}, this.$route.query);
+                    delete query.action;
+                    this.$router.replace({ query });
+                    this.image_modal = '';
+                    this.content_modal = '';
+                    $(this.$refs.modalCreatePost).modal('toggle');
+                    return
+                }
             },
             // End Modal Create Post
             onImageChange(e){

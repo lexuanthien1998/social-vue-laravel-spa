@@ -52,14 +52,14 @@
                                 <input id="file-input" v-on:change="onImageChange" type="file"/>
                             </div>
                             <div>
-                                <button type="submit" class="btn btn-sm rounded-pill">Post</button>
+                                <button type="submit" class="btn rounded-pill">Post</button>
                             </div>
                         </div>
                     </form>
                 </div>
 
                 <div v-if="users.id == ''">
-                    <div class="box-content shadow-sm" v-for="index  in 2" :key="index">
+                    <div class="box-content shadow-sm" v-for="a in 2" :key="a">
                         <div class="row p-2 template-post">
                             <div class="col d-flex justify-content-between align-items-center">
                                 <div class="d-flex align-items-center">
@@ -83,7 +83,6 @@
                                         <i class="far fa-comment"></i>
                                         <i class="far fa-share"></i>
                                     </div>
-                                    <p class="rounded-pill"></p>
                                 </div>
                                 <div class="d-flex align-items-center py-3 icon-comment">
                                     <div class="circle-img"></div>
