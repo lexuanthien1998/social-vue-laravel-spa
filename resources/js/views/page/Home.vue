@@ -314,16 +314,30 @@
             .catch(response => {
             });
 
-            // Modal Create Post
+            // open Modal Create Post New
             if(this.$route.query.action == 'create') {
                 $(this.$refs.modalCreatePost).modal('show')
             };
         },
         watch: {
-            // Modal Create Post
             $route(to) {
+                // open Modal Create Post New
                 if(to.query.action == 'create') {
                     $(this.$refs.modalCreatePost).modal('show')
+                }
+                // reload page home with list Posts
+                if(to.query.action == 'scroll') {
+                    let query = Object.assign({}, this.$route.query);
+                    delete query.action;
+                    this.$router.replace({ query });
+                    this.$refs['create_post'].scrollIntoView(0,0);
+                    this.axios
+                    .get('/api/post/index')
+                    .then(response => {
+                        this.posts = response.data.posts
+                    })
+                    .catch(response => {
+                    });
                 }
             }
         },

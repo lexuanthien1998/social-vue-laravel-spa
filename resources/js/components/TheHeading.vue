@@ -1,10 +1,12 @@
 <template>
     <div class="sticky-top">
         <div class="d-none d-lg-block heading">
-            <router-link :to="{name:'home'}">
+            <router-link :to="{name:'home', query: { action: 'scroll' }}">
                 <div class="box-content rounded-pill shadow-sm" v-bind:class="[$route.name == 'home' ? 'active' : '']"><i class="fas fa-home rounded-circle"></i><span>Home</span></div>
             </router-link>
-            <div class="box-content rounded-pill shadow-sm" v-on:click="openModal()"><i class="fas fa-feather-alt rounded-circle"></i><span>Post</span></div>
+            <router-link :to="{name:'home', query: { action: 'create' }}">
+                <div class="box-content rounded-pill shadow-sm"><i class="fas fa-feather-alt rounded-circle"></i><span>Post</span></div>
+            </router-link>
             <div class="box-content rounded-pill shadow-sm"><i class="fas fa-bell rounded-circle"></i><span class="d-none d-lg-block">Notifications</span></div>
             <router-link :to="{name: 'messages'}">
                 <div class="box-content rounded-pill shadow-sm" v-bind:class="[$route.name == 'messages' ? 'active' : '']"><i class="fas fa-envelope-open rounded-circle"></i><span>Messages</span></div>
@@ -20,7 +22,9 @@
             <router-link :to="{name:'home'}">
                 <i class="fas fa-home rounded-circle shadow-sm" v-bind:class="[$route.name == 'home' ? 'active' : '']"></i>
             </router-link>
-            <i class="fas fa-feather-alt rounded-circle shadow-sm" v-on:click="openModal()"></i>
+            <router-link :to="{name:'home', query: { action: 'create' }}">
+                <i class="fas fa-feather-alt rounded-circle shadow-sm"></i>
+            </router-link>
             <i class="fas fa-bell rounded-circle shadow-sm"></i>
             <router-link :to="{name: 'messages'}">
                 <i class="fas fa-envelope-open rounded-circle shadow-sm" v-bind:class="[$route.name == 'messages' ? 'active' : '']"></i>
@@ -100,9 +104,7 @@
             }
         },
         methods: {
-            openModal() {
-                this.$router.push({ name: 'home', query: { action: 'create' } }).catch(()=>{});
-            },
+            
         }
     }
 </script>
