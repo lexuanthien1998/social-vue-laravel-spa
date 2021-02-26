@@ -25,9 +25,7 @@
                     <label for="file-input" class="m-0"><i class="far fa-images p-0"></i></label>
                     <input id="file-input" v-on:change="onImageChange" type="file"/>
                 </div>
-                <div>
-                    <button type="submit" class="btn rounded-pill">post</button>
-                </div>
+                <div class="shadow-sm btn-submit"><input type="submit" value="Post"></div>
             </div>
         </form>
     </div>
@@ -129,7 +127,7 @@
     <!-- Modal Create Post -->
     <div class="modal box-create-post" ref="modalCreatePost" v-on:click="closeModal()">
         <div class="modal-dialog modal-lg modal-custom">
-            <div class="modal-content p-3">
+            <div class="modal-content px-4 py-3">
                 <div class="modal-header p-0">
                     <h5 class="modal-title"><i class="fas fa-feather-alt mr-1" style="color:#ff7e67;"></i>create...</h5>
                     <i class="fas fa-times" v-on:click="closeModal()"></i>
