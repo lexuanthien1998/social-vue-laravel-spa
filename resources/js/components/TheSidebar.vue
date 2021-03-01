@@ -32,7 +32,7 @@
                 <p class="btn-follow" v-on:click="follow(index, $event)">follow</p>
             </div>
         </div>
-        <div class="shadow-sm box-content tracks" v-bind:style="{height: $route.name == 'music' ? '100%' : 'auto'}">
+        <div class="shadow-sm box-content tracks" v-if="tracks != '' " v-bind:style="{height: $route.name == 'music' ? '100%' : 'auto'}">
             <div class="d-flex p-2">
                 <img :src="tracks.thumbnail" class="img-fluid" alt="">
                 <div class="w-100">
