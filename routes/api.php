@@ -58,4 +58,5 @@ Route::middleware('auth:api')->group(function () {
 });
 
 Route::get('search', 'API\UserController@search');
+Route::get('music', 'API\UserController@music');
 

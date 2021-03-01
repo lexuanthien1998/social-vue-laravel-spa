@@ -8,6 +8,7 @@ const store = new Vuex.Store({
     state: {
         token: localStorage.getItem('access_token') || null,
         user: {},
+        songs: {}
     },
     getters: {
         loggedIn(state) {
@@ -18,6 +19,9 @@ const store = new Vuex.Store({
         },
         token(state) {
             return state.token
+        },
+        getSongs(state) {
+            return state.songs
         },
     },
     mutations: {
@@ -31,6 +35,9 @@ const store = new Vuex.Store({
             state.token = null
             state.user = {}
         },
+        addSongs(state, songs) {
+            state.songs = songs
+        }
     },
     actions: {
         //Register
@@ -92,6 +99,9 @@ const store = new Vuex.Store({
         },
         reloadUser({commit}, user) {
             commit('addUser', user)
+        },
+        addSongs({commit}, songs) {
+            commit('addSongs', songs)
         },
     },
     plugins: [createPersistedState()],

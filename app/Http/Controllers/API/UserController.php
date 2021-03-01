@@ -20,6 +20,7 @@ use App\ImagesPost;
 use App\ResetPassword;
 use Mail;
 use App\Mail\mailResetPassword;
+use Illuminate\Support\Facades\Http;
 
 class UserController extends Controller
 {
@@ -499,5 +500,10 @@ class UserController extends Controller
             return response()->json($user, 200);
         }
         return response()->json(['message' => 'keyword not defined.'], 404);
+    }
+
+    public function music(Request $request) {
+        $response = Http::get('https://mp3.zing.vn/xhr/chart-realtime?songId=0&videoId=0&albumId=0&chart=song&time=-1');
+        return response()->json($response->json(), 200);
     }
 }

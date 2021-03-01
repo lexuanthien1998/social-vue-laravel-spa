@@ -20,6 +20,7 @@ import HomePage from './views/page/Home.vue';
 import PostDetails from './views/page/Details.vue';
 
 import Messages from './views/page/Messages.vue';
+import Music from './views/page/Music.vue';
 
 const routes = [
     { path: '/', name: 'home', component: HomePage, meta: { title: 'ʟ ᴏ ɴ ᴇ ʟ ʏ', requiresAuth: true } },
@@ -35,6 +36,9 @@ const routes = [
             { path: 'following', name: 'following', component: profileFollowing}
         ]
     },
+
+    { path: '/music', name: 'music', component: Music},
+
     { path: '/login', name: 'login', component: LoginUser, meta: { requiresVisitor: true } },
     { path: '/register', name: 'register', component: RegisterUser, meta: { requiresVisitor: true } },
     { path: '/logout', name: 'logout', component: LogoutUser},

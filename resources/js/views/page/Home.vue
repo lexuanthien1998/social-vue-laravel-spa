@@ -125,7 +125,7 @@
         </div>
     </div>
     <!-- Modal Create Post -->
-    <div class="modal box-create-post" ref="modalCreatePost" v-on:click="closeModal()">
+    <div class="modal box-create-post" ref="modalCreatePost" data-bs-backdrop="static" data-bs-keyboard="false">
         <div class="modal-dialog modal-lg modal-custom">
             <div class="modal-content px-4 py-3">
                 <div class="modal-header p-0">
@@ -142,7 +142,7 @@
                             <label for="file-input-modal" class="m-0"><i class="far fa-images"></i></label>
                             <input id="file-input-modal" v-on:change="onImageChangeModal" type="file"/>
                         </div>
-                        <button type="submit" class="btn rounded-pill">post</button>
+                        <div class="shadow-sm btn-submit"><input type="submit" value="Post"></div>
                     </div>
                 </form>
             </div>
@@ -321,7 +321,7 @@
             $route(to) {
                 // open Modal Create Post New
                 if(to.query.action == 'create') {
-                    $(this.$refs.modalCreatePost).modal('show')
+                    $(this.$refs.modalCreatePost).modal('show');
                 }
                 // reload page home with list Posts
                 if(to.query.action == 'scroll') {

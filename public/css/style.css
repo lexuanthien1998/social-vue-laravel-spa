@@ -114,9 +114,6 @@ body {
   border-radius: 0;
 }
 @media only screen and (max-width: 992px) {
-  .hexagon i {
-    font-size: 15px;
-  }
   .hexagon-wrapper {
     width: 50px;
     height: 50px;
@@ -201,10 +198,6 @@ body {
 }
 .box-followes .text {
   color: #68b0ab;
-  text-transform: uppercase;
-  font-size: 11px;
-  font-weight: 900;
-  letter-spacing: 2px;
 }
 .box-followes .btn-follow:hover{
   color: #ff7e67;
@@ -226,21 +219,23 @@ body {
 }
 .search-box ::placeholder {
   letter-spacing: 1px;
-  z-index: 1;
+  color: #68b0ab;
+  /* z-index: 1;
   background: linear-gradient(45deg, #ff7e67, #68b0ab, #68b0ab, #68b0ab, #68b0ab) no-repeat;
   color: transparent;
   background-clip: text;
-  -webkit-background-clip: text;
+  -webkit-background-clip: text; */
 }
 .search-box button i {
   cursor: pointer;
-  background: linear-gradient(45deg, #ff7e67, #68b0ab) no-repeat;
+  /* background: linear-gradient(45deg, #ff7e67, #68b0ab) no-repeat;
   color: transparent;
   background-clip: text;
-  -webkit-background-clip: text;
+  -webkit-background-clip: text; */
 }
 
 .box-main-right .dropdown .dropdown-menu {
+  font-size: 13px;
   margin-top: 15px !important;
   border: none !important;
   border-bottom-right-radius: 20px;
@@ -268,7 +263,6 @@ body {
   margin: 0px !important;
   padding-left: 10px;
   color: #68b0ab;
-  font-size: 13px;
   cursor: pointer;
   letter-spacing: 1px;
   white-space: nowrap; 
@@ -288,7 +282,6 @@ body {
 .form-post .btn-submit input{
   font-weight: 900 !important;
   letter-spacing: 1px;
-  font-size: 13px;
   z-index: 1;
   background: linear-gradient(45deg, #ff7e67, #68b0ab, #ecf4f3) no-repeat;
   color: transparent;
@@ -325,7 +318,6 @@ body {
   background-clip: text;
   -webkit-background-clip: text;
 }
-
 /* content-page */
 .box-content {
   background: #fff;
@@ -577,24 +569,7 @@ p.forgot-pw {
   text-transform: uppercase;
   font-weight: 800;
   font-size: 15px !important;
-  letter-spacing: 25px;
-}
-.modal-dialog .modal-content h4.modal-title{
-  letter-spacing: 10px;
-  text-transform: uppercase;
-  font-weight: 900;
-  font-size: 15px !important;
-}
-.modal-custom.modal-dialog .modal-content p {
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  font-weight: 900;
-  font-size: 12px !important;
-  color: #ff7e67;
-  background: #ecf4f3;
-  border-radius: 5px;
-  padding: 2px 8px;
-  cursor: pointer;
+  letter-spacing: 20px;
 }
 .box-create-post .modal-dialog .modal-content .modal-header {
   border-bottom: none;
@@ -602,39 +577,11 @@ p.forgot-pw {
 .box-create-post .modal-dialog .modal-content .modal-body {
   padding: 0 !important;
 }
-.box-create-post .modal-dialog .modal-content .modal-body textarea {
-  border: 3px solid #ecf4f3;
-  border-radius: 20px;
-  resize: none;
-}
-.box-create-post .modal-dialog .modal-content .modal-body figure img{
-  max-width: 100%;
-  height: auto;
-  vertical-align: middle;
-}
-.box-create-post .modal-dialog .modal-content .modal-body figure {
-  max-width: 100%;
-  max-height: 250px;
-  display: flex;
-  align-items: center;
-  overflow: hidden;
-  text-align: center;
-  justify-content: center;
-  border-radius: 15px;
-  margin-top: 15px;
-}
 .box-create-post .modal-dialog .modal-content .modal-footer {
   border-top: none !important;
 }
-.box-create-post .modal-dialog .modal-content .modal-footer button {
-  color:#fff;
-  background: #68b0ab;
-  font-weight: 600;
-  text-transform: uppercase;
-  font-size: 12px !important;
-}
-.box-create-post .modal-dialog .modal-content .modal-footer button:hover {
-  background: #ff7e67;
+.box-create-post .modal-dialog .modal-content .modal-footer div {
+  margin: 0 !important;
 }
 
 /* profile */
@@ -1352,4 +1299,97 @@ p.forgot-pw {
   background: #ecf4f3;
   height: 35px;
   width: 90%;
+}
+
+/* music */
+/* .tracks-image {
+  position:relative;
+  display:inline-block;
+  border-radius: 20px;
+  border-top-right-radius: 5px !important;
+  border-bottom-left-radius: 5px !important;
+}
+.tracks-image:after {
+  border-radius: 20px;
+  border-top-right-radius: 5px !important;
+  border-bottom-left-radius: 5px !important;
+  content:'';
+  position:absolute;
+  left:0; top:0;
+  width:100%; height:100%;
+  display:inline-block;
+  background: -moz-linear-gradient(top, rgba(0,47,75,0.5) 0%, rgba(220, 66, 37, 0.5) 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(220, 66, 37, 0.5)), color-stop(100%,rgba(0,47,75,0.5)));
+  background: -webkit-linear-gradient(top, rgba(0,47,75,0.5) 0%,rgba(220, 66, 37, 0.5) 100%); 
+  background: -o-linear-gradient(top, rgba(0,47,75,0.5) 0%,rgba(220, 66, 37, 0.5) 100%); 
+  background: -ms-linear-gradient(top, rgba(0,47,75,0.5) 0%,rgba(220, 66, 37, 0.5) 100%); 
+  background: linear-gradient(to bottom, rgba(0,47,75,0.5) 0%,rgba(220, 66, 37, 0.5) 100%); 
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#002f4b', endColorstr='#00000000',GradientType=0 ); 
+} */
+.tracks img{
+  border-radius: 10px;
+  width: 50px;
+  margin-right: 5px;
+  /* border-top-right-radius: 2px !important;
+  border-bottom-left-radius: 2px !important; */
+}
+
+.tracks i, .tracks p{
+  padding: 0 !important;
+  background: linear-gradient(90deg, #68b0ab, #ecf4f3) no-repeat;
+  color: transparent;
+  background-clip: text;
+  -webkit-background-clip: text;
+  font-weight: 900 !important;
+}
+
+.tracks-action input {
+  width: 100%;
+  height: 8px !important;
+  cursor: pointer;
+  -webkit-appearance: none;
+  background: #68b0ab;
+  outline: none;
+  opacity: 0.8;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+  background: linear-gradient(90deg, #ecf4f3, #68b0ab) no-repeat;
+}
+
+.tracks-action input:hover {
+  opacity: 1;
+}
+
+.tracks-action input::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 10px;
+  height: 4px;
+  background: #ff7e67;
+  cursor: pointer;
+
+  background: linear-gradient(90deg, #68b0ab, #ff7e67) no-repeat;
+}
+
+.tracks-action input::-moz-range-thumb {
+  width: 10px;
+  height: 4px;
+  background: #ff7e67;
+  cursor: pointer;
+  background: linear-gradient(90deg, #68b0ab, #ff7e67) no-repeat;
+
+}
+
+.tracks-action i {
+  font-size: 15px;
+  padding: 5px 0;
+  cursor: pointer;
+  font-weight: 800 !important;
+}
+.tracks-action i:hover {
+  color: #4d4545 !important;
+}
+
+.tracks-action .icon-play {
+  font-size: 25px;
 }

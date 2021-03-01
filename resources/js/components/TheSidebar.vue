@@ -1,6 +1,6 @@
 <template>
     <div class="d-none d-lg-block sticky-top box-main-right">
-        <div class="rounded-pill shadow-sm px-4 w-100 d-flex align-items-center position-relative search-box">
+        <div class="rounded-pill shadow-sm px-4 w-100 d-flex align-items-center position-relative search-box" v-if="$route.name != 'music'">
             <div class="d-flex align-items-center dropdown w-100">
                 <input type="text" placeholder="your keywords." v-model="keyword" class="w-100" data-toggle="dropdown">
                 <div class="item loading-3" v-if="loading">
@@ -20,7 +20,7 @@
                 </div>
             </div>
         </div>
-        <div v-if="users.length >= 1" class="shadow-sm my-4 box-content box-followes">
+        <div v-if="users.length >= 1 && $route.name != 'music'" class="shadow-sm my-4 box-content box-followes">
             <p class="text px-2">maybe you...know !</p>
             <div v-for="(member, index) in users" :key="index" class="p-2 d-flex justify-content-between align-items-center">
                 <div class="d-flex align-items-center">
@@ -32,9 +32,33 @@
                 <p class="btn-follow" v-on:click="follow(index, $event)">follow</p>
             </div>
         </div>
-        <!-- <div class="d-flex sidebar-footer box-info-design">
-            <i class="fas fa-heart"></i>
-        </div> -->
+        <div class="shadow-sm box-content tracks" v-bind:style="{height: $route.name == 'music' ? '100%' : 'auto'}">
+            <div class="d-flex p-2">
+                <img :src="tracks.thumbnail" class="img-fluid" alt="">
+                <div class="w-100">
+                    <div class="d-flex justify-content-between align-self-center">
+                        <p class="m-0">{{tracks.name}}</p>
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <p class="m-0">{{tracks.artists_names}}</p>
+                </div>
+            </div>
+
+            <div class="tracks-action text-center p-2">
+                <input type="range" ref="timeline" value="0">
+                <div class="d-flex align-items-center justify-content-evenly">
+                    <i class="fas fa-fast-backward"></i>
+                    <i @click="play()" class="fas fa-play icon-play"></i>
+                    <i @click="pause()" class="fas fa-pause icon-play" style="display: none;"></i>
+                    <i class="fas fa-fast-forward"></i>
+                </div>
+            </div>
+            
+            <audio ref="tracks" controls hidden>
+                <source :src="'https://api.mp3.zing.vn/api/streaming/audio/'+ tracks.id +'/320'" type="audio/ogg">
+                <source :src="'https://api.mp3.zing.vn/api/streaming/audio/'+ tracks.id +'/320'" type="audio/mpeg">
+            </audio>
+        </div>
     </div>
 </template>
 
@@ -48,7 +72,10 @@
                 loading: false,
                 isKeywords: false,
                 answer: null,
-                data: []
+                data: [],
+
+                songs: this.$store.getters.getSongs,
+                tracks: this.$store.getters.getSongs[0]
             }
         },
         mounted() {
@@ -63,11 +90,50 @@
             .catch(response => {
                 return
             });
+
+            // music
+            this.$refs.tracks.onloadedmetadata = () => this.$refs.timeline.max = this.$refs.tracks.duration
+            this.$refs.tracks.ontimeupdate = () => this.$refs.timeline.value = this.$refs.tracks.currentTime
+            this.$refs.timeline.onchange = () => this.$refs.tracks.currentTime = this.$refs.timeline.value
+            
+            var self = this;
+            self.$refs.tracks.addEventListener('ended',function(e){
+                var isPlaylist = self.songs.find(item => item.id == self.tracks.id);
+                if(typeof isPlaylist == 'undefined') {
+                    return
+                }
+                var rank = Object.keys(self.songs).find(key => self.songs[key].id === self.tracks.id);
+                self.tracks = self.songs.slice(parseInt(rank) + 1, parseInt(rank) + 2)[0];
+                
+                self.$refs.tracks.onloadedmetadata = () => self.$refs.timeline.max = self.$refs.tracks.duration
+                self.$refs.tracks.ontimeupdate = () => self.$refs.timeline.value = self.$refs.tracks.currentTime
+                self.$refs.timeline.onchange = () => self.$refs.tracks.currentTime = self.$refs.timeline.value
+
+                self.$refs.tracks.pause();
+                self.$refs.tracks.load();
+                self.$refs.tracks.oncanplaythrough = self.$refs.tracks.play();
+            });
         },
         watch: {
             keyword: function (newKeyword, oldKeyword) {
                 this.loading = true;
                 this.debouncedGetAnswer();
+            },
+            // music
+            '$store.state.tracks': function() {
+                if(this.$store.state.tracks != this.tracks.id) {
+                    var tracks = this.songs.filter(item => item.id == this.$store.state.tracks);
+                    if(tracks.length > 0) {
+                        this.tracks = tracks[0]
+                    }
+                    this.$refs.tracks.onloadedmetadata = () => this.$refs.timeline.max = this.$refs.tracks.duration
+                    this.$refs.tracks.ontimeupdate = () => this.$refs.timeline.value = this.$refs.tracks.currentTime
+                    this.$refs.timeline.onchange = () => this.$refs.tracks.currentTime = this.$refs.timeline.value
+
+                    this.$refs.tracks.pause();
+                    this.$refs.tracks.load();
+                    this.$refs.tracks.oncanplaythrough = this.$refs.tracks.play();
+                }
             }
         },
         created: function () {
@@ -127,6 +193,14 @@
                     .catch((error) => {
                         return
                     });
+                }
+            },
+            // music
+            play() {
+                if (this.$refs.tracks.paused) {
+                    this.$refs.tracks.play();
+                } else {
+                    this.$refs.tracks.pause();
                 }
             }
         }

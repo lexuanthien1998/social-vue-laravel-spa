@@ -49,6 +49,16 @@
                     <span>Profile</span>
                 </div>
             </router-link>
+            <router-link :to="{name: 'music'}">
+                <div class="box-item rounded-pill shadow-sm">
+                    <div class="hexagon-wrapper">
+                        <div class="hexagon">
+                            <i class="fas fa-compact-disc"></i>
+                        </div>
+                    </div>
+                    <span>Chill</span>
+                </div>
+            </router-link>
             <router-link :to="{name: 'logout'}">
                 <div class="box-item rounded-pill shadow-sm sidebar-footer">
                     <div class="hexagon-wrapper">
