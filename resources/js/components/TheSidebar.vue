@@ -55,8 +55,8 @@
             </div>
             
             <audio ref="tracks" controls hidden>
-                <source :src="'http://vnso-zn-16-tf-mp3-s1-zmp3.zadn.vn/046c267eaf3946671f28/587925605887313819?authen=exp=1614820073~acl=/046c267eaf3946671f28/*~hmac=0ece963e93581c68a6ebe3f844c96007&fs=MTYxNDY1MTIwMjQ5OXx3ZWJWNQ'" type="audio/ogg">
-                <source :src="'http://vnso-zn-16-tf-mp3-s1-zmp3.zadn.vn/046c267eaf3946671f28/587925605887313819?authen=exp=1614820073~acl=/046c267eaf3946671f28/*~hmac=0ece963e93581c68a6ebe3f844c96007&fs=MTYxNDY1MTIwMjQ5OXx3ZWJWNQ'" type="audio/mpeg">
+                <source :src="'//mp3-s1-zmp3.zadn.vn/23388d9873df9a81c3ce/7654786023504293674?authen=exp=1614736637~acl=/23388d9873df9a81c3ce/*~hmac=3dc41f810e9e321808cd93ea3eca9443&fs=MTYxNDY1MDIzNzE2Nnx3ZWJWNHw0Mi4xMTIdUngMTmUsICwLjY5'" type="audio/ogg">
+                <source :src="'//mp3-s1-zmp3.zadn.vn/23388d9873df9a81c3ce/7654786023504293674?authen=exp=1614736637~acl=/23388d9873df9a81c3ce/*~hmac=3dc41f810e9e321808cd93ea3eca9443&fs=MTYxNDY1MDIzNzE2Nnx3ZWJWNHw0Mi4xMTIdUngMTmUsICwLjY5'" type="audio/mpeg">
             </audio>
         </div>
     </div>
