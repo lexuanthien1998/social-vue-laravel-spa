@@ -55,8 +55,8 @@
             </div>
             
             <audio ref="tracks" controls hidden>
-                <source :src="'http://vnso-zn-16-tf-mp3-s1-zmp3.zadn.vn/046c267eaf3946671f28/587925605887313819?authen=exp=1614820073~acl=/046c267eaf3946671f28/*~hmac=0ece963e93581c68a6ebe3f844c96007'" type="audio/ogg">
-                <source :src="'http://vnso-zn-16-tf-mp3-s1-zmp3.zadn.vn/046c267eaf3946671f28/587925605887313819?authen=exp=1614820073~acl=/046c267eaf3946671f28/*~hmac=0ece963e93581c68a6ebe3f844c96007'" type="audio/mpeg">
+                <source :src="'http://vnso-zn-15-tf-mp3-320s1-zmp3.zadn.vn/b388618ac9cd209379dc/1596613103323736812?authen=exp=1614823069~acl=/b388618ac9cd209379dc/*~hmac=cf6abf13a5921eed1748b43a6eaf5f96&fs=MTYxNDY1MTIwMjQ5OXx3ZWJWNQ'" type="audio/ogg">
+                <source :src="'http://vnso-zn-15-tf-mp3-320s1-zmp3.zadn.vn/b388618ac9cd209379dc/1596613103323736812?authen=exp=1614823069~acl=/b388618ac9cd209379dc/*~hmac=cf6abf13a5921eed1748b43a6eaf5f96&fs=MTYxNDY1MTIwMjQ5OXx3ZWJWNQ'" type="audio/mpeg">
             </audio>
         </div>
     </div>
