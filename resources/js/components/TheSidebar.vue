@@ -55,8 +55,8 @@
             </div>
             
             <audio ref="tracks" controls hidden>
-                <source :src="'https://api.mp3.zing.vn/api/streaming/audio/'+ tracks.id +'/320'" type="audio/ogg">
-                <source :src="'https://api.mp3.zing.vn/api/streaming/audio/'+ tracks.id +'/320'" type="audio/mpeg">
+                <source :src="'http://api.mp3.zing.vn/api/streaming/audio/'+ tracks.id +'/320'" type="audio/ogg">
+                <source :src="'http://api.mp3.zing.vn/api/streaming/audio/'+ tracks.id +'/320'" type="audio/mpeg">
             </audio>
         </div>
     </div>
