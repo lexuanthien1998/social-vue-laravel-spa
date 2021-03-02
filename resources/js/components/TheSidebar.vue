@@ -55,8 +55,8 @@
             </div>
             
             <audio ref="tracks" controls hidden>
-                <source :src="'https://api.mp3.zing.vn/api/streaming/audio/'+ tracks.id +'/128'" type="audio/ogg">
-                <source :src="'https://api.mp3.zing.vn/api/streaming/audio/'+ tracks.id +'/128'" type="audio/mpeg">
+                <source :src="'http://vnso-zn-16-tf-mp3-s1-zmp3.zadn.vn/046c267eaf3946671f28/587925605887313819?authen=exp=1614820073~acl=/046c267eaf3946671f28/*~hmac=0ece963e93581c68a6ebe3f844c96007'" type="audio/ogg">
+                <source :src="'http://vnso-zn-16-tf-mp3-s1-zmp3.zadn.vn/046c267eaf3946671f28/587925605887313819?authen=exp=1614820073~acl=/046c267eaf3946671f28/*~hmac=0ece963e93581c68a6ebe3f844c96007'" type="audio/mpeg">
             </audio>
         </div>
     </div>
