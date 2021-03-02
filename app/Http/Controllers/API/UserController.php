@@ -503,7 +503,7 @@ class UserController extends Controller
     }
 
     public function music(Request $request) {
-        $response = Http::get('https://mp3.zing.vn/xhr/chart-realtime?songId=0&videoId=0&albumId=0&chart=song&time=-1');
+        $response = Http::get('http://zingmp3.vn/api/song/get-song-info?id=ZO89BBBZ&ctime=160718421&sig=7553fe9db5f0debf657efe50857408a232cd86ed7b586c27e10d505f53edbde2fbfe24407ec48b7eac0cb8b6fa8ce955bf4484df55a16db7627a8de8772d6ffb&api_key=38e8643fb0dc04e8d65b99994d3dafff');
         return response()->json($response->json(), 200);
     }
 }

@@ -58,5 +58,9 @@ Route::middleware('auth:api')->group(function () {
 });
 
 Route::get('search', 'API\UserController@search');
-Route::get('music', 'API\UserController@music');
+// Route::get('music', 'API\UserController@music');
+// Route::get('example', array('middleware' => 'cors', 'uses' => 'ExampleController@dummy'));
 
+Route::middleware('cors')->group(function () {
+    Route::get('music', 'API\UserController@music');
+});

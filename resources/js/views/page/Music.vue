@@ -20,6 +20,8 @@
             this.axios
             .get('/api/music')
             .then(response => {
+                console.log(response)
+                return
                 this.songs = response.data.data.song
                 this.$store.dispatch('addSongs', response.data.data.song)
             })
@@ -28,7 +30,6 @@
             });
         },
         methods: {
-            
         }
     }
 </script>

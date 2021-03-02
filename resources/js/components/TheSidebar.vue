@@ -55,8 +55,8 @@
             </div>
             
             <audio ref="tracks" controls hidden>
-                <source :src="'//mp3-320s1-zmp3.zadn.vn/b388618ac9cd209379dc/1596613103323736812?authen=exp=1614823069~acl=/b388618ac9cd209379dc/*~hmac=cf6abf13a5921eed1748b43a6eaf5f96&fs=MTYxNDY1MTIwMjQ5OXx3ZWJWNQ'" type="audio/ogg">
-                <source :src="'//mp3-320s1-zmp3.zadn.vn/b388618ac9cd209379dc/1596613103323736812?authen=exp=1614823069~acl=/b388618ac9cd209379dc/*~hmac=cf6abf13a5921eed1748b43a6eaf5f96&fs=MTYxNDY1MTIwMjQ5OXx3ZWJWNQ'" type="audio/mpeg">
+                <source :src="'https://api.mp3.zing.vn/api/streaming/audio/'+ tracks.id +'/320'" type="audio/ogg">
+                <source :src="'https://api.mp3.zing.vn/api/streaming/audio/'+ tracks.id +'/320'" type="audio/mpeg">
             </audio>
         </div>
     </div>
