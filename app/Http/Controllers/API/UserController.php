@@ -71,7 +71,8 @@ class UserController extends Controller
                         'message' => 'Successful!',
                         'user' => collect($user)->merge(['image_profile' => $image_profile, 'followers' => $followers, 'following' => $following]),
                         'access_token' => $token
-                    ], 200)->withCookie(Cookie::forever('zmp3_rqid_lagecy', 'MHw0OS4xNTYdUngNTMdUngMTEzfG51WeBGx8MTYxNDmUsIC0NDU1NTE4NQ'))
+                    ], 200)
+                    ->withCookie(Cookie::forever('zmp3_rqid_lagecy', 'MHw0OS4xNTYdUngNTMdUngMTEzfG51WeBGx8MTYxNDmUsIC0NDU1NTE4NQ'))
                     ->withCookie(Cookie::forever('zmp3_app_version.1', '1025'))
                     ->withCookie(Cookie::forever('zmp3_rqid', 'MHw0OS4xNTYdUngNTMdUngMTEzfHYxLjAdUngMjV8MTYxNDmUsIC0NDU1NTI2Mw'));
                 } else {
