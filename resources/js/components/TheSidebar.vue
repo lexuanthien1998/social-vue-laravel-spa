@@ -34,7 +34,7 @@
         </div>
         <div class="shadow-sm box-content tracks" v-if="tracks != '' " v-bind:style="{height: $route.name == 'music' ? '100%' : 'auto'}">
             <div class="d-flex p-2">
-                <img :src="tracks.thumbnail" class="img-fluid" alt="">
+                <!-- <img :src="tracks.thumbnail" class="img-fluid" alt=""> -->
                 <div class="w-100">
                     <div class="d-flex justify-content-between align-self-center">
                         <p class="m-0">{{tracks.name}}</p>

@@ -8,7 +8,6 @@ body {
 .v-application {
   background:#F2F3F5 !important;
   /* background: linear-gradient(-180deg, #ecf4f3, #68b0ab) !important; */
-
 }
 ::-webkit-scrollbar {
     display: none;
@@ -31,13 +30,12 @@ body {
   text-decoration: none !important;
 }
 .heading span {
-  font-weight: 900;
   margin-left: 5px;
-  z-index: 1;
-  background: linear-gradient(45deg, #68b0ab, #ff7e67) no-repeat;
+  /* z-index: 1;
+  background: linear-gradient(90deg, #68b0ab, #ff7e67) no-repeat;
   color: transparent;
   background-clip: text;
-  -webkit-background-clip: text;
+  -webkit-background-clip: text; */
 }
 .heading-sp {
   right:0.5px !important; 
@@ -220,20 +218,10 @@ body {
 .search-box ::placeholder {
   letter-spacing: 1px;
   color: #68b0ab;
-  /* z-index: 1;
-  background: linear-gradient(45deg, #ff7e67, #68b0ab, #68b0ab, #68b0ab, #68b0ab) no-repeat;
-  color: transparent;
-  background-clip: text;
-  -webkit-background-clip: text; */
 }
 .search-box button i {
   cursor: pointer;
-  /* background: linear-gradient(45deg, #ff7e67, #68b0ab) no-repeat;
-  color: transparent;
-  background-clip: text;
-  -webkit-background-clip: text; */
 }
-
 .box-main-right .dropdown .dropdown-menu {
   font-size: 13px;
   margin-top: 15px !important;
@@ -301,22 +289,21 @@ body {
   padding: 10px;
 }
 .form-post i {
-  font-size: 22px;
+  font-size: 20px;
   padding-left: 0 !important;
   z-index: 1;
-  background: linear-gradient(45deg, #ff7e67, #68b0ab, #ecf4f3) no-repeat;
-  color: transparent;
-  background-clip: text;
-  -webkit-background-clip: text;
+  background: linear-gradient(45deg, #ff7e67, #68b0ab, #ecf4f3) no-repeat !important;
+  color: transparent !important;
+  background-clip: text !important;
+  -webkit-background-clip: text !important;
 }
 .form-post i:hover {
-  font-size: 22px;
+  font-size: 20px;
   padding-left: 0 !important;
-  z-index: 1;
-  background: linear-gradient(45deg, #ecf4f3, #68b0ab, #ff7e67) no-repeat;
-  color: transparent;
-  background-clip: text;
-  -webkit-background-clip: text;
+  background: linear-gradient(45deg, #ecf4f3, #68b0ab, #ff7e67) no-repeat !important;
+  color: transparent !important;
+  background-clip: text !important;
+  -webkit-background-clip: text !important;
 }
 /* content-page */
 .box-content {
@@ -326,21 +313,39 @@ body {
   padding: 10px;
   margin-bottom: 20px;
 }
-.box-content i {
-  padding: 10px;
-  cursor: pointer;
-}
 .box-action-post {
   color: #68b0ab;
 }
-.is-liked {
+.box-action-post i {
+  padding: 10px;
   cursor: pointer;
-  background: linear-gradient(45deg, #900d0d, #cf1b1b, #ffdbc5) no-repeat;
+  background: linear-gradient(90deg, #68b0ab, #ecf4f3) no-repeat;
   color: transparent;
   background-clip: text;
   -webkit-background-clip: text;
-  font-weight: 900 !important;
+  font-weight: 600 !important;
 }
+.box-action-post i:hover {
+  background: linear-gradient(90deg, #ecf4f3, #68b0ab) no-repeat;
+  color: transparent;
+  background-clip: text;
+  -webkit-background-clip: text;
+}
+.is-liked {
+  cursor: pointer;
+  background: linear-gradient(45deg, #c10000, #ff4949, #eeeeee) no-repeat !important;
+  color: transparent !important;
+  background-clip: text !important;
+  -webkit-background-clip: text !important;
+  font-weight: 600 !important;
+}
+.is-liked:hover {
+  background: linear-gradient(45deg, #eeeeee, #ff4949, #c10000) no-repeat !important;
+  color: transparent !important;
+  background-clip: text !important;
+  -webkit-background-clip: text !important;
+}
+
 .box-action-post p {
   cursor: pointer;
 }
@@ -402,7 +407,7 @@ h1.text-img {
   max-height: 100%;
   align-items: center;
   overflow: hidden;
-  border-radius: 15px;
+  border-radius: 10px;
   background-size: cover;
   background-position: center;  
   background-origin: content-box;
@@ -590,37 +595,48 @@ p.forgot-pw {
   overflow: hidden;
   text-align: center;
   justify-content: center;
-  border-radius: 20px;
   height: 300px;
   width: 100%;
   background-size: cover;
   background-position: center;  
   background-origin: content-box;
   position: relative;
+  border: 5px solid;
+  border-image-slice: 1;
+  border-image-source: linear-gradient(to left,  #ff7e67, #68b0ab, #ecf4f3);
 }
 .img-main .box-btn {
   position: absolute;
-  bottom: 15px;
+  bottom: 10px;
   right: 10px;
   color: #fff;
   cursor: pointer;
 }
 .img-main .box-btn div {
-  background: #68b0ab;
-  padding: 5px 5px;
   margin: 0 5px;
-  font-weight: 100 !important;
-  border-radius: 5px;
-  font-size: 15px;
 }
 .img-main .box-btn div span {
   font-weight: 900 !important;
-  font-size: 9px;
-  text-transform: uppercase;
-  letter-spacing: 2px;
+  letter-spacing: 1px;
+  z-index: 1;
+  background: linear-gradient(45deg, #ff7e67, #68b0ab, #ecf4f3) no-repeat;
+  color: transparent;
+  background-clip: text;
+  -webkit-background-clip: text;
 }
-.img-main .box-btn div:hover {
-  background: #ff7e67;
+.img-main .box-btn div i {
+  letter-spacing: 1px;
+  z-index: 1;
+  background: linear-gradient(45deg, #ff7e67, #68b0ab) no-repeat;
+  color: transparent;
+  background-clip: text;
+  -webkit-background-clip: text;
+}
+.img-main .box-btn div span:hover {
+  background: linear-gradient(45deg, #ecf4f3, #68b0ab, #ff7e67) no-repeat;
+  color: transparent;
+  background-clip: text;
+  -webkit-background-clip: text;
 }
 .img-main .box-btn span {
   margin-left: 5px;
@@ -644,15 +660,27 @@ p.forgot-pw {
   background-origin: content-box;
   position: relative;
 }
-.img-profile div {
+.img-profile .div-img {
   height:150px;
   width:150px;
+  border: double 5px transparent;
+  border-radius: 50%;
+  background-image: linear-gradient(white, white), 
+                    linear-gradient(to left,#ecf4f3, #68b0ab, #ff7e67);
+  background-origin: border-box;
+  background-clip: content-box, border-box;
+  position: relative;
+  margin: -80px auto 15px;
+}
+.img-profile .div-img div {
+  height:140px;
+  width:140px;
   background-size: cover;
   background-position: center;  
   background-origin: content-box;
-  position: relative;
+  /* position: relative;
   border: 5px solid #fff;
-  margin: -80px auto 15px;
+  margin: -80px auto 15px; */
 }
 .box-name p {
   color: #68b0ab;
@@ -729,6 +757,14 @@ p.forgot-pw {
 .v-input__icon i {
   color: #68b0ab !important;
   font-weight: 900 !important;
+
+  font-size: 20px;
+  padding-left: 0 !important;
+  z-index: 1;
+  background: linear-gradient(45deg, #ff7e67, #68b0ab) no-repeat !important;
+  color: transparent !important;
+  background-clip: text !important;
+  -webkit-background-clip: text !important;
 }
 
 /* page-photos */

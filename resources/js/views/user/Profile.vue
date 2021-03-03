@@ -14,14 +14,16 @@
         </div>
         <div class="img-main shadow" v-bind:style="{backgroundImage: users.image_main != '' ? `url('` + users.image_main + `')` : `url('/images/bg.jpg')` }">
             <div class="d-flex box-btn">
-                <div class="d-flex align-items-center" v-if="user.id != users.id" v-on:click="messages()"><i class="far fa-envelope-open"></i><span class="d-none d-xl-block">messages</span></div>
-                <div class="d-flex align-items-center" v-on:click="follow()" v-if="user.id != users.id && !(user.following.includes(users.id))"><i class="fal fa-users-medical"></i><span class="d-none d-xl-block">follow</span></div>
-                <div class="d-flex align-items-center" v-on:click="unfollow()" v-if="user.id != users.id && user.following.includes(users.id)"><i class="far fa-user-check"></i><span class="d-none d-xl-block">unfollow</span></div>
-                <div class="d-flex align-items-center" v-if="user.id == users.id" v-on:click="editProfile()"><i class="fal fa-user-cog"></i><span class="d-none d-xl-block">editprofile</span></div>
+                <div class="d-flex align-items-center rounded-pill" v-if="user.id != users.id" v-on:click="messages()"><i class="far fa-envelope-open"></i><span class="d-none d-xl-block">messages</span></div>
+                <div class="d-flex align-items-center rounded-pill" v-on:click="follow()" v-if="user.id != users.id && !(user.following.includes(users.id))"><i class="fal fa-users-medical"></i><span class="d-none d-xl-block">follow</span></div>
+                <div class="d-flex align-items-center rounded-pill" v-on:click="unfollow()" v-if="user.id != users.id && user.following.includes(users.id)"><i class="far fa-user-check"></i><span class="d-none d-xl-block">unfollow</span></div>
+                <div class="d-flex align-items-center rounded-pill" v-if="user.id == users.id" v-on:click="editProfile()"><i class="fal fa-user-cog"></i><span class="d-none d-xl-block">editprofile</span></div>
             </div>
         </div>
         <div class="img-profile">
-            <div class="rounded-circle shadow" v-bind:style="{backgroundImage: users.image_profile != '' ? `url('` + users.image_profile + `')` : `url('/images/user.png')`}"></div>
+            <div class="div-img shadow">
+                <div class="rounded-circle shadow" v-bind:style="{backgroundImage: users.image_profile != '' ? `url('` + users.image_profile + `')` : `url('/images/user.png')`}"></div>
+            </div>
         </div>
         <div class="text-center box-name">
             <p class="m-1">{{users.name != '' ? users.name : users.username}}</p>
@@ -51,9 +53,7 @@
                                 <label for="file-input" class="m-0"><i class="far fa-images p-0"></i></label>
                                 <input id="file-input" v-on:change="onImageChange" type="file"/>
                             </div>
-                            <div>
-                                <button type="submit" class="btn rounded-pill">Post</button>
-                            </div>
+                            <div class="shadow-sm btn-submit"><input type="submit" value="Post"></div>
                         </div>
                     </form>
                 </div>
@@ -397,9 +397,7 @@
                         <div class="px-8">
                             <p style="color:#68b0ab; cursor: pointer; text-decoration: underline;" class="m-0" v-on:click="changePassword ? changePassword = false : changePassword = true">change password.</p>
                         </div>
-                        <div class="modal-footer d-flex justify-content-center pb-5">
-                            <button type="submit" class="btn rounded-pill w-25">Save</button>
-                        </div>
+                        <div class="w-25 my-5 text-center mx-auto rounded-pill btn-submit"><input type="submit" value="Save"></div>
                     </form>
                 </div>
             </div>

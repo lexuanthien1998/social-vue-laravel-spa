@@ -21,6 +21,8 @@ use App\ResetPassword;
 use Mail;
 use App\Mail\mailResetPassword;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Cookie;
+use GuzzleHttp\Cookie\CookieJar;
 
 class UserController extends Controller
 {
@@ -69,7 +71,9 @@ class UserController extends Controller
                         'message' => 'Successful!',
                         'user' => collect($user)->merge(['image_profile' => $image_profile, 'followers' => $followers, 'following' => $following]),
                         'access_token' => $token
-                    ], 200);
+                    ], 200)->withCookie(Cookie::forever('zmp3_rqid_lagecy', 'MHw0OS4xNTYdUngNTMdUngMTEzfG51WeBGx8MTYxNDmUsIC0NDU1NTE4NQ'))
+                    ->withCookie(Cookie::forever('zmp3_app_version.1', '1025'))
+                    ->withCookie(Cookie::forever('zmp3_rqid', 'MHw0OS4xNTYdUngNTMdUngMTEzfHYxLjAdUngMjV8MTYxNDmUsIC0NDU1NTI2Mw'));
                 } else {
                     return response()->json(['message' => 'Incorrect password.'], 404);
                 }
@@ -503,7 +507,19 @@ class UserController extends Controller
     }
 
     public function music(Request $request) {
-        $response = Http::get('http://zingmp3.vn/api/song/get-song-info?id=ZO89BBBZ&ctime=160718421&sig=7553fe9db5f0debf657efe50857408a232cd86ed7b586c27e10d505f53edbde2fbfe24407ec48b7eac0cb8b6fa8ce955bf4484df55a16db7627a8de8772d6ffb&api_key=38e8643fb0dc04e8d65b99994d3dafff');
+        // $cookieJar = \GuzzleHttp\Cookie\CookieJar::fromArray([
+        //     'zmp3_rqid_lagecy' => 'MHw0OS4xNTYdUngNTMdUngMTEzfG51WeBGx8MTYxNDmUsIC0NDU1NTE4NQ',
+        //     'zmp3_rqid' => 'MHw0OS4xNTYdUngNTMdUngMTEzfHYxLjAdUngMjV8MTYxNDmUsIC0NDU1NTI2Mw',
+        //     'zmp3_app_version.1' => '1025'
+        // ], '.zingmp3.vn');
+        // $url = 'https://zingmp3.vn/api/song/get-song-info?id=ZOW0OBU8&ctime=160718421&sig=716b083eea082f38c8eb2ad5aa1023120199bd906a30a6dd533c4987ba473a7eeb0e2b58c5a8d7c69a563bffb4648ad1762fff78298d1c043f0c542d3c92ee68&api_key=38e8643fb0dc04e8d65b99994d3dafff';
+        // $client = new \GuzzleHttp\Client();
+        // $request = $client->get($url, [
+        //     'cookies' => $cookieJar
+        // ]);
+        // return response()->json(json_decode($request->getBody()->getContents()), 200);
+
+        $response = Http::get('https://mp3.zing.vn/xhr/chart-realtime?songId=0&videoId=0&albumId=0&chart=song&time=-1');
         return response()->json($response->json(), 200);
     }
 }
