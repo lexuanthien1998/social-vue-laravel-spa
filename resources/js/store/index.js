@@ -42,7 +42,7 @@ const store = new Vuex.Store({
         },
         addSongs(state, songs) {
             state.songs = songs
-            state.new_songs = true
+            // state.new_songs = true
         },
         addTracks(state, tracks) {
             state.tracks = tracks

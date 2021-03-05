@@ -53,10 +53,10 @@
                 </div>
             </div>
             <audio ref="tracks" controls hidden>
-                <!-- <source :src="'../storage/songs/' + tracks.song" type="audio/mpeg">
-                <source :src="'../storage/songs/' + tracks.song" type="audio/ogg"> -->
-                <source :src="base64" type="audio/mpeg">
-                <source :src="base64" type="audio/ogg">
+                <source :src="'/storage/songs/' + tracks.song" type="audio/mpeg">
+                <source :src="'/storage/songs/' + tracks.song" type="audio/ogg">
+                <!-- <source :src="base64" type="audio/mpeg">
+                <source :src="base64" type="audio/ogg"> -->
             </audio>
         </div>
     </div>
@@ -126,14 +126,14 @@
                     this.addAudioBase64AndPlay(this.$store.state.tracks.song)
                 }
             },
-            '$store.state.is_new': function() {
-                if(this.$store.state.is_new == true) {
-                    this.tracks = this.$store.state.songs[0]
-                    this.addAudioBase64AndPlay(this.$store.state.tracks.song)
-                    this.$store.dispatch('addTracks', this.$store.state.songs[0])
-                    this.$store.dispatch('isNew')
-                }
-            }
+            // '$store.state.is_new': function() {
+            //     if(this.$store.state.is_new == true) {
+            //         this.tracks = this.$store.state.songs[0]
+            //         this.addAudioBase64AndPlay(this.$store.state.tracks.song)
+            //         this.$store.dispatch('addTracks', this.$store.state.songs[0])
+            //         this.$store.dispatch('isNew')
+            //     }
+            // }
         },
         created: function () {
             this.debouncedGetAnswer = _.debounce(this.getAnswer, 500);

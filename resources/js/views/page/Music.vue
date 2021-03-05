@@ -140,6 +140,7 @@
                     this.title = ''
                     this.message = 'Up successfully!'
                     this.filename = ''
+                    this.$store.dispatch('addSongs', this.songs)
                     return
                 })
                 .catch((error) => {
