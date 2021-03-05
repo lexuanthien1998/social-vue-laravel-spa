@@ -134,7 +134,13 @@
                 })
                 .then((response) => {
                     this.spinner = false
-                    this.songs.push(response.data)
+                    // this.songs.push(response.data)
+                    this.songs.push({
+                        'id':response.data, 
+                        'title':this.title,
+                        'artists':this.artists,
+                        'song':this.song,
+                    })
                     this.song = ''
                     this.artists = ''
                     this.title = ''

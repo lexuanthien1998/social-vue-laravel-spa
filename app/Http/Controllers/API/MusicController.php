@@ -53,7 +53,7 @@ class MusicController extends Controller
         Storage::disk('local')->put($path.$fileName, base64_decode(preg_replace('/^data:image\/(\w+);base64,/', '' ,$request->song)));
         $song->song = $fileName;
         $song->save();
-        return response()->json($song, 200);
+        return response()->json($song->id, 200);
     }
 
     /**
