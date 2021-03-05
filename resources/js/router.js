@@ -42,7 +42,7 @@ const routes = [
     { path: '/login', name: 'login', component: LoginUser, meta: { requiresVisitor: true } },
     { path: '/register', name: 'register', component: RegisterUser, meta: { requiresVisitor: true } },
     { path: '/logout', name: 'logout', component: LogoutUser},
-    { path: '/:pathMatch(.*)*', redirect: { name: 'home' } }
+    // { path: '/:pathMatch(.*)*', redirect: { name: 'home' } }
     //requiresAuth : Nếu chưa Login thì không được truy cập
     //requiresVisitor : Nếu đã Login thì không được truy cập
 ];

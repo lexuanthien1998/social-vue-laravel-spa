@@ -53,11 +53,11 @@
                 </div>
             </div>
             
-            <audio ref="tracks" controls >
-                <!-- <source :src="'../storage/songs/' + tracks.song" type="audio/mpeg">
-                <source :src="'../storage/songs/' + tracks.song" type="audio/ogg"> -->
-                <source :src="tracks.song" type="audio/mpeg">
-                <source :src="tracks.song" type="audio/ogg">
+            <audio ref="tracks" controls hidden>
+                <source :src="'../storage/songs/' + tracks.song" type="audio/mpeg">
+                <source :src="'../storage/songs/' + tracks.song" type="audio/ogg">
+                <!-- <source :src="tracks.song" type="audio/mpeg">
+                <source :src="tracks.song" type="audio/ogg"> -->
             </audio>
         </div>
     </div>
