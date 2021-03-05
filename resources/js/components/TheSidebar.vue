@@ -52,12 +52,11 @@
                     <i class="fas fa-fast-forward"></i>
                 </div>
             </div>
-            
             <audio ref="tracks" controls hidden>
-                <source :src="'../storage/songs/' + tracks.song" type="audio/mpeg">
-                <source :src="'../storage/songs/' + tracks.song" type="audio/ogg">
-                <!-- <source :src="tracks.song" type="audio/mpeg">
-                <source :src="tracks.song" type="audio/ogg"> -->
+                <!-- <source :src="'../storage/songs/' + tracks.song" type="audio/mpeg">
+                <source :src="'../storage/songs/' + tracks.song" type="audio/ogg"> -->
+                <source :src="base64" type="audio/mpeg">
+                <source :src="base64" type="audio/ogg">
             </audio>
         </div>
     </div>
@@ -76,8 +75,9 @@
                 data: [],
 
                 songs: Object.keys(this.$store.getters.getSongs).length === 0 ? {} : this.$store.getters.getSongs,
-                tracks: Object.keys(this.$store.getters.getSongs).length != 0 && this.$store.getters.getTracks == '' ? this.$store.getters.getSongs[0] : this.$store.getters.getTracks,
+                tracks: this.$store.getters.getTracks == '' ? '' : this.$store.getters.getTracks,
                 isPlay: false,
+                base64: '',
             }
         },
         mounted() {
@@ -94,33 +94,24 @@
             });
 
             // music
-            this.$refs.tracks.onloadedmetadata = () => this.$refs.timeline.max = this.$refs.tracks.duration
-            this.$refs.tracks.ontimeupdate = () => this.$refs.timeline.value = this.$refs.tracks.currentTime
-            this.$refs.timeline.onchange = () => this.$refs.tracks.currentTime = this.$refs.timeline.value
+            if(this.tracks != '') {
+                this.addAudioBase64(this.tracks.song)
+            }
             
+            // sự kiện khi audio phát xong bài hát
             var self = this;
             self.$refs.tracks.addEventListener('ended',function(e){
                 var isPlaylist = self.songs.find(item => item.id == self.tracks.id);
-                if(typeof isPlaylist == 'undefined') {
-                    self.$refs.tracks.pause();
-                    self.$refs.tracks.load();
-                    self.$refs.tracks.oncanplaythrough = self.$refs.tracks.play();
-                    self.isPlay = true
+                if(typeof isPlaylist != 'undefined') {
+                    var rank = Object.keys(self.songs).find(key => self.songs[key].id === self.tracks.id);
+                    if(parseInt(rank) + 1 == self.songs.length) {
+                        self.tracks = self.songs[0]
+                    } else {
+                        self.tracks = self.songs.slice(parseInt(rank) + 1, parseInt(rank) + 2)[0];
+                    }
+                    self.$store.dispatch('addTracks', self.tracks)
                 }
-                var rank = Object.keys(self.songs).find(key => self.songs[key].id === self.tracks.id);
-                if(parseInt(rank) + 1 == self.songs.length) {
-                    self.tracks = self.songs[0]
-                } else {
-                    self.tracks = self.songs.slice(parseInt(rank) + 1, parseInt(rank) + 2)[0];
-                }
-                self.$refs.tracks.onloadedmetadata = () => self.$refs.timeline.max = self.$refs.tracks.duration
-                self.$refs.tracks.ontimeupdate = () => self.$refs.timeline.value = self.$refs.tracks.currentTime
-                self.$refs.timeline.onchange = () => self.$refs.tracks.currentTime = self.$refs.timeline.value
-
-                self.$refs.tracks.pause();
-                self.$refs.tracks.load();
-                self.$refs.tracks.oncanplaythrough = self.$refs.tracks.play();
-                self.isPlay = true
+                self.addAudioBase64AndPlay(self.tracks.song)
             });
         },
         watch: {
@@ -131,32 +122,15 @@
             // music
             '$store.state.tracks': function() {
                 if(this.$store.state.tracks.id != this.tracks.id) {
-                    // var tracks = this.songs.filter(item => item.id == this.$store.state.tracks.id);
-                    // if(tracks.length > 0) {
-                    //     this.tracks = tracks[0]
-                    // }
                     this.tracks = this.$store.state.tracks
-                    this.$refs.tracks.onloadedmetadata = () => this.$refs.timeline.max = this.$refs.tracks.duration
-                    this.$refs.tracks.ontimeupdate = () => this.$refs.timeline.value = this.$refs.tracks.currentTime
-                    this.$refs.timeline.onchange = () => this.$refs.tracks.currentTime = this.$refs.timeline.value
-
-                    this.$refs.tracks.pause();
-                    this.$refs.tracks.load();
-                    this.$refs.tracks.oncanplaythrough = this.$refs.tracks.play();
-                    this.isPlay = true
+                    this.addAudioBase64AndPlay(this.$store.state.tracks.song)
                 }
             },
             '$store.state.is_new': function() {
                 if(this.$store.state.is_new == true) {
                     this.tracks = this.$store.state.songs[0]
-                    this.$refs.tracks.onloadedmetadata = () => this.$refs.timeline.max = this.$refs.tracks.duration
-                    this.$refs.tracks.ontimeupdate = () => this.$refs.timeline.value = this.$refs.tracks.currentTime
-                    this.$refs.timeline.onchange = () => this.$refs.tracks.currentTime = this.$refs.timeline.value
-
-                    this.$refs.tracks.pause();
-                    this.$refs.tracks.load();
-                    this.$refs.tracks.oncanplaythrough = this.$refs.tracks.play();
-                    this.isPlay = true
+                    this.addAudioBase64AndPlay(this.$store.state.tracks.song)
+                    this.$store.dispatch('addTracks', this.$store.state.songs[0])
                     this.$store.dispatch('isNew')
                 }
             }
@@ -165,6 +139,44 @@
             this.debouncedGetAnswer = _.debounce(this.getAnswer, 500);
         },
         methods: {
+            addAudioBase64AndPlay(file) {
+                axios.get('/api/music/convert-base64', {
+                    params: {
+                        file: file
+                    }
+                })
+                .then((response) => {
+                    this.base64 = response.data
+                    this.$refs.tracks.onloadedmetadata = () => this.$refs.timeline.max = this.$refs.tracks.duration
+                    this.$refs.tracks.ontimeupdate = () => this.$refs.timeline.value = this.$refs.tracks.currentTime
+                    this.$refs.timeline.onchange = () => this.$refs.tracks.currentTime = this.$refs.timeline.value
+                    this.$refs.tracks.pause();
+                    this.$refs.tracks.load();
+                    this.$refs.tracks.oncanplaythrough = this.$refs.tracks.play();
+                    this.isPlay = true
+                })
+                .catch((error) => {
+                    return
+                });
+            },
+            addAudioBase64(file) {
+                axios.get('/api/music/convert-base64', {
+                    params: {
+                        file: file
+                    }
+                })
+                .then((response) => {
+                    this.base64 = response.data
+                    this.$refs.tracks.onloadedmetadata = () => this.$refs.timeline.max = this.$refs.tracks.duration
+                    this.$refs.tracks.ontimeupdate = () => this.$refs.timeline.value = this.$refs.tracks.currentTime
+                    this.$refs.timeline.onchange = () => this.$refs.tracks.currentTime = this.$refs.timeline.value
+                    this.$refs.tracks.pause();
+                    this.$refs.tracks.load();
+                })
+                .catch((error) => {
+                    return
+                });
+            },
             getAnswer: function () {
                 if (this.keyword == '') {
                     this.loading = false;
@@ -222,23 +234,14 @@
             },
             // music
             play() {
-                if (this.$refs.tracks.paused) {
-                    this.$refs.tracks.play();
-                    this.isPlay = true
-                } else {
-                    this.$refs.tracks.pause();
-                    this.isPlay = false
-                }
+                this.$refs.tracks.play();
+                this.isPlay = true
             },
             pause() {
-                if (this.$refs.tracks.play) {
-                    this.$refs.tracks.pause();
-                    this.isPlay = false
-                } else {
-                    this.$refs.tracks.play();
-                    this.isPlay = true
-                }
-            }
+                this.$refs.tracks.pause();
+                this.isPlay = false
+            },
+            
         }
     }
 </script>

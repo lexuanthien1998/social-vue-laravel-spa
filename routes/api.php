@@ -63,9 +63,8 @@ Route::get('music-mp3', 'API\UserController@music');
 //music
 Route::prefix('/music')->group(function() {
     Route::get('index', 'API\MusicController@index');
-    Route::get('{id}/details', 'API\MusicController@show');
+    Route::get('convert-base64', 'API\MusicController@convertBase64');
     Route::post('store', 'API\MusicController@store');
-    Route::post('{id}/update', 'API\MusicController@update');
     Route::post('destroy', 'API\MusicController@destroy');
 
     Route::post('likes', 'API\MusicController@likes');

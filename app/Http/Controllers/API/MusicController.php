@@ -100,4 +100,15 @@ class MusicController extends Controller
     {
         //
     }
+
+    public function convertBase64(Request $request) {
+        $path = 'public/songs/';
+        if(Storage::disk('local')->exists($path.$request->file)) {
+            $audio = base64_encode(Storage::disk('local')->get($path.$request->file));
+            $base64 = 'data:audio/'.pathinfo($request->file)['extension'].';base64,'.$audio;
+            return response()->json($base64, 200);
+        } else {
+            return response()->json(['message' => 'Not Found'], 404);
+        }
+    }
 }
