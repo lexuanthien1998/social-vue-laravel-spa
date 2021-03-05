@@ -74,7 +74,7 @@
                 data: [],
 
                 songs: Object.keys(this.$store.getters.getSongs).length === 0 ? {} : this.$store.getters.getSongs,
-                tracks: this.$store.getters.getTracks,
+                tracks: Object.keys(this.$store.getters.getSongs).length != 0 && this.$store.getters.getTracks == '' ? this.$store.getters.getSongs[0] : this.$store.getters.getTracks,
                 isPlay: false,
             }
         },
