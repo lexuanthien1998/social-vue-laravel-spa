@@ -1337,7 +1337,7 @@ p.forgot-pw {
   width: 90%;
 }
 
-/* music */
+/* tracks in TheSideBar */
 /* .tracks-image {
   position:relative;
   display:inline-block;
@@ -1403,7 +1403,6 @@ p.forgot-pw {
   height: 4px;
   background: #ff7e67;
   cursor: pointer;
-
   background: linear-gradient(90deg, #68b0ab, #ff7e67) no-repeat;
 }
 
@@ -1413,7 +1412,6 @@ p.forgot-pw {
   background: #ff7e67;
   cursor: pointer;
   background: linear-gradient(90deg, #68b0ab, #ff7e67) no-repeat;
-
 }
 
 .tracks-action i {
@@ -1423,9 +1421,131 @@ p.forgot-pw {
   font-weight: 800 !important;
 }
 .tracks-action i:hover {
-  color: #4d4545 !important;
+  padding: 0 !important;
+  background: linear-gradient(90deg, #ecf4f3, #68b0ab) no-repeat;
+  color: transparent;
+  background-clip: text;
+  -webkit-background-clip: text;
+  font-weight: 900 !important;
 }
 
 .tracks-action .icon-play {
   font-size: 25px;
+}
+
+/* Box Music */
+.box-music .box-menu {
+  width: 100%;
+  position:absolute;
+  /* background-color:#fff; */
+  background: linear-gradient(to bottom, #F2F3F5, #fff) no-repeat;
+  border-bottom-right-radius: 20px !important;
+  border-bottom-left-radius: 20px !important;
+  box-shadow: 0 4px 2px -2px rgba(0, 0, 0, 0.075);
+}
+.box-music .box-menu div {
+  color: #68b0ab;
+  margin-right: 15px;
+  font-weight: 900 !important;
+}
+.box-music .box-menu div i, .box-music .box-menu div span {
+  cursor: pointer;
+  margin-right: 5px;
+  background: linear-gradient(90deg, #68b0ab, #ff7e67) no-repeat;
+  color: transparent;
+  background-clip: text;
+  -webkit-background-clip: text;
+}
+.box-music .box-menu div i:hover, .box-music .box-menu div span:hover {
+  cursor: pointer;
+  margin-right: 5px;
+  background: linear-gradient(90deg, #ff7e67, #68b0ab) no-repeat;
+  color: transparent;
+  background-clip: text;
+  -webkit-background-clip: text;
+}
+.box-music .box-menu .search {
+  width: 300px;
+  margin: 0 !important;
+  border-bottom: 2px solid;
+  border-image-slice: 1;
+  border-image-source: linear-gradient(to right, #68b0ab, #ff7e67);
+}
+.box-music .box-menu .search ::placeholder {
+  letter-spacing: 1px;
+  background: linear-gradient(90deg, #68b0ab, #ff7e67) no-repeat;
+  color: transparent;
+  background-clip: text;
+  -webkit-background-clip: text;
+  font-weight: 900 !important;
+}
+.box-music .box-menu input {
+  letter-spacing: 1px;
+  color: #68b0ab;
+  font-weight: 500 !important;
+}
+
+.box-music .box-main {
+  padding-top: 80px;
+}
+.box-music .box-main .tracks {
+  padding: 10px;
+  background: #fff;
+  border: 3px solid #fff;
+}
+.box-music .box-main .tracks:hover {
+  cursor: pointer;
+  border: 3px solid;
+  border-image-slice: 1;
+  border-image-source: linear-gradient(to right, #68b0ab, #fff);
+}
+
+.box-music .box-main .form-post .box-input ::placeholder{
+  letter-spacing: 1px;
+  background: linear-gradient(90deg, #68b0ab, #ff7e67) no-repeat;
+  color: transparent;
+  background-clip: text;
+  -webkit-background-clip: text;
+  font-weight: 900 !important;
+}
+.box-music .box-main .form-post .box-input input{
+  letter-spacing: 1px;
+  color: #68b0ab;
+}
+.box-music .box-main .form-post .box-input {
+  margin-bottom: 10px;
+  padding: 10px;
+  width: auto;
+  margin: 0 !important;
+  border-bottom: 2px solid;
+  border-image-slice: 1;
+  border-image-source: linear-gradient(to right, #68b0ab, #ff7e67);
+}
+.box-music .box-main .form-post .box-input p, .box-music .box-main .form-post .image-upload p, .box-music .box-main .form-post span{
+  margin: 0 !important;
+  background: linear-gradient(to right, #68b0ab, #ff7e67) no-repeat;
+  color: transparent;
+  background-clip: text;
+  -webkit-background-clip: text;
+  font-weight: 900 !important;
+}
+.box-music .box-main .form-post i {
+  margin-right: 5px;
+  font-size: 15px !important;
+}
+.box-music .box-main .form-post .btn-submit {
+  margin-top: 10px;
+  width: 55px;
+  text-align: center;
+}
+.box-music p.message {
+  margin: 10px 0;
+  background: linear-gradient(to right, #68b0ab, #ff7e67) no-repeat;
+  color: transparent;
+  background-clip: text;
+  -webkit-background-clip: text;
+  font-weight: 900 !important;
+}
+.box-music .spinner-grow {
+  background: linear-gradient(to right, #68b0ab, #ff7e67) no-repeat;
 }

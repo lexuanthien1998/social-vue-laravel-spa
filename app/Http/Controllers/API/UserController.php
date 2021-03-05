@@ -71,10 +71,7 @@ class UserController extends Controller
                         'message' => 'Successful!',
                         'user' => collect($user)->merge(['image_profile' => $image_profile, 'followers' => $followers, 'following' => $following]),
                         'access_token' => $token
-                    ], 200)
-                    ->withCookie(Cookie::forever('zmp3_rqid_lagecy', 'MHw0OS4xNTYdUngNTMdUngMTEzfG51WeBGx8MTYxNDmUsIC0NDU1NTE4NQ'))
-                    ->withCookie(Cookie::forever('zmp3_app_version.1', '1025'))
-                    ->withCookie(Cookie::forever('zmp3_rqid', 'MHw0OS4xNTYdUngNTMdUngMTEzfHYxLjAdUngMjV8MTYxNDmUsIC0NDU1NTI2Mw'));
+                    ], 200);
                 } else {
                     return response()->json(['message' => 'Incorrect password.'], 404);
                 }
@@ -130,7 +127,7 @@ class UserController extends Controller
     public function index(Request $request) {
         if(isset($request->id)) {
             $following = Follows::whereNull('deleted_at')->where('user_id', $request->id)->pluck('user_id_follow');
-            $users = User::inRandomOrder()->limit(25)->whereNotIn('id', $following)->get();
+            $users = User::inRandomOrder()->limit(7)->whereNotIn('id', $following)->get();
             return response()->json($users, 200);
         } else {
             return response()->json(['message' => 'error'], 200);

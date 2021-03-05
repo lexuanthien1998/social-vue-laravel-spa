@@ -34,13 +34,12 @@
         </div>
         <div class="shadow-sm box-content tracks" v-if="tracks != '' " v-bind:style="{height: $route.name == 'music' ? '100%' : 'auto'}">
             <div class="d-flex p-2">
-                <!-- <img :src="tracks.thumbnail" class="img-fluid" alt=""> -->
                 <div class="w-100">
                     <div class="d-flex justify-content-between align-self-center">
-                        <p class="m-0">{{tracks.name}}</p>
+                        <p class="m-0">{{tracks.title}}</p>
                         <i class="fas fa-heart"></i>
                     </div>
-                    <p class="m-0">{{tracks.artists_names}}</p>
+                    <p class="m-0">{{tracks.artists}}</p>
                 </div>
             </div>
 
@@ -48,15 +47,15 @@
                 <input type="range" ref="timeline" value="0">
                 <div class="d-flex align-items-center justify-content-evenly">
                     <i class="fas fa-fast-backward"></i>
-                    <i @click="play()" class="fas fa-play icon-play"></i>
-                    <i @click="pause()" class="fas fa-pause icon-play" style="display: none;"></i>
+                    <i @click="pause()" class="fas fa-pause icon-play" v-if="isPlay"></i>
+                    <i @click="play()" class="fas fa-play icon-play" v-else></i>
                     <i class="fas fa-fast-forward"></i>
                 </div>
             </div>
             
             <audio ref="tracks" controls hidden>
-                <source :src="'https://api.mp3.zing.vn/api/streaming/media/'+ tracks.id +'/320'" type="audio/ogg">
-                <source :src="'https://api.mp3.zing.vn/api/streaming/media/'+ tracks.id +'/320'" type="audio/mpeg">
+                <source :src="'../storage/songs/' + tracks.song" type="audio/mpeg">
+                <source :src="'../storage/songs/' + tracks.song" type="audio/ogg">
             </audio>
         </div>
     </div>
@@ -74,8 +73,9 @@
                 answer: null,
                 data: [],
 
-                songs: this.$store.getters.getSongs,
-                tracks: this.$store.getters.getSongs[0]
+                songs: Object.keys(this.$store.getters.getSongs).length === 0 ? {} : this.$store.getters.getSongs,
+                tracks: this.$store.getters.getTracks,
+                isPlay: false,
             }
         },
         mounted() {
@@ -100,11 +100,17 @@
             self.$refs.tracks.addEventListener('ended',function(e){
                 var isPlaylist = self.songs.find(item => item.id == self.tracks.id);
                 if(typeof isPlaylist == 'undefined') {
-                    return
+                    self.$refs.tracks.pause();
+                    self.$refs.tracks.load();
+                    self.$refs.tracks.oncanplaythrough = self.$refs.tracks.play();
+                    self.isPlay = true
                 }
                 var rank = Object.keys(self.songs).find(key => self.songs[key].id === self.tracks.id);
-                self.tracks = self.songs.slice(parseInt(rank) + 1, parseInt(rank) + 2)[0];
-                
+                if(parseInt(rank) + 1 == self.songs.length) {
+                    self.tracks = self.songs[0]
+                } else {
+                    self.tracks = self.songs.slice(parseInt(rank) + 1, parseInt(rank) + 2)[0];
+                }
                 self.$refs.tracks.onloadedmetadata = () => self.$refs.timeline.max = self.$refs.tracks.duration
                 self.$refs.tracks.ontimeupdate = () => self.$refs.timeline.value = self.$refs.tracks.currentTime
                 self.$refs.timeline.onchange = () => self.$refs.tracks.currentTime = self.$refs.timeline.value
@@ -112,6 +118,7 @@
                 self.$refs.tracks.pause();
                 self.$refs.tracks.load();
                 self.$refs.tracks.oncanplaythrough = self.$refs.tracks.play();
+                self.isPlay = true
             });
         },
         watch: {
@@ -121,11 +128,12 @@
             },
             // music
             '$store.state.tracks': function() {
-                if(this.$store.state.tracks != this.tracks.id) {
-                    var tracks = this.songs.filter(item => item.id == this.$store.state.tracks);
-                    if(tracks.length > 0) {
-                        this.tracks = tracks[0]
-                    }
+                if(this.$store.state.tracks.id != this.tracks.id) {
+                    // var tracks = this.songs.filter(item => item.id == this.$store.state.tracks.id);
+                    // if(tracks.length > 0) {
+                    //     this.tracks = tracks[0]
+                    // }
+                    this.tracks = this.$store.state.tracks
                     this.$refs.tracks.onloadedmetadata = () => this.$refs.timeline.max = this.$refs.tracks.duration
                     this.$refs.tracks.ontimeupdate = () => this.$refs.timeline.value = this.$refs.tracks.currentTime
                     this.$refs.timeline.onchange = () => this.$refs.tracks.currentTime = this.$refs.timeline.value
@@ -133,6 +141,21 @@
                     this.$refs.tracks.pause();
                     this.$refs.tracks.load();
                     this.$refs.tracks.oncanplaythrough = this.$refs.tracks.play();
+                    this.isPlay = true
+                }
+            },
+            '$store.state.is_new': function() {
+                if(this.$store.state.is_new == true) {
+                    this.tracks = this.$store.state.songs[0]
+                    this.$refs.tracks.onloadedmetadata = () => this.$refs.timeline.max = this.$refs.tracks.duration
+                    this.$refs.tracks.ontimeupdate = () => this.$refs.timeline.value = this.$refs.tracks.currentTime
+                    this.$refs.timeline.onchange = () => this.$refs.tracks.currentTime = this.$refs.timeline.value
+
+                    this.$refs.tracks.pause();
+                    this.$refs.tracks.load();
+                    this.$refs.tracks.oncanplaythrough = this.$refs.tracks.play();
+                    this.isPlay = true
+                    this.$store.dispatch('isNew')
                 }
             }
         },
@@ -199,8 +222,19 @@
             play() {
                 if (this.$refs.tracks.paused) {
                     this.$refs.tracks.play();
+                    this.isPlay = true
                 } else {
                     this.$refs.tracks.pause();
+                    this.isPlay = false
+                }
+            },
+            pause() {
+                if (this.$refs.tracks.play) {
+                    this.$refs.tracks.pause();
+                    this.isPlay = false
+                } else {
+                    this.$refs.tracks.play();
+                    this.isPlay = true
                 }
             }
         }

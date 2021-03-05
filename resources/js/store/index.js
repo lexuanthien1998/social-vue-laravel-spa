@@ -8,7 +8,9 @@ const store = new Vuex.Store({
     state: {
         token: localStorage.getItem('access_token') || null,
         user: {},
-        songs: {}
+        songs: {},
+        tracks: '',
+        is_new: false,
     },
     getters: {
         loggedIn(state) {
@@ -22,6 +24,9 @@ const store = new Vuex.Store({
         },
         getSongs(state) {
             return state.songs
+        },
+        getTracks(state) {
+            return state.tracks
         },
     },
     mutations: {
@@ -37,6 +42,13 @@ const store = new Vuex.Store({
         },
         addSongs(state, songs) {
             state.songs = songs
+            state.new_songs = true
+        },
+        addTracks(state, tracks) {
+            state.tracks = tracks
+        },
+        isNew(state) {
+            state.is_new = false
         }
     },
     actions: {
@@ -102,6 +114,12 @@ const store = new Vuex.Store({
         },
         addSongs({commit}, songs) {
             commit('addSongs', songs)
+        },
+        addTracks({commit}, tracks) {
+            commit('addTracks', tracks)
+        },
+        isNew({commit}) {
+            commit('isNew')
         },
     },
     plugins: [createPersistedState()],

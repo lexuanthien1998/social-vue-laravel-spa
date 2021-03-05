@@ -58,9 +58,17 @@ Route::middleware('auth:api')->group(function () {
 });
 
 Route::get('search', 'API\UserController@search');
-Route::get('music', 'API\UserController@music');
-// Route::get('example', array('middleware' => 'cors', 'uses' => 'ExampleController@dummy'));
+Route::get('music-mp3', 'API\UserController@music');
 
-// Route::middleware('cors')->group(function () {
-//     Route::get('music', 'API\UserController@music');
-// });
+//music
+Route::prefix('/music')->group(function() {
+    Route::get('index', 'API\MusicController@index');
+    Route::get('{id}/details', 'API\MusicController@show');
+    Route::post('store', 'API\MusicController@store');
+    Route::post('{id}/update', 'API\MusicController@update');
+    Route::post('destroy', 'API\MusicController@destroy');
+
+    Route::post('likes', 'API\MusicController@likes');
+    Route::post('comment', 'API\MusicController@comment');
+    Route::post('del-comment', 'API\MusicController@deleteComment');
+});
