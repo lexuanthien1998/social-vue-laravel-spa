@@ -53,7 +53,7 @@
                 </div>
             </div>
             
-            <audio ref="tracks" controls hidden>
+            <audio ref="tracks" controls >
                 <source :src="'../storage/songs/' + tracks.song" type="audio/mpeg">
                 <source :src="'../storage/songs/' + tracks.song" type="audio/ogg">
             </audio>
