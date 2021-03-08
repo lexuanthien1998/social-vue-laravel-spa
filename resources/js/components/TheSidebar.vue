@@ -46,17 +46,15 @@
             <div class="tracks-action text-center p-2">
                 <input type="range" ref="timeline" value="0">
                 <div class="d-flex align-items-center justify-content-evenly">
-                    <i class="fas fa-fast-backward"></i>
+                    <i @click="pre()" class="fas fa-fast-backward"></i>
                     <i @click="pause()" class="fas fa-pause icon-play" v-if="isPlay"></i>
                     <i @click="play()" class="fas fa-play icon-play" v-else></i>
-                    <i class="fas fa-fast-forward"></i>
+                    <i @click="next()" class="fas fa-fast-forward"></i>
                 </div>
             </div>
             <audio ref="tracks" controls hidden>
-                <source :src="'/storage/songs/' + tracks.song" type="audio/mpeg">
-                <source :src="'/storage/songs/' + tracks.song" type="audio/ogg">
-                <!-- <source :src="base64" type="audio/mpeg">
-                <source :src="base64" type="audio/ogg"> -->
+                <source :src="base64" type="audio/mpeg">
+                <source :src="base64" type="audio/ogg">
             </audio>
         </div>
     </div>
@@ -241,7 +239,26 @@
                 this.$refs.tracks.pause();
                 this.isPlay = false
             },
-            
+            next() {
+                var self = this
+                var rank = Object.keys(self.songs).find(key => self.songs[key].id === self.tracks.id);
+                if(parseInt(rank) + 1 == self.songs.length) {
+                    self.tracks = self.songs[0]
+                } else {
+                    self.tracks = self.songs.slice(parseInt(rank) + 1, parseInt(rank) + 2)[0];
+                }
+                self.$store.dispatch('addTracks', self.tracks)
+                self.addAudioBase64AndPlay(self.tracks.song)
+            },
+            pre() {
+                var self = this
+                var rank = Object.keys(self.songs).find(key => self.songs[key].id === self.tracks.id);
+                if(parseInt(rank) != 0) {
+                    self.tracks = self.songs.slice(parseInt(rank) - 1, parseInt(rank))[0];
+                    self.$store.dispatch('addTracks', self.tracks)
+                }
+                self.addAudioBase64AndPlay(self.tracks.song)
+            }
         }
     }
 </script>
