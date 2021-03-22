@@ -18,6 +18,7 @@
         data() {
             return {
                 user:this.$store.getters.getUser,
+                tracks: this.$store.getters.getTracks == '' ? '' : this.$store.getters.getTracks,
             }
         },
         computed: {

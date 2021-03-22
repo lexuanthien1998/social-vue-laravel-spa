@@ -96,21 +96,23 @@
                 this.addAudioBase64(this.tracks.song)
             }
             
-            // sự kiện khi audio phát xong bài hát
-            var self = this;
-            self.$refs.tracks.addEventListener('ended',function(e){
-                var isPlaylist = self.songs.find(item => item.id == self.tracks.id);
-                if(typeof isPlaylist != 'undefined') {
-                    var rank = Object.keys(self.songs).find(key => self.songs[key].id === self.tracks.id);
-                    if(parseInt(rank) + 1 == self.songs.length) {
-                        self.tracks = self.songs[0]
-                    } else {
-                        self.tracks = self.songs.slice(parseInt(rank) + 1, parseInt(rank) + 2)[0];
+            if(this.tracks != '') {
+                // sự kiện khi audio phát xong bài hát
+                var self = this;
+                self.$refs.tracks.addEventListener('ended',function(e){
+                    var isPlaylist = self.songs.find(item => item.id == self.tracks.id);
+                    if(typeof isPlaylist != 'undefined') {
+                        var rank = Object.keys(self.songs).find(key => self.songs[key].id === self.tracks.id);
+                        if(parseInt(rank) + 1 == self.songs.length) {
+                            self.tracks = self.songs[0]
+                        } else {
+                            self.tracks = self.songs.slice(parseInt(rank) + 1, parseInt(rank) + 2)[0];
+                        }
+                        self.$store.dispatch('addTracks', self.tracks)
                     }
-                    self.$store.dispatch('addTracks', self.tracks)
-                }
-                self.addAudioBase64AndPlay(self.tracks.song)
-            });
+                    self.addAudioBase64AndPlay(self.tracks.song)
+                });
+            }
         },
         watch: {
             keyword: function (newKeyword, oldKeyword) {
