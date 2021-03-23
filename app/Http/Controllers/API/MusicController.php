@@ -96,9 +96,18 @@ class MusicController extends Controller
      * @param  \App\Music  $music
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Music $music)
+    public function destroy(Music $music, Request $request)
     {
-        //
+        $song = Music::find($request->id);
+        if($song) {
+            $path = 'public/songs/';
+            if(Storage::disk('local')->exists($path.$song->song)) {
+                Storage::disk('local')->delete($path.$song->song);
+            }
+            $song->forceDelete();
+            return response()->json(['message' => 'success'], 200);
+        }
+        return response()->json(['message' => 'Not Found'], 404);
     }
 
     public function convertBase64(Request $request) {

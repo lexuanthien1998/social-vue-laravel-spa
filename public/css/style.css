@@ -542,6 +542,7 @@ p.forgot-pw {
 .dropdown i {
   color: #68b0ab;
   font-size: 15px;
+  cursor: pointer;
 }
 .box-content .dropdown .dropdown-menu.show {
   min-width:inherit;
@@ -1492,13 +1493,11 @@ p.forgot-pw {
   padding: 10px;
   background: #fff;
   border: 3px solid #fff;
-}
-.box-music .box-main .tracks:hover {
   cursor: pointer;
-  border: 3px solid;
-  border-image-slice: 1;
-  border-image-source: linear-gradient(to right, #68b0ab, #fff);
 }
+/* .box-music .box-main .tracks:hover {
+  
+} */
 
 .box-music .box-main .form-post .box-input ::placeholder{
   letter-spacing: 1px;
@@ -1548,4 +1547,24 @@ p.forgot-pw {
 }
 .box-music .spinner-grow {
   background: linear-gradient(to right, #68b0ab, #ff7e67) no-repeat;
+}
+
+/* dropdown */
+.box-music .dropdown .dropdown-menu.show {
+  min-width:inherit;
+  display: inline-block;
+  border: none;
+  border-radius: 10px;
+}
+.box-music .dropdown .dropdown-menu i {
+  color: #68b0ab;
+  cursor: pointer;
+  border-radius: 0px;
+  padding: 10px !important;
+}
+.box-music .dropdown .dropdown-menu i:hover {
+  background: #ecf4f3;
+}
+.box-music .dropdown .dropdown-menu i:active {
+  color: #ff7e67;
 }

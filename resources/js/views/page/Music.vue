@@ -55,14 +55,21 @@
                 </div>
             </form>
 
-            <div v-else>
-                <div class="d-flex justify-content-between align-self-center shadow-sm mb-2 tracks" v-for="(song, index) in songs" :key="index" @click="openSong(index)">
-                    <div>
+            <div v-else class="mb-5">
+                <div class="d-flex justify-content-between align-self-center shadow-sm mb-2 tracks" v-for="(song, index) in songs" :key="index">
+                    <div @click="openSong(index)">
                         <p class="m-0">{{song.title}}</p>
                         <p class="m-0 artists_names">{{song.artists}}</p>
                     </div>
-                    <div class="align-self-center">
+                    <div class="d-flex align-self-center">
                         <i class="fas fa-heart"></i>
+                        <div class="dropdown">
+                            <i class="fas fa-ellipsis-h ml-2" data-toggle="dropdown"></i>
+                            <div class="dropdown-menu dropdown-menu-right mt-1 px-2 shadow">
+                                <i v-if="song.authors == user.id" @click="deleteTracks(index)" class="fas fa-trash-alt dropdown-item"></i>
+                                <i class="fas fa-link dropdown-item" @click="copyURL(index)"></i>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -164,7 +171,25 @@
             },
             openSong(index) {
                 this.$store.dispatch('addTracks', this.songs[index])
-            }
+            },
+            deleteTracks(index) {
+                axios
+                .post('/api/music/destroy', {
+                    id: this.songs[index].id
+                })
+                .then((response) => {
+                    this.songs = this.songs.filter(item => item.id !== this.songs[index].id);
+                    this.$store.dispatch('addSongs', this.songs)
+                    if(this.$store.getters.getTracks.id == this.songs[index].id) {
+                        this.$store.dispatch('addTracks', '')
+                    }
+                    return
+                    })
+                .catch((error) => {
+                    return
+                });
+
+            },
         }
     }
 </script>
