@@ -14,7 +14,7 @@ class CreateImagesPostsTable extends Migration
     public function up()
     {
         Schema::create('images_posts', function (Blueprint $table) {
-            $table->id();
+            $table->increments('id');
             $table->integer('post_id');
             $table->string('path');
             $table->timestamps();

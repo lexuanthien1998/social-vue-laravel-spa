@@ -28,9 +28,27 @@
                 </div>
             </div>
         </div>
-        <div v-if="songs.length > 0" class="overflow-scroll vh-100 box-main">
-            <router-view v-if="!active && !isUp"></router-view>
-            <form @submit.prevent="uploadSong" class="form-post p-2" enctype="multipart/form-data" v-if="!active && isUp">
+        <div class="overflow-scroll vh-100 box-main">
+            <!-- <router-view v-if="!active && !isUp"></router-view> -->
+            <div v-if="active" class="mb-5">
+                <div class="d-flex justify-content-between align-self-center shadow-sm mb-2 tracks" v-for="(song, index) in songs" :key="index">
+                    <div @click="openSong(index)">
+                        <p class="m-0">{{song.title}}</p>
+                        <p class="m-0 artists_names">{{song.artists}}</p>
+                    </div>
+                    <div class="d-flex align-self-center">
+                        <i class="fas fa-heart"></i>
+                        <div class="dropdown">
+                            <i class="fas fa-ellipsis-h ml-2" data-toggle="dropdown"></i>
+                            <div class="dropdown-menu dropdown-menu-right mt-1 px-2 shadow">
+                                <i v-if="song.authors == user.id" @click="deleteTracks(index)" class="fas fa-trash-alt dropdown-item"></i>
+                                <i class="fas fa-link dropdown-item" @click="copyURL(index)"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <form v-else @submit.prevent="uploadSong" class="form-post p-2" enctype="multipart/form-data">
                 <!-- <div v-if="image != ''" class="bg-images my-2" v-bind:style="{backgroundImage: `url('` + image + `')`}" style="max-height:250px;"></div> -->
                 <div class="d-flex align-items-center"><i class="fas fa-upload"></i><span>up songs your.</span></div>
                 <div class="box-input">
@@ -54,25 +72,6 @@
                     <div v-if="spinner" class="spinner-grow spinner-grow-sm"></div>
                 </div>
             </form>
-
-            <div v-else class="mb-5">
-                <div class="d-flex justify-content-between align-self-center shadow-sm mb-2 tracks" v-for="(song, index) in songs" :key="index">
-                    <div @click="openSong(index)">
-                        <p class="m-0">{{song.title}}</p>
-                        <p class="m-0 artists_names">{{song.artists}}</p>
-                    </div>
-                    <div class="d-flex align-self-center">
-                        <i class="fas fa-heart"></i>
-                        <div class="dropdown">
-                            <i class="fas fa-ellipsis-h ml-2" data-toggle="dropdown"></i>
-                            <div class="dropdown-menu dropdown-menu-right mt-1 px-2 shadow">
-                                <i v-if="song.authors == user.id" @click="deleteTracks(index)" class="fas fa-trash-alt dropdown-item"></i>
-                                <i class="fas fa-link dropdown-item" @click="copyURL(index)"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
 
@@ -90,7 +89,6 @@
                 message: '',
                 keyword: '',
                 active: true,
-                isUp: false,
                 spinner: false,
             }
         },
@@ -160,12 +158,10 @@
                 });
             },
             up() {
-                this.isUp = true;
                 this.active = false;
                 this.message = ''
             },
             trends() {
-                this.isUp = false;
                 this.active = true;
                 this.message = ''
             },

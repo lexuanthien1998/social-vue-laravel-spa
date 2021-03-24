@@ -14,7 +14,7 @@ class CreateMusicTable extends Migration
     public function up()
     {
         Schema::create('music', function (Blueprint $table) {
-            $table->id();
+            $table->increments('id');
             $table->string('title');
             $table->string('artists')->nullable();
             $table->string('type')->default('audio');
