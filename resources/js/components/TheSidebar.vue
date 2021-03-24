@@ -47,10 +47,14 @@
                 <input type="range" ref="timeline" value="0">
                 <div class="d-flex align-items-center justify-content-evenly">
                     <i @click="pre()" class="fas fa-fast-backward"></i>
-                    <i @click="pause()" class="fas fa-pause icon-play" v-if="isPlay"></i>
-                    <i @click="play()" class="fas fa-play icon-play" v-else></i>
+                    <div v-if="isLoadFile" class="spinner-grow spinner-grow-sm"></div>
+                    <div v-else>
+                        <i @click="pause()" class="fas fa-pause icon-play" v-if="isPlay"></i>
+                        <i @click="play()" class="fas fa-play icon-play" v-else></i>
+                    </div>
                     <i @click="next()" class="fas fa-fast-forward"></i>
                 </div>
+                <p class="m-0 py-2" v-if="isLoadFile">is loading file</p>
             </div>
             <audio ref="tracks" controls hidden>
                 <source :src="base64" type="audio/mpeg">
@@ -76,6 +80,7 @@
                 tracks: this.$store.getters.getTracks == '' ? '' : this.$store.getters.getTracks,
                 isPlay: false,
                 base64: '',
+                isLoadFile: false,
             }
         },
         mounted() {
@@ -94,12 +99,14 @@
             // music
             if(this.tracks != '') {
                 this.addAudioBase64(this.tracks.song)
+                this.isLoadFile = true
             }
             
             if(this.tracks != '') {
                 // sự kiện khi audio phát xong bài hát
                 var self = this;
                 self.$refs.tracks.addEventListener('ended',function(e){
+                    self.isPlay = false
                     var isPlaylist = self.songs.find(item => item.id == self.tracks.id);
                     if(typeof isPlaylist != 'undefined') {
                         var rank = Object.keys(self.songs).find(key => self.songs[key].id === self.tracks.id);
@@ -153,7 +160,8 @@
                     this.$refs.tracks.pause();
                     this.$refs.tracks.load();
                     this.$refs.tracks.oncanplaythrough = this.$refs.tracks.play();
-                    this.isPlay = true
+                    this.isPlay = true;
+                    this.isLoadFile = false;
                 })
                 .catch((error) => {
                     return
@@ -172,6 +180,7 @@
                     this.$refs.timeline.onchange = () => this.$refs.tracks.currentTime = this.$refs.timeline.value
                     this.$refs.tracks.pause();
                     this.$refs.tracks.load();
+                    this.isLoadFile = false;
                 })
                 .catch((error) => {
                     return
@@ -243,6 +252,10 @@
             },
             next() {
                 var self = this
+                self.$refs.tracks.pause();
+                self.isPlay = false
+                self.isLoadFile = true
+
                 var rank = Object.keys(self.songs).find(key => self.songs[key].id === self.tracks.id);
                 if(parseInt(rank) + 1 == self.songs.length) {
                     self.tracks = self.songs[0]
@@ -254,6 +267,10 @@
             },
             pre() {
                 var self = this
+                self.$refs.tracks.pause();
+                self.isPlay = false
+                self.isLoadFile = true
+                
                 var rank = Object.keys(self.songs).find(key => self.songs[key].id === self.tracks.id);
                 if(parseInt(rank) != 0) {
                     self.tracks = self.songs.slice(parseInt(rank) - 1, parseInt(rank))[0];

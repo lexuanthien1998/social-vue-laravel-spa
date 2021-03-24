@@ -1429,9 +1429,11 @@ p.forgot-pw {
   -webkit-background-clip: text;
   font-weight: 900 !important;
 }
-
 .tracks-action .icon-play {
   font-size: 25px;
+}
+.tracks-action .spinner-grow {
+  background: linear-gradient(90deg, #ecf4f3, #68b0ab) no-repeat;
 }
 
 /* Box Music */
