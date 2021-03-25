@@ -71,3 +71,6 @@ Route::prefix('/music')->group(function() {
     Route::post('comment', 'API\MusicController@comment');
     Route::post('del-comment', 'API\MusicController@deleteComment');
 });
+
+Route::get('login/google', 'API\UserController@redirectToProvider');
+Route::get('login/google/callback', 'API\UserController@handleProviderCallback');

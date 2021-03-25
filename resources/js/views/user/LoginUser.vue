@@ -21,7 +21,7 @@
             </div>
 
             <p v-if="message != ''" class="text-message rounded-pill">{{message}}</p>
-
+            <button type="submit" class="w-100 btn rounded-pill">Login</button>
             <div>
                 <router-link :to="{name: 'register'}">or... Create new account</router-link>
             </div>
@@ -36,9 +36,6 @@
             <p v-if="message != ''" class="text-message rounded-pill">{{message}}</p>
             <button type="submit" class="w-100 btn rounded-pill">Send password reset email</button>
         </form>
-
-        <button v-on:click="LoginGoogle" class="w-100 btn rounded-pill">LoginGoogle</button>
-
     </div>
 </template>
 
@@ -94,16 +91,6 @@
                     }
                 });
             },
-            LoginGoogle() {
-                axios
-                .get('/api/auth/google')
-                .then(response => {
-                    
-                })
-                .catch(error => {
-                   
-                });
-            }
         }
     }
 </script>
