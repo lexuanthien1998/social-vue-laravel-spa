@@ -36,6 +36,9 @@
             <p v-if="message != ''" class="text-message rounded-pill">{{message}}</p>
             <button type="submit" class="w-100 btn rounded-pill">Send password reset email</button>
         </form>
+
+        <button v-on:click="LoginGoogle" class="w-100 btn rounded-pill">LoginGoogle</button>
+
     </div>
 </template>
 
@@ -90,8 +93,17 @@
                         return
                     }
                 });
+            },
+            LoginGoogle() {
+                axios
+                .get('/api/auth/google')
+                .then(response => {
+                    
+                })
+                .catch(error => {
+                   
+                });
             }
-            
         }
     }
 </script>

@@ -128,15 +128,22 @@
             },
             // music
             '$store.state.tracks': function() {
-                if(this.$store.state.tracks.id != this.tracks.id) {
-                    this.$refs.tracks.pause();
-                    this.isLoadFile = true;
-                    this.tracks = this.$store.state.tracks
-                    this.addAudioBase64AndPlay(this.$store.state.tracks.song)
-                } else {
-                    this.$refs.tracks.pause();
-                    this.$refs.tracks.load();
-                    this.$refs.tracks.play();
+                if(this.$store.state.tracks != '') {
+                    if(this.$store.state.tracks.id != this.tracks.id) {
+                        if(this.$refs.tracks) {
+                            this.$refs.tracks.pause();
+                        }
+                        this.isLoadFile = true;
+                        this.tracks = this.$store.state.tracks
+                        this.addAudioBase64AndPlay(this.$store.state.tracks.song)
+                    }
+                    else {
+                        if(this.$refs.tracks) {
+                            this.$refs.tracks.pause();
+                            this.$refs.tracks.load();
+                            this.$refs.tracks.play();
+                        }
+                    }
                 }
             },
             // '$store.state.is_new': function() {

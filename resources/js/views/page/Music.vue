@@ -38,11 +38,10 @@
                     </div>
                     <div class="d-flex align-self-center">
                         <i class="fas fa-heart"></i>
-                        <div class="dropdown">
+                        <div class="dropdown" v-if="song.authors == user.id">
                             <i class="fas fa-ellipsis-h ml-2" data-toggle="dropdown"></i>
                             <div class="dropdown-menu dropdown-menu-right mt-1 px-2 shadow">
-                                <i v-if="song.authors == user.id" @click="deleteTracks(index)" class="fas fa-trash-alt dropdown-item"></i>
-                                <i class="fas fa-link dropdown-item" @click="copyURL(index)"></i>
+                                <i @click="deleteTracks(index)" class="fas fa-trash-alt dropdown-item"></i>
                             </div>
                         </div>
                     </div>

@@ -47,7 +47,7 @@ class UserController extends Controller
             return response()->json(['message' => $validator->errors()->first()], 404);
         }
 
-        if(User::where('email', $request->email)->exists()){
+        if(User::where('email', $request->email)->exists()) {
             $user = User::where('email', $request->email)->where('deleted_at', NULL)->first();
             if($user->exists()){
                 if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {

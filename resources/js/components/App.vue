@@ -5,7 +5,7 @@
         <div class="mx-auto align-self-center" v-if="$route.name == 'login' || $route.name == 'register'">
             <router-view></router-view>
         </div>
-        <div class="w-100 px-0 px-lg-10 mt-15 pt-5 mt-lg-0 pt-lg-0" v-else>
+        <div class="w-100 px-5 px-lg-10 mt-15 pt-5 mt-lg-0 pt-lg-0" v-else>
             <router-view class="position-relative"></router-view>
         </div>
         <my-sidebar v-if="loggedIn && $route.name != 'messages'"></my-sidebar>
