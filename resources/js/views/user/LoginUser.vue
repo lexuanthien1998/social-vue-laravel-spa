@@ -21,7 +21,7 @@
             </div>
 
             <p v-if="message != ''" class="text-message rounded-pill">{{message}}</p>
-            <button type="submit" class="w-100 btn rounded-pill">Login</button>
+
             <div>
                 <router-link :to="{name: 'register'}">or... Create new account</router-link>
             </div>
