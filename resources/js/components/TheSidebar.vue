@@ -105,6 +105,9 @@
             if(this.tracks != '') {
                 // sự kiện khi audio phát xong bài hát
                 var self = this;
+                if(Object.keys(self.songs).length === 0) {
+                    self.songs = this.$store.getters.getSongs
+                }
                 self.$refs.tracks.addEventListener('ended',function(e){
                     self.isPlay = false
                     var isPlaylist = self.songs.find(item => item.id == self.tracks.id);
@@ -136,13 +139,6 @@
                         this.isLoadFile = true;
                         this.tracks = this.$store.state.tracks
                         this.addAudioBase64AndPlay(this.$store.state.tracks.song)
-                    }
-                    else {
-                        if(this.$refs.tracks) {
-                            this.$refs.tracks.pause();
-                            this.$refs.tracks.load();
-                            this.$refs.tracks.play();
-                        }
                     }
                 }
             },
@@ -267,6 +263,9 @@
                 var self = this
                 self.$refs.tracks.pause();
                 self.isLoadFile = true
+                if(Object.keys(self.songs).length === 0) {
+                    self.songs = this.$store.getters.getSongs
+                }
 
                 var rank = Object.keys(self.songs).find(key => self.songs[key].id === self.tracks.id);
                 if(parseInt(rank) + 1 == self.songs.length) {
@@ -281,6 +280,9 @@
                 var self = this
                 self.$refs.tracks.pause();
                 self.isLoadFile = true
+                if(Object.keys(self.songs).length === 0) {
+                    self.songs = this.$store.getters.getSongs
+                }
                 
                 var rank = Object.keys(self.songs).find(key => self.songs[key].id === self.tracks.id);
                 if(parseInt(rank) != 0) {

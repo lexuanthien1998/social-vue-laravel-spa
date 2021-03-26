@@ -24,24 +24,8 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Cookie;
 use GuzzleHttp\Cookie\CookieJar;
 
-//Login Google
-use Laravel\Socialite\Facades\Socialite;
-
 class UserController extends Controller
 {
-    public function redirectToProvider()
-    {
-        return Socialite::driver('google')->stateless()->redirect();
-    }
-    public function handleProviderCallback()
-    {
-        $user = Socialite::driver('google')->stateless()->user();
-        dd($user);
-    }
-
-
-
-
     public function login(Request $request) { 
         $validator = Validator::make($request->all(), 
             [
